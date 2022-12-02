@@ -1,0 +1,112 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"-->
+<!--        integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="-->
+<!--        crossorigin="anonymous" referrerpolicy="no-referrer" />-->
+<!--    <link href="assets/vendor/select2/css/select2.min.css" rel="stylesheet" type="text/css" />-->
+<!--    <title>Document</title>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div class="container mt-lg-5">-->
+<!--        <div class="row">-->
+<!--            <div class="col-12">-->
+<!--                <div class="card">-->
+<!--                    <div class="card-body">-->
+<!--                        <form action="" class="form-horizontal">-->
+
+<!--                            <div class="form-group">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="form-group col-6">-->
+<!--                                        <label class="form-label">Provinces</label>-->
+<!--                                        <select class="form-control select2" data-toggle="select2"-->
+<!--                                            id="select-provinces">-->
+
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                    <div class="form-group col-6">-->
+<!--                                        <label class="form-label">District</label>-->
+<!--                                        <select class="form-control " id="select-district">-->
+
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</body>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"-->
+<!--    integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="-->
+<!--    crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"-->
+<!--    integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="-->
+<!--    crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
+<!--&lt;!&ndash; <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script> &ndash;&gt;-->
+<!--<script type="text/javascript">-->
+<!--    const locationApi = 'https://cdn.jsdelivr.net/gh/thien0291/vietnam_dataset@1.0.0/Index.json';-->
+
+<!--    function handerLocation() {-->
+<!--        getProvinces(renderProvinces);-->
+<!--        hanaderEvent()-->
+<!--    }-->
+<!--    handerLocation()-->
+
+<!--    function getProvinces(callback) {-->
+<!--        fetch(locationApi)-->
+<!--            .then(function (response) {-->
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(callback)-->
+<!--            .catch(function (error) {-->
+<!--                console.log(error)-->
+<!--            });-->
+<!--    }-->
+<!--    function renderProvinces(provinces) {-->
+<!--        let selSelectProvince = document.getElementById('select-provinces');-->
+<!--        let htmls = Object.keys(provinces).map(function (key) {-->
+<!--            return `-->
+<!--                <option data-path="${provinces[key].file_path}" >${key}</option>-->
+<!--            `;-->
+<!--        }).join('');-->
+<!--        selSelectProvince.innerHTML = htmls;-->
+<!--        loadDistrict($('#select-provinces'));-->
+<!--    }-->
+<!--    function hanaderEvent() {-->
+<!--        document.getElementById('select-provinces').onchange = function () {-->
+<!--            loadDistrict($('#select-provinces'));-->
+<!--        }-->
+<!--    }-->
+
+<!--    function loadDistrict(el) {-->
+<!--        let x = el.find(':selected');-->
+<!--        let path = x.attr('data-path');-->
+<!--        let districtApi = 'https://cdn.jsdelivr.net/gh/thien0291/vietnam_dataset@1.0.0/' + path;-->
+
+<!--        fetch(districtApi)-->
+<!--            .then(function (response) {-->
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(function (data) {-->
+<!--                let htmls = data.district.map(function (k) {-->
+<!--                    return `<option >${k.pre} ${k.name}</option>`;-->
+<!--                }).join('');-->
+
+<!--                document.getElementById('select-district').innerHTML = htmls;-->
+
+<!--            })-->
+<!--    }-->
+
+
+<!--</script>-->
+
+<!--</html>-->

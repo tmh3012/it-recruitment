@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <table class="table table-striped" id="table-data">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Job Title</th>
+                                <th>Location</th>
+                                <th>Remotable</th>
+                                <th>Is Part-time</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type='text/javascript'>
+    const data = [
+        {
+            id: 23,
+            user_id: 3,
+            company_id: 21,
+            job_title: "Python, Java HN, ĐN",
+            city: "HN, ĐN",
+        },
+        {
+            id: 24,
+            user_id: 3,
+            company_id: 22,
+            job_title: "Javascript ĐN",
+            city: "HN, ĐN"
+        },
+        {
+            id: 25,
+            user_id: 5,
+            company_id: 26,
+            job_title: "Python, Java HN, ĐN",
+            city: "HN, ĐN",
+        },
+        {
+            id: 27,
+            user_id: 3,
+            company_id: 22,
+            job_title: "Javascript ĐN",
+            city: "HN, ĐN, TP. HCM"
+        }
+    ]
+
+    const table = document.querySelector('#table-data');
+    const tBodies = table.tBodies[0];
+    
+    data.forEach((obj)=>{
+        let row = tBodies.insertRow(0);
+        const key = Object.keys(obj);
+        key.forEach((each, index)=>{
+            row.insertCell(index).innerHTML = obj[each];
+        })
+    })
+</script>
+
+</html>
