@@ -13,7 +13,9 @@
     <!-- App css -->
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @stack('css')
+
 </head>
 
 <body class=""
@@ -40,7 +42,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box">
-                            <h4 class="page-title">{{ $title ?? '' }}</h4>
+                            <h4 class="page-title text-uppercase">{{ $title ?? '' }}</h4>
                         </div>
                     </div>
                 </div>
@@ -68,6 +70,21 @@
 <script src="{{ asset('js/vendor.min.js') }}"></script>
 <script src="{{ asset('js/app.min.js') }}"></script>
 <script src="{{ asset('js/helper.js') }}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+<script>
+    window.editors = {};
+    document.querySelectorAll('.ckeditor').forEach((el, index)=>{
+        ClassicEditor
+            .create(el)
+            .then(newEditor => {
+                window.editors[index] = newEditor
+            })
+            .catch( error => {
+                console.error( error );
+            } );
+    })
+</script>
 @stack('js')
 
 </body>

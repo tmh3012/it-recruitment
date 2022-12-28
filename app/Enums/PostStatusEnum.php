@@ -10,4 +10,12 @@ final class PostStatusEnum extends Enum
     public const PENDING = 0;
     public const ADMIN_PENDING = 1;
     public const ADMIN_APPROVED = 2;
+
+    public function getStatusByRole(): int
+    {
+        if (isAdmin()) {
+            return self::ADMIN_APPROVED;
+        }
+        return self::PENDING;
+    }
 }

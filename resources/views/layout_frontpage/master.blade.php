@@ -43,7 +43,6 @@
 <!--	Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/   -->
 <script src="{{ asset('js/nouislider.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/material-kit.js') }}" type="text/javascript"></script>
-
 @stack('js')
 
 </body>

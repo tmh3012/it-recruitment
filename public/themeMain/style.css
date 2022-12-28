@@ -1,0 +1,268 @@
+/*------ DEFINE ROOT CSS--------*/
+:root {
+    --bg-cus: #F2F6FD;
+}
+
+html {
+    color: #474d56 !important;
+}
+
+.default-ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bg-cus {
+    background-color: var(--bg-cus);
+}
+
+.text-vertical {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.text-vertical.l-1 {
+    -webkit-line-clamp: 1;
+}
+
+.text-vertical.l-2 {
+    -webkit-line-clamp: 2;
+}
+
+.text-vertical.l-3 {
+    -webkit-line-clamp: 3;
+}
+
+.btn.btn-slide {
+    width: 40px;
+    height: 40px;
+    background: #999;
+    opacity: .4;
+    z-index: 99;
+}
+
+.btn.btn-slide:hover {
+    opacity: 1;
+    transition: all 0.1s linear;
+}
+
+/*------End Header--------*/
+/*------Header--------*/
+.header {
+    background-color: #ffffff;
+}
+
+.header.fixed{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 9999;
+    animation: 700ms ease-in-out 0s normal none 1 running fadeInDown;
+    box-shadow: 0 8px 20px 0 rgb(0 0 0 / 5%);
+    transition: all 0.3s ease 0s;
+}
+    /*------End Header--------*/
+
+/*------slide--------*/
+.slide-block {
+    width: 100%;
+    height: 30vh;
+}
+
+/*------End slide--------*/
+
+/*------ SECTION CONTENT PAGE--------*/
+
+/*------JOB HOME--------*/
+.hover-up {
+    transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+
+.hover-up:hover {
+    transform: translateY(-3px);
+    transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1);
+    box-shadow: 1px 2px 7px #eef2f7;
+}
+
+.tab-show-jobs .card {
+    background: var(--bg-cus);
+    border: 1px solid #E0E6F7;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    max-width: 312px;
+}
+
+.tab-show-jobs .card:hover {
+    border-color: #B4C0E0;
+    background-color: #ffffff;
+}
+
+/*.tab-show-jobs .card a > .job-title:hover {*/
+/*    color: var(--primary)!important;*/
+/*}*/
+.text-link:hover {
+    color: var(--primary) !important;
+}
+
+.tab-show-jobs .card .job-skills > li:hover {
+    color: var(--primary);
+}
+
+.card .btn-apply:hover {
+    background-color: var(--primary) !important;
+    color: var(--white) !important;
+}
+
+/*------End JOB HOME--------*/
+
+/*------BANNER JOB PAGE--------*/
+.banner-block {
+    position: relative;
+}
+
+.banner-block:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    height: 44%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('https://wp.alithemes.com/html/jobbox/demos/assets/imgs/page/job-single/left-job-head.svg');
+}
+
+.banner-block:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15%;
+    height: 44%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('https://wp.alithemes.com/html/jobbox/demos/assets/imgs/page/job-single/right-job-head.svg');
+}
+
+/*------End BANNER JOB PAGE--------*/
+
+/*------BOX SEARCH--------*/
+.form-search-location {
+    position: relative;
+}
+
+.form-search-location:before {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 2px;
+    height: 56%;
+    background-color: var(--gray);
+}
+
+/*------End BOX SEARCH--------*/
+
+.banner-block {
+    border-radius: 10px;
+}
+
+.form-check-input[type=checkbox] {
+    border-radius: 0.25em;
+}
+
+.header-block .filter-reset:hover {
+    color: #0360e2 !important;
+}
+
+.form-check-input:checked[type=checkbox] {
+    background-image: url('../img/check.svg');
+}
+
+.form-check-input:checked {
+    background-color: #727cf5;
+    border-color: #727cf5;
+}
+
+.form-check-input {
+    width: 1.112em;
+    height: 1.112em;
+    margin-top: 0.1rem !important;
+    vertical-align: top;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    -webkit-transition: background-color .15s ease-in-out, background-position .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: background-color .15s ease-in-out, background-position .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: background-color .15s ease-in-out, background-position .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: background-color .15s ease-in-out, background-position .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+}
+
+.box-right .box-right__link {
+    height: 110px;
+    width: 110px;
+    border-radius: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.box-right__link .link__img {
+    width: 71%;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.job-heading-main {
+    position: relative;
+}
+
+.job-heading-main::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary);
+}
+
+.summary-box {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.summary-box .summary-items .item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    border: 1px solid #dee2e6;
+    background-color: var(--bg-cus);
+}
+
+
+/*------slick-slider--------*/
+.slick-slider .slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.slick-slider .slick-arrow.slick-prev {
+    left: -20px;
+}
+.slick-slider .slick-arrow.slick-next {
+    right: -20px;
+}

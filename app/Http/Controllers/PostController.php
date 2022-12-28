@@ -9,6 +9,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\JsonResponse;
+use Throwable;
 
 class PostController extends Controller
 {
@@ -35,6 +36,10 @@ class PostController extends Controller
 
         return $this->successResponse($arr);
     }
+    public function edit()
+    {
+
+    }
 
     public function generateSlug(GenerateSlugRequest $request): JsonResponse
     {
@@ -43,7 +48,7 @@ class PostController extends Controller
             $slug  = SlugService::createSlug(Post::class, 'slug', $title);
             return $this->successResponse($slug);
         }
-        catch (\Throwable $e){
+        catch (Throwable $e){
             return $this->errorResponse();
         }
     }

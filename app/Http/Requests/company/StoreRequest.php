@@ -33,7 +33,7 @@ class StoreRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'distinct' => [
+            'district' => [
                 'nullable',
                 'string',
             ],
@@ -49,6 +49,18 @@ class StoreRequest extends FormRequest
                 'nullable',
                 'string',
             ],
+            'number_of_employees' => [
+                'nullable',
+                'string',
+            ],
+            'mission' => [
+                'nullable',
+                'string',
+            ],
+            'introduction' => [
+                'nullable',
+                'string',
+            ],
             'email' => [
                 'nullable',
                 'email:rfc,dns',
@@ -58,6 +70,12 @@ class StoreRequest extends FormRequest
                 'file',
                 'image',
                 'max:5000',
+            ],
+            'cover' => [
+                'nullable',
+                'file',
+                'image',
+                'max:8000',
             ],
 
         ];

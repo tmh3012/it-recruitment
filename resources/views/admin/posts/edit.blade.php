@@ -8,9 +8,11 @@
             <!-- Form Post -->
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="{{route('admin.posts.store')}}" class="form-horizontal"
-                          id="fmCreate-Post" redirect="true" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin.posts.update', $post->id)}}" class="form-horizontal"
+                          id="fmCreate-Post" enctype="multipart/form-data">
+                        <input type="hidden" name="redirect" value="{{route('admin.posts.index')}}">
                         @csrf
+                        @method('put')
                         <div class="form-group">
                             <label class="form-label">Company</label>
                             <select class="form-control select2" id="select-company" name="company"
@@ -48,22 +50,27 @@
                                 <div class="form-group col-4">
                                     <label class="form-label">Min salary </label>
                                     <input class="form-control mr-1" min="0" placeholder="min-salary" autocomplete="off"
-                                           name="min_salary" type="number">
+                                           name="min_salary" value="{{$post->min_salary}}" type="number">
                                     <span class="form-message text-danger"></span>
                                 </div>
                                 <div class="form-group col-4">
                                     <label class="form-label">Max salary </label>
                                     <input class="form-control" min="0" placeholder="max-salary" autocomplete="off"
-                                           name="max_salary" type="number">
+                                           value="{{$post->max_salary}}" name="max_salary" type="number">
                                     <span class="form-message text-danger"></span>
                                 </div>
                                 <div class="form-group col-4">
                                     <div class="form-row">
-                                        <div class="form-group col-4" >
+                                        <div class="form-group col-4">
                                             <label class="form-label">Currency</label>
                                             <select class="form-control" name="currency_salary" id="currency">
+
                                                 @foreach($currencies as $currency=>$value)
-                                                    <option value="{{$value}}">{{$currency}}</option>
+                                                    <option
+                                                        @if($currency === $post->enum_currency_salary)
+                                                            selected
+                                                        @endif
+                                                        value="{{$value}}">{{$currency}}</option>
                                                 @endforeach
                                             </select>
                                             <span class="form-message text-danger"></span>
@@ -72,13 +79,20 @@
                                             <label class="form-label">Work place</label>
                                             <select name="remote" id="" class="form-control">
                                                 @foreach($workPlaces as $key => $value)
-                                                    <option value="{{$value}}">{{$key}}</option>
+                                                    <option
+                                                        @if($post->remote === $value)
+                                                            selected
+                                                        @endif
+                                                        value="{{$value}}">{{$key}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="d-flex flex-column col-4">
                                             <label class="form-label">Can part-time</label>
                                             <input type="checkbox" id="part-time" name="can_parttime"
+                                                   @if($post->can_parttime)
+                                                     checked
+                                                       @endif
                                                    data-switch="bool"/>
                                             <label class="mb-0 mt-1" for="part-time" data-on-label="Yes"
                                                    data-off-label="No"></label>
@@ -96,12 +110,14 @@
                                 <div class="form-row">
                                     <div class="form-group col-6">
                                         <label class="form-label">Start date</label>
-                                        <input type="date" class="form-control" name="start_date">
+                                        <input type="date" class="form-control" value="{{$post->start_date}}"
+                                               name="start_date">
                                         <span class="form-message text-danger"></span>
                                     </div>
-                                    <div class="form-group col-6" >
+                                    <div class="form-group col-6">
                                         <label class="form-label">End Date</label>
-                                        <input type="date" class="form-control" name="end_date">
+                                        <input type="date" class="form-control" value="{{$post->end_date}}"
+                                               name="end_date">
                                         <span class="form-message text-danger"></span>
                                     </div>
                                 </div>
@@ -109,6 +125,7 @@
                             <div class="col-md-4 col-sm-12">
                                 <label class="form-label">Number of applicants</label>
                                 <input class="form-control" type="number" name="number_applicants"
+                                       value="{{$post->number_applicants}}"
                                        autocomplete="off"
                                        placeholder="Number of applicants">
                                 <span class="form-message text-danger"></span>
@@ -116,37 +133,38 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="floatingTextarea">Job description</label>
-                            <textarea  class="form-control ckeditor" name="job_description" placeholder="Leave a comment here"
-                                      id="floatingTextarea" style="height: 250px;"></textarea>
+                            <label for="floatingTextarea">Description</label>
+                            <textarea class="form-control ckeditor" name="job_description" placeholder="Leave a comment here"
+                                   >{{$post->job_description}}</textarea>
                             <span class="form-message text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label for="floatingTextarea">Job requirements</label>
-                            <textarea style="height: 250px;" class="form-control ckeditor" id="ckeditor1" name="job_requirement" placeholder="Leave a comment here"
-                                      id="floatingTextarea"></textarea>
+                            <label for="floatingTextarea">Requirements</label>
+                            <textarea class="form-control ckeditor" name="job_requirement" placeholder="Leave a comment here"
+                                      id="ckeditor1">{{$post->job_requirement}}</textarea>
                             <span class="form-message text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label for="floatingTextarea3">Job benefit</label>
-                            <textarea class="form-control ckeditor"  name="job_benefit" placeholder="Leave a comment here"
-                                      id="floatingTextarea3" style="height: 250px;"></textarea>
+                            <label for="floatingTextarea">Benefits</label>
+                            <textarea class="form-control ckeditor" name="job_benefit" placeholder="Leave a comment here"
+                                      id="ckeditor1" >{{$post->job_benefit}}</textarea>
                             <span class="form-message text-danger"></span>
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6 col-sm-12">
                                     <label class="form-label">Title</label>
-                                    <input class="form-control" name="job_title" type="text" autocomplete="off">
+                                    <input class="form-control" name="job_title" value="{{$post->job_title}}"
+                                           type="text" autocomplete="off">
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <label class="form-label">Slug</label>
-                                    <input class="form-control" name="slug" type="text" autocomplete="off">
+                                    <input class="form-control" name="slug" value="{{$post->slug}}" type="text"
+                                           autocomplete="off">
                                     <span class="form-message text-danger"></span>
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <button type="submit" id="btn-sb-form" disabled class="btn btn-primary">Submit</button>
                         </div>
@@ -245,12 +263,74 @@
 @endsection
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>--}}
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
+    <script src="{{ asset('js/summernote-bs4.min.js') }}"></script>
+    <script src="{{ asset('js/quillEditor.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-
+            const locationApi = '{{asset('location/index.json')}}';
+            const handleLocation = {
+                getProvinces: function () {
+                    const _this = this;
+                    fetch(locationApi)
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (provinces) {
+                            _this.renderLocations(provinces)
+                        });
+                },
+                renderLocations: function (provinces) {
+                    let selectProvince = document.getElementById('select-provinces');
+                    let selectCityForModal = document.getElementById('city');
+                    let postCity = '';
+                    @if($post->city)
+                        postCity = '{{$post->city}}';
+                    @endif
+                    let htmls = Object.keys(provinces).map(function (key) {
+                        let checkSelected = (postCity == key) ? 'selected' : '';
+                        return `<option ${checkSelected} data-path="${provinces[key].file_path}" >${key}</option> `;
+                    }).join('');
+                    selectProvince.innerHTML = htmls;
+                    this.loadDistrict('#select-provinces', '#select-district');
+                    selectCityForModal.innerHTML = htmls;
+                },
+                loadDistrict: function (el, rs) {
+                    let x = $(el).find(':selected');
+                    let path = x.attr('data-path');
+                    let districtApi = '{{asset('location')}}' + path;
+                    fetch(districtApi)
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (data) {
+                            const selectedValue = $(rs).val();
+                            let postDistrict = '';
+                            @if($post->district)
+                                postDistrict = '{{$post->district}}';
+                            @endif
+                            console.log(postDistrict)
+                            let htmls = data.district.map(function (k) {
+                                let selected = (selectedValue === k.name || k.name === postDistrict) ? 'selected' : '';
+                                return `<option ${selected}>${k.name}</option>`;
+                            }).join('');
+                            document.querySelector(rs).innerHTML = htmls;
+                        });
+                },
+                handleEvent: function () {
+                    const _this = this;
+                    $('#select-provinces').change(function () {
+                        _this.loadDistrict('#select-provinces', '#select-district');
+                    });
+                    $('#city').change(function () {
+                        _this.loadDistrict('#city', '#district');
+                    });
+                },
+                start: function () {
+                    this.getProvinces()
+                    this.handleEvent()
+                }
+            }
             handleLocation.start();
 
             function generateTitle() {
@@ -329,6 +409,19 @@
                     }
                 }
             });
+            // Fetch the preselected item, and add to the control
+            let urlCompany = "{{route('api.company_id',$post->company->id)}}";
+            let companySelect = $('#select-company');
+            fetch(urlCompany)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(activeCompany);
+
+            function activeCompany(response) {
+                companySelect.append(new Option(`${response.data.name}`, `${response.data.name}`, true, true));
+            }
+
             $('#select-language').select2({
                 tags: true,
                 ajax: {
@@ -351,6 +444,9 @@
                 }
             });
 
+            @foreach($arrLanguage as $languages)
+            $('#select-language').append(new Option(`{{$languages}}`, `{{$languages}}`, true, true));
+            @endforeach
             $("#fmCreate-Post").validate({
                 rules: {
                     company: {
@@ -379,13 +475,16 @@
                 })
             }
 
-
+            $("#fmCreate-Post").change(function () {
+                $('#btn-sb-form').attr('disabled', false)
+            });
         });
 
         function submitForm(type) {
             const form = $(type);
             let formData = new FormData(form[0]);
-            let redirect = form.attr('redirect');
+            formData.append('_method', 'PUT');
+            let redirect = $(type +'input[name="redirect"]');
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
@@ -397,24 +496,23 @@
                 cache: false,
                 enctype: 'multipart/form-data',
                 success: function (response) {
-                    console.log(response.data);
-                    if(response.success){
+                    if (response.success) {
                         $("#company-modal").modal('hide');
                         notifySuccess();
-                        if(redirect) {
-                            window.location.href = '{{route('admin.posts.index')}}'
+                        if (redirect){
+                            window.location.href = '{{route('admin.posts.index')}}';
                         }
-                    }else {
+
+                    } else {
                         console.log(response)
                         notifyError();
                     }
                 },
                 error: function (response) {
-                    console.log(response);
-                    let errors = response.responseJSON.errors;
-                    showError(errors);
                     console.log(response.responseJSON)
                     notifyError();
+                    let errors = response.responseJSON.errors;
+                    showError(errors);
                 }
             });
         }

@@ -31,6 +31,7 @@
                             <th>Date Range</th>
                             <th>Status</th>
                             <th>Is Pinned</th>
+                            <th>Edit</th>
                             <th>Created At</th>
                         </tr>
                         </thead>
@@ -51,23 +52,8 @@
                     <div class="form-group">
                         <label>Levels</label>
                         <select class="form-control" multiple id="levels">
-                            {{--                            @foreach($levels as $option => $val)--}}
-                            {{--                                <option value="{{ $val }}">--}}
-                            {{--                                    {{ ucwords(strtolower($option)) }}--}}
-                            {{--                                </option>--}}
-                            {{--                            @endforeach--}}
                         </select>
                     </div>
-                    {{--                    <div class="form-group">--}}
-                    {{--                        <label>File</label>--}}
-                    {{--                        <input--}}
-                    {{--                                type="file"--}}
-                    {{--                                name="csv-2"--}}
-                    {{--                                id="csv"--}}
-                    {{--                                class="form-control"--}}
-                    {{--                                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"--}}
-                    {{--                        >--}}
-                    {{--                    </div>--}}
                     <div class="form-group">
                         <button class="btn btn-success" id="btn-import-csv">
                             Import
@@ -96,6 +82,7 @@
                         const range_salary = (each.min_salary && each.max_salary) ? each.min_salary + '-' + each.max_salary : '';
                         const range_date = (each.start_date && each.end_date) ? each.start_date + '-' + each.end_date : '';
                         const is_pinned = each.is_pinned ? 'x' : '';
+                        const editBtn = `<button class="btn btn-primary btn-edit-post" data-post="${each.id}">Edit</button>`;
                         const created_at = convertDateToDateTime(each.created_at);
                         $('#table-posts').append($('<tr>')
                             .append($('<td>').append(each.id)).attr('class','text-center')
@@ -107,6 +94,7 @@
                             .append($('<td>').append(range_date))
                             .append($('<td>').append(each.status))
                             .append($('<td>').append(is_pinned))
+                            .append($('<td>').append(editBtn))
                             .append($('<td>').append(created_at))
                         );
                     });
@@ -122,6 +110,11 @@
                         icon: 'error'
                     })
                 }
+            })
+            $('#table-posts').on('click','.btn-edit-post', function(){
+                let postId = $(this).attr('data-post');
+                let url = location.href + '/edit/'+postId;
+                location.assign(url);
             })
             $(document).on('click', '#pagination>li>a', function (e){
                 e.preventDefault();

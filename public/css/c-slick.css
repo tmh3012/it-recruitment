@@ -1,0 +1,7 @@
+/* file custom css slick slider */
+#job-related .slick-track {
+    padding: 20px 0;
+}
+#job-related .slick-track .slick-slide {
+    margin: 0 12px;
+}

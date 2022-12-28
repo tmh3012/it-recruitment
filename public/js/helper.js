@@ -33,3 +33,59 @@ function notifyError(message = '') {
         icon: 'error'
     });
 }
+
+const locationApi = location.protocol + "//" + location.host+'/location/index.json';
+const handleLocation = {
+    getProvinces: function () {
+        const _this = this;
+        fetch(locationApi)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (provinces) {
+                _this.renderLocations(provinces)
+            });
+    },
+    renderLocations: function (provinces) {
+        let selectProvince = document.getElementById('select-provinces');
+        let selectCityForModal = document.getElementById('city');
+        let htmls = Object.keys(provinces).map(function (key) {
+            return `<option data-path="${provinces[key].file_path}" >${key}</option> `;
+        }).join('');
+        (selectProvince) ? selectProvince.innerHTML = htmls : undefined;
+        (selectCityForModal) ? selectCityForModal.innerHTML = htmls : undefined;
+        this.loadDistrict('#select-provinces', '#select-district');
+    },
+    loadDistrict: function (el, rs) {
+        let x = $(el).find(':selected');
+        let path = x.attr('data-path');
+        let districtApi = location.protocol + "//" + location.host+'/location/' + path;
+        fetch(districtApi)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                const selectedValue = $("#select-district").val();
+                let htmls = data.district.map(function (k) {
+                    let selected = (selectedValue === k.name) ? 'selected' : '';
+                    return `<option ${selected}>${k.name}</option>`;
+                }).join('');
+                (rs) ? document.querySelector(rs).innerHTML = htmls : undefined;
+            });
+    },
+    handleEvent: function () {
+        const _this = this;
+        $('#select-provinces').change(function () {
+            _this.loadDistrict('#select-provinces', '#select-district');
+        });
+        $('#city').change(function () {
+            _this.loadDistrict('#city', '#district');
+        });
+    },
+    start: function () {
+        this.getProvinces()
+        this.handleEvent()
+    }
+}
+
+

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLanguageRequest;
 use App\Http\Requests\UpdateLanguageRequest;
 use App\Models\Language;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,7 @@ class LanguageController extends Controller
         $this->model = Language::query();
     }
 
-    public function index(Request $request): \Illuminate\Http\JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $configs = SystemConfigController::getAndCache();
 
@@ -29,10 +30,6 @@ class LanguageController extends Controller
             }
             return true;
         });
-
-//        $data = $this->model
-//            ->where('name', 'like', '%' . $request->get('q') . '%')
-//            ->get();
 
         return $this->successResponse($data);
     }
