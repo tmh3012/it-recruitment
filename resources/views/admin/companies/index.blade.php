@@ -34,7 +34,7 @@
                                 <td>{{$each->district}}</td>
                                 <td>{{$each->city}}</td>
                                 <td>
-                                    <a class="btn btn-info" href="#">Edit</a>
+                                    <a class="btn btn-info" href="{{route('admin.companies.edit', $each->id)}}">Edit</a>
                                 </td>
                                 <td>
                                     <a class="btn btn-danger" href="#">delete</a>

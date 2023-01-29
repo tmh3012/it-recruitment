@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\company\StoreRequest;
+use App\Http\Requests\company\UpdateRequest;
 use App\Models\company;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Throwable;
 
@@ -28,8 +30,8 @@ class CompanyController extends Controller
     public function adminIndex()
     {
         $data = $this->model->clone()
-        ->orderByDesc('id')
-        ->paginate();
+            ->orderByDesc('id')
+            ->paginate();
 
         return view("admin.$this->table.index", [
             'data' => $data,
@@ -49,6 +51,17 @@ class CompanyController extends Controller
         return $this->successResponse($data);
     }
 
+    public function edit($companyId)
+    {
+        $company = $this->model
+            ->findOrFail($companyId);
+
+        return view("admin.$this->table.edit", [
+            'company' => $company,
+        ]);
+
+    }
+
     public function show($company_id): JsonResponse
     {
         $data = $this->model
@@ -66,15 +79,39 @@ class CompanyController extends Controller
     }
 
 
-    public function store(StoreRequest $request): JsonResponse
+    public function update(UpdateRequest $request, $companyId): JsonResponse
     {
+        DB::beginTransaction();
         try {
             $arr = $request->validated();
-            $arr['logo'] = optional($request->file('logo'))->storeAs('images/company',preg_replace('/\s+/', '', 'logo_'.$request->file('logo')->hashName()));
-            $arr['cover'] = optional($request->file('cover'))->storeAs('images/company',preg_replace('/\s+/', '', 'cover_'.$request->file('cover')->hashName()));
-            Company::create($arr);
+            if (!empty($request->file('logo'))) {
+                $arr['logo'] = optional($request->file('logo'))->storeAs('images/company', preg_replace('/\s+/', '', 'logo_' . $request->file('logo')->hashName()));
+            }
+            if (!empty($request->file('cover'))) {
+                $arr['cover'] = optional($request->file('cover'))->storeAs('images/company', preg_replace('/\s+/', '', 'cover_' . $request->file('cover')->hashName()));
+            }
+            $company = Company::find($companyId);
+            $company->update($arr);
+            DB::commit();
             return $this->successResponse();
         } catch (Throwable $e) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function store(StoreRequest $request): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $arr = $request->validated();
+            $arr['logo'] = optional($request->file('logo'))->storeAs('images/company', preg_replace('/\s+/', '', 'logo_' . $request->file('logo')->hashName()));
+            $arr['cover'] = optional($request->file('cover'))->storeAs('images/company', preg_replace('/\s+/', '', 'cover_' . $request->file('cover')->hashName()));
+            Company::create($arr);
+            DB::commit();
+            return $this->successResponse();
+        } catch (Throwable $e) {
+            DB::rollBack();
             return $this->errorResponse($e->getMessage());
         }
     }
