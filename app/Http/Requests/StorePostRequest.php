@@ -78,7 +78,6 @@ class StorePostRequest extends FormRequest
                 'filled',
                 'min:3',
                 'max:255',
-                'after:start_date',
             ],
             'slug' => [
                 'required',

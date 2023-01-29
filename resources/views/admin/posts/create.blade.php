@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="form-group col-4">
                                     <div class="form-row">
-                                        <div class="form-group col-4" >
+                                        <div class="form-group col-4">
                                             <label class="form-label">Currency</label>
                                             <select class="form-control" name="currency_salary" id="currency">
                                                 @foreach($currencies as $currency=>$value)
@@ -99,7 +99,7 @@
                                         <input type="date" class="form-control" name="start_date">
                                         <span class="form-message text-danger"></span>
                                     </div>
-                                    <div class="form-group col-6" >
+                                    <div class="form-group col-6">
                                         <label class="form-label">End Date</label>
                                         <input type="date" class="form-control" name="end_date">
                                         <span class="form-message text-danger"></span>
@@ -117,19 +117,22 @@
                         </div>
                         <div class="form-group">
                             <label for="floatingTextarea">Job description</label>
-                            <textarea  class="form-control ckeditor" name="job_description" placeholder="Leave a comment here"
+                            <textarea class="form-control ckeditor" name="job_description"
+                                      placeholder="Leave a comment here"
                                       id="floatingTextarea" style="height: 250px;"></textarea>
                             <span class="form-message text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="floatingTextarea">Job requirements</label>
-                            <textarea style="height: 250px;" class="form-control ckeditor" id="ckeditor1" name="job_requirement" placeholder="Leave a comment here"
+                            <textarea style="height: 250px;" class="form-control ckeditor" id="ckeditor1"
+                                      name="job_requirement" placeholder="Leave a comment here"
                                       id="floatingTextarea"></textarea>
                             <span class="form-message text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="floatingTextarea3">Job benefit</label>
-                            <textarea class="form-control ckeditor"  name="job_benefit" placeholder="Leave a comment here"
+                            <textarea class="form-control ckeditor" name="job_benefit"
+                                      placeholder="Leave a comment here"
                                       id="floatingTextarea3" style="height: 250px;"></textarea>
                             <span class="form-message text-danger"></span>
                         </div>
@@ -245,14 +248,9 @@
 @endsection
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>--}}
-
-
     <script>
         $(document).ready(function () {
-
             handleLocation.start();
-
             function generateTitle() {
                 let languages = [];
                 $("#select-language :selected").map(function (i, v) {
@@ -378,8 +376,6 @@
                     }
                 })
             }
-
-
         });
 
         function submitForm(type) {
@@ -397,14 +393,13 @@
                 cache: false,
                 enctype: 'multipart/form-data',
                 success: function (response) {
-                    console.log(response.data);
-                    if(response.success){
+                    if (response.success) {
                         $("#company-modal").modal('hide');
                         notifySuccess();
-                        if(redirect) {
+                        if (redirect) {
                             window.location.href = '{{route('admin.posts.index')}}'
                         }
-                    }else {
+                    } else {
                         console.log(response)
                         notifyError();
                     }

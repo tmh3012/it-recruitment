@@ -189,12 +189,7 @@ class Post extends Model
         );
     }
 
-    public function scopeApproved($query)
-    {
-        return $query->where('status', PostStatusEnum::ADMIN_APPROVED);
-    }
-
-    public function scopeJobsPage($query, $filters)
+    public function scopePostApproved($query)
     {
         return $query
             ->with([
@@ -207,6 +202,12 @@ class Post extends Model
                     ]);
                 },
             ])
+            ->where('status', PostStatusEnum::ADMIN_APPROVED);
+    }
+
+    public function scopeJobsPage($query, $filters)
+    {
+        return $query
             ->when(isset($filters['ft_key_word']), function ($q) use ($filters) {
                 $q->where('job_title', 'like', '%' . $filters['ft_key_word'] . '%');
             })
@@ -231,7 +232,7 @@ class Post extends Model
             ->when(isset($filters['fr_can_part_time']), function ($q) use ($filters) {
                 $q->where('can_parttime', $filters['fr_can_part_time']);
             })
-            ->approved()
+            ->postApproved()
             ->orderByDesc('is_pinned')
             ->orderByDesc('id');
     }

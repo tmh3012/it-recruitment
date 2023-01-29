@@ -15,7 +15,7 @@
                     </div>
                     <div class="box-center mr-2">
                         <h1 class="text-primary font-24 mt-0">{{$post->job_title}}</h1>
-                        <a href="#">
+                        <a href="{{route('company.show', $company->id)}}">
                             <h3 class="text-cl-main font-22 mt-0">{{$company->name}}</h3>
                         </a>
                         <div class="">
@@ -23,10 +23,15 @@
                             <span>{{__('frontPage.dl_submit')}}: {{$post->deadlineSubmit}}</span>
                         </div>
                     </div>
-                    <div class="box-left ml-auto">
-                        <button class="btn btn-primary open-form-apply-modal">
+                    <div class="box-left ml-auto d-flex flex-column">
+                        <button class="btn btn-primary open-form-apply-modal font-weight-semibold px-4">
                             <i class="mdi mdi-send mdi-18px mdi-rotate-315 "></i>
-                            {{__('frontPage.btnSubmitForm')}}</button>
+                            {{__('frontPage.btnSubmitForm')}}
+                        </button>
+                        <button class="btn btn-outline-primary mt-2 font-weight-semibold px-4">
+                            <i class="mdi mdi-heart-outline mdi-18px"></i>
+                            {{__('frontPage.btnSavePost')}}
+                        </button>
                     </div>
                 </div>
                 <div class="box-job__body">
@@ -119,8 +124,12 @@
                                             <h4 class="">{{__('frontPage.headingPostApply')}}</h4>
                                             <p class="box-description">{{__('frontPage.textHowToApply')}} </p>
                                             <div class="my-1">
-                                                <button
-                                                    class="btn btn-primary font-18 font-weight-bold open-form-apply-modal">{{__('frontPage.btnSubmitForm')}}</button>
+                                                <button class="btn btn-primary font-18 font-weight-bold open-form-apply-modal">
+                                                    {{__('frontPage.btnSubmitForm')}}
+                                                </button>
+                                                <button class="btn btn-outline-primary ml-3 font-18 font-weight-bold ">
+                                                    {{__('frontPage.btnSavePost')}}
+                                                </button>
                                             </div>
                                             <span>{{__('frontPage.dl_submit')}}: {{$post->deadlineSubmit}}</span>
                                         </div>
@@ -163,7 +172,7 @@
                                 </div>
                                 <div class="location-company pl-1">
                                     <span class="font-weight-semibold font-18"><u>{{__('frontPage.location')}}</u></span>
-                                    <p class="mt-1 pl-2">{{$company->location}}</p>
+                                    <p class="mt-1 pl-2">{{$company->addressWrap}}</p>
                                 </div>
                             </div>
                             <div class="tab-content-job">
@@ -187,7 +196,7 @@
                         </div>
                         <div id="job-related" class="p-3 mt-2 bg-white rounded">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h4 class="text-main font-22 pl-2 job-heading-main">{{__('frontPage.headingJobSameCompany')}}</h4>
+                                <h4 class="text-main font-22 pl-2 job-heading-main">{{__('frontPage.headingRelatedJob')}}</h4>
                                 <a href="#" class="text-primary font-weight-bold font-16">
                                     {{__('frontPage.watchMoreJobs')}}
                                     <i class="mdi mdi-arrow-top-right"></i>
