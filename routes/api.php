@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SubmitFormController;
@@ -29,3 +31,10 @@ Route::get('/company/id={company_id}', [CompanyController::class, 'show'])->name
 Route::get('/companies/check/{companyName?}', [CompanyController::class, 'check'])->name('companies.check');
 Route::get('/languages', [LanguageController::class, 'index'])->name('languages');
 Route::post('/post-submit-cv', [SubmitFormController::class, 'handlerSubmitCv'])->name('handlerSubmitCv');
+Route::post('/blog/slug', [BlogController::class, 'generateSlug'])->name('blog.slug.generate');
+// config api
+Route::post('/config/store-text', [ConfigController::class, 'store'])->name('config.text.store');
+Route::get('/config/text', [ConfigController::class, 'apiIndex'])->name('config.text.index');
+Route::get('/config/text/{key?}', [ConfigController::class, 'edit'])->name('config.text.edit');
+Route::put('/config/text', [ConfigController::class, 'update'])->name('config.text.update');
+//Route::post('/config/text/updateorcreate', [ConfigController::class, 'updateOrCreate'])->name('config.text.updateOrCreate');

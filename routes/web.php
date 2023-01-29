@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Applicant\HomePageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogPageController;
+use App\Http\Controllers\CKEditorController;
+use App\Http\Controllers\CompanyPageController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -19,13 +23,28 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 Route::get('/test', [TestController::class, 'test']);
+Route::get('/column', [TestController::class, 'getColumnTables']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/check-login', [AuthController::class, 'handlerLogin'])->name('handlerLogin');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'registering'])->name('registering');
 Route::get('/',[HomePageController::class, 'index'])->name('home');
 Route::get('/jobs',[HomePageController::class, 'jobs'])->name('jobs-page');
-Route::get('/jobs/{postId}',[HomePageController::class, 'show'])->name('jobs-show');
+Route::get('/jobs/{slug}',[HomePageController::class, 'show'])->name('jobs-show');
+Route::group([
+    'as'=> 'company.',
+    'prefix'=> 'company',
+], function(){
+    Route::get('/',[CompanyPageController::class,'index'])->name('index');
+    Route::get('/{companyId}',[CompanyPageController::class,'show'])->name('show');
+});
+Route::group([
+    'as'=> 'blog.',
+    'prefix'=> 'blog',
+], function(){
+    Route::get('/',[BlogPageController::class,'index'])->name('index');
+    Route::get('/{slug}',[BlogPageController::class,'show'])->name('show');
+});
 Route::get('/auth/redirect/{provider}', function ($provider) {
     return Socialite::driver($provider)->redirect();
 })->name('auth.redirect');
@@ -44,3 +63,5 @@ Route::get('/language/{locale}', function ($locale) {
     session()->put('locale', $locale);
     return redirect()->back();
 })->name('language');
+
+Route::post('/ckUpload', [CKEditorController::class, 'ckeditor'])->name('ckeditor.upload');
