@@ -15,27 +15,13 @@ use Illuminate\Support\Facades\View;
 
 class HomePageController extends Controller
 {
-    public function __construct()
-    {
-        $locale = App::currentLocale();
-        View::share('locale', $locale);
-    }
-
     public function index(Request $request)
     {
         $posts = Post::query()
-            ->with([
-                'languages',
-                'company' => function ($q) {
-                    return $q->select([
-                        'id',
-                        'name',
-                        'logo',
-                    ]);
-                }
-            ])
+            ->postApproved()
             ->latest()
-            ->paginate();
+            ->take(8)
+            ->get();
 
         return view('themeMain/pages.home', [
             'posts' => $posts,
@@ -52,7 +38,6 @@ class HomePageController extends Controller
         $fr_remote = $request->get('remote');
         $fr_can_part_time = $request->get('can_parttime');
         $arrCities = getAndCachePostCities();
-
         $arrRemote = PostRemoteEnum::getArrayWithLowerKey();
         $filters = [];
         if (!empty($ft_key_word)) {
@@ -89,12 +74,12 @@ class HomePageController extends Controller
         ]);
     }
 
-    public function show($postId)
+    public function show($slug)
     {
         $post = Post::query()
-            ->approved()
             ->with('company')
-            ->findOrFail($postId);
+            ->where('slug', $slug)
+            ->firstOrFail();
         $title = $post->job_title;
         $company = $post->company;
         $relatedPosts = Post::relatedPosts($post->id, $company->id)->take(3);
@@ -103,8 +88,8 @@ class HomePageController extends Controller
         $data = Post::query()
             ->select('posts.*')
             ->join('object_language', 'object_language.object_id', 'posts.id')
-            ->where(function ($q) use ($postId, $languageIds) {
-                $q->where('id', '!=', $postId);
+            ->where(function ($q) use ($slug, $languageIds) {
+                $q->where('slug', '!=', $slug);
                 $q->whereIn('language_id', $languageIds);
             })
             ->distinct('id')
