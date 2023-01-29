@@ -10,6 +10,16 @@ class Config extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'key',
+        'value',
+        'value2',
+        'description',
+        'is_public',
+    ];
+
 
     public static function getAndCache($isPublic): array
     {

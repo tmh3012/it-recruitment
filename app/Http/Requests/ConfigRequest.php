@@ -6,7 +6,7 @@ use App\Models\Config;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateConfigRequest extends FormRequest
+class ConfigRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,8 +15,7 @@ class UpdateConfigRequest extends FormRequest
      */
     public function authorize()
     {
-//        return auth()->check();
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -32,6 +31,7 @@ class UpdateConfigRequest extends FormRequest
                 'string',
                 'filled',
                 'alpha_dash',
+                Rule::unique(Config::class,)
             ],
             'value' => [
                 'required',
