@@ -77,8 +77,9 @@ class UserController extends Controller
             'selectCompany' => $selectCompany,
         ]);
     }
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user)
     {
+        dd($user);
         $user->delete();
         return redirect()->back();
     }
