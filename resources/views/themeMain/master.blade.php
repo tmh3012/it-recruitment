@@ -20,11 +20,10 @@
 <body>
 <div id="page">
     @include('themeMain.header')
-    <section class="main-content">
+    <section class="main-content mb-3">
         <section class="content">
             @yield('content')
         </section>
-
     </section>
     @include('themeMain.footer')
 </div>
