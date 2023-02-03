@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="header-action">
-                        <a href="{{ route('admin.posts.create') }}" class="btn btn-primary">
+                        <a href="{{ isAdmin() ? route('admin.posts.create') : route('hr.posts.create') }}" class="btn btn-primary">
                             Create
                         </a>
                         <label class="btn btn-info btn-import mb-0" for="csv">Import CSV</label>
@@ -25,14 +25,13 @@
                             <th>#</th>
                             <th>Job Title</th>
                             <th>Location</th>
-                            <th>Remotable</th>
-                            <th>Is Part-time</th>
                             <th>Range Salary</th>
-                            <th>Date Range</th>
+                            <th>Deadline Apply</th>
                             <th>Status</th>
-                            <th>Is Pinned</th>
+                            {{-- <th>Is Pinned</th> --}}
                             <th>Edit</th>
                             <th>Created At</th>
+                            <th>Update At</th>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -72,30 +71,28 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                url: '{{route('api.posts')}}',
+                url: '{{route('api.posts.getPost')}}',
                 dataType: 'json',
                 data: {page: {{ request()->get('page') ?? 1 }}},
                 success: function (response) {
                     response.data.data.forEach(function (each) {
-                        const remotable = (each) ? 'x' : '';
-                        const partTime = (each) ? 'x' : '';
-                        const range_salary = (each.min_salary && each.max_salary) ? each.min_salary + '-' + each.max_salary : '';
-                        const range_date = (each.start_date && each.end_date) ? each.start_date + '-' + each.end_date : '';
-                        const is_pinned = each.is_pinned ? 'x' : '';
+
+
+                        // const is_pinned = each.is_pinned ? 'x' : '';
                         const editBtn = `<button class="btn btn-primary btn-edit-post" data-post="${each.id}">Edit</button>`;
                         const created_at = convertDateToDateTime(each.created_at);
+                        const updated_at = each.created_at === each.updated_at ? '' : convertDateToDateTime(each.updated_at);
                         $('#table-posts').append($('<tr>')
                             .append($('<td>').append(each.id)).attr('class','text-center')
                             .append($('<td>').append(each.job_title))
-                            .append($('<td>').append(each.city))
-                            .append($('<td>').append(remotable))
-                            .append($('<td>').append(partTime))
-                            .append($('<td>').append(range_salary))
-                            .append($('<td>').append(range_date))
+                            .append($('<td>').append(each.location))
+                            .append($('<td>').append(each.salary))
+                            .append($('<td>').append(each.deadline_submit))
                             .append($('<td>').append(each.status))
-                            .append($('<td>').append(is_pinned))
+                            // .append($('<td>').append('update later'))
                             .append($('<td>').append(editBtn))
                             .append($('<td>').append(created_at))
+                            .append($('<td>').append(updated_at))
                         );
                     });
                     renderPagination(response.data.pagination)

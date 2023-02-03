@@ -8,8 +8,8 @@
             <!-- Form Post -->
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="{{route('admin.posts.store')}}" class="form-horizontal"
-                          id="fmCreate-Post" redirect="true" enctype="multipart/form-data">
+                    <form method="post" action="{{route('api.posts.store')}}" class="form-horizontal"
+                          id="fmCreate-Post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label class="form-label">Company</label>
@@ -174,7 +174,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form class="creat-company" action="{{route('admin.companies.store')}}"
+                            <form class="creat-company" action="{{route('api.company.store')}}"
                                   method="post" id="fmCreate-Company" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
@@ -220,6 +220,18 @@
                                         <input type="email" name="email" class="form-control" autocomplete="off">
                                         <span class="form-message text-danger"></span>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Overview</lable>
+                                    <textarea name="over_view" class="form-control ckeditor"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Mission</lable>
+                                    <textarea name="mission" class="form-control ckeditor"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Introduction</lable>
+                                    <textarea name="introduction" class="form-control ckeditor"></textarea>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-6">
@@ -280,7 +292,7 @@
 
             function generateSlug(title) {
                 $.ajax({
-                    url: '{{route('api.post.slug.generate')}}',
+                    url: '{{route('api.posts.slug.generate')}}',
                     type: 'POST',
                     dataType: 'json',
                     data: {title},
@@ -294,7 +306,7 @@
             $("input[name='slug']").change(function () {
                 $("#btn-sb-form").attr('disabled', true);
                 $.ajax({
-                    url: '{{route('api.post.slug.check')}}',
+                    url: '{{route('api.posts.slug.check')}}',
                     type: 'get',
                     dataType: 'json',
                     data: {slug: $(this).val()},
@@ -381,7 +393,6 @@
         function submitForm(type) {
             const form = $(type);
             let formData = new FormData(form[0]);
-            let redirect = form.attr('redirect');
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
@@ -396,9 +407,11 @@
                     if (response.success) {
                         $("#company-modal").modal('hide');
                         notifySuccess();
-                        if (redirect) {
+                        @if(isAdmin())
                             window.location.href = '{{route('admin.posts.index')}}'
-                        }
+                        @elseif(isHr())
+                            window.location.href = '{{route('hr.posts.index')}}'
+                        @endif()
                     } else {
                         console.log(response)
                         notifyError();
