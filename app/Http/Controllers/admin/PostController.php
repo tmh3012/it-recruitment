@@ -42,14 +42,14 @@ class PostController extends Controller
 
     public function index()
     {
-        return view('admin.posts.index');
+        return view('posts.index');
     }
 
     public function create()
     {
         $currencies = PostCurrencySalaryEnum::asArray();
         $workPlaces = PostRemoteEnum::getArrayWithoutKeys();
-        return view('admin.posts.create', [
+        return view('posts.create', [
             'currencies' => $currencies,
             'workPlaces' => $workPlaces,
         ]);
@@ -114,7 +114,7 @@ class PostController extends Controller
         $arrLanguage = $post->languages->pluck('name')->toArray();
         $currencies = PostCurrencySalaryEnum::asArray();
         $workPlaces = PostRemoteEnum::getArrayWithoutKeys();
-        return view('admin.posts.edit', [
+        return view('posts.edit', [
             'post' => $post,
             'currencies' => $currencies,
             'workPlaces' => $workPlaces,
