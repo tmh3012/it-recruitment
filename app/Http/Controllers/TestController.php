@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Enums\FileTypeEnum;
 use App\Enums\PostCurrencySalaryEnum;
 use App\Enums\PostStatusEnum;
+use App\Models\Blog;
 use App\Models\Company;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\Language;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -50,16 +52,17 @@ class TestController extends Controller
             'type' => FileTypeEnum::JD,
         ]);
     }
+
     public function getColumnTables(): array
     {
         $columns = array();
-        foreach(\DB::select("SHOW COLUMNS FROM posts") as $column)
-        {
+        foreach (\DB::select("SHOW COLUMNS FROM blogs") as $column) {
             $columns[] = $column->Field;
         }
 
         return $columns;
     }
+
     public function testPost()
     {
         $post = Post::query()
@@ -72,23 +75,35 @@ class TestController extends Controller
         $locale = PostCurrencySalaryEnum::getLocaleByVal($currency_salary_post);
         $format = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
         $rate = Config::getByKey($key_currency_salary);
-      return  $format->formatCurrency($post->min_salary, 'VND');
+        return $format->formatCurrency($post->min_salary, 'VND');
 
     }
+
     public function test()
     {
-        $postId = 51;
-        $post = Post::find($postId);
-        $languageIds = $post->languages->pluck('id')->toArray();
-        return $data = Post::query()
-            ->leftJoin('object_language', 'object_language.object_id', 'posts.id')
-            ->where(function ($q) use ($postId, $languageIds) {
-                $q->where('id','!=', $postId);
-                $q->whereIn('language_id', $languageIds);
-            })
+        /**
+         * @param Integer[] $nums
+         * @param Integer $target
+         * @return Integer[]
+         */
+        function twoSum($nums, $target)
+        {
+            $rs = [];
+            for ($i = 0; $i < count($nums); $i++) {
+                $s = 0;
+                for ($k = 0; $k < count($nums); $k++) {
+                    if ($i == $k) {
+                        continue;
+                    }
+                    if ($nums[$i] + $nums[$k] === $target) {
+                        array_push($rs, $i, $k);
+                        return $rs;
+                    }
+                }
+            }
 
-            ->get();
+        }
 
-
+        return twoSum([2,5,5,11], 10);
     }
 }

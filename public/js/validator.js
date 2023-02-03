@@ -145,6 +145,16 @@ Validator.isEmail = (selector, message) => {
     }
 }
 
+Validator.isPassWord = (selector, message) => {
+    return {
+        selector: selector,
+        test: (value) => {
+            const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+            return regex.test(value) ? undefined : message || 'Mật khẩu tối thiểu 8 kí tự và có tối thiểu một chữ cái in hoa và tối thiểu một chữ số';
+        }
+    }
+}
+
 Validator.minLength = (selector, min, message) => {
     return {
         selector: selector,
