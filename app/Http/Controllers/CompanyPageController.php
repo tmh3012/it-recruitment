@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PostStatusEnum;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -30,7 +31,9 @@ class CompanyPageController extends Controller
     public function show($companyId)
     {
         $company = Company::query()
-            ->with('posts')
+            ->with('posts', function($q) {
+                return $q->where('status', PostStatusEnum::ADMIN_APPROVED);
+            })
             ->findOrFail($companyId);
         $title = $company->name;
         return view('themeMain/pages.company_detail', [
