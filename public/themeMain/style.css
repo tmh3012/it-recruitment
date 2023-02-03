@@ -94,7 +94,6 @@ html {
 }
 #frm-search-jobs .box-search .search-input {
     width: 70%;
-    overflow: hidden;
     position: relative;
 }
 
@@ -146,8 +145,11 @@ html {
    flex: auto;
     margin-bottom: 10px;
 }
-.box-search-advance .d-flex .form-items:nth-child(2n+1){
+.box-search-advance .d-flex .form-items:first-child{
     margin-right: 16px;
+}
+.box-search-advance .d-flex .form-items:last-child{
+    width: 100%;
 }
 .box-search-advance .d-flex .form-items .form-control {
     background-color: var(--white);
