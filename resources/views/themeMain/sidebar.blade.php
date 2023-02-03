@@ -9,7 +9,8 @@
             <div class="filter-item mb-3">
                 <lable class="h4 text-cl-main d-block mb-3">{{__('frontPage.keyword')}}</lable>
                 <input class="form-control" name="keyword" type="text"
-                       placeholder="{{__('frontPage.keyword')}}...">
+                       placeholder="{{__('frontPage.keyword')}}..."
+                       @isset($ft_key_word) value="{{$ft_key_word}}" @endisset>
             </div>
             <div class="filter-item mb-3">
                 <lable class="h4 text-cl-main d-block my-1">{{__('frontPage.location')}}</lable>

@@ -60,6 +60,11 @@
                                 <span class="form-message text-danger"></span>
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <lable>Overview</lable>
+                            <textarea name="over_view" class="form-control ckeditor"></textarea>
+                        </div>
                         <div class="form-group">
                             <lable>Mission</lable>
                             <textarea name="mission" class="form-control ckeditor"></textarea>
