@@ -105,8 +105,23 @@ class CompanyController extends Controller
         DB::beginTransaction();
         try {
             $arr = $request->validated();
-            $arr['logo'] = optional($request->file('logo'))->storeAs('images/company', preg_replace('/\s+/', '', 'logo_' . $request->file('logo')->hashName()));
-            $arr['cover'] = optional($request->file('cover'))->storeAs('images/company', preg_replace('/\s+/', '', 'cover_' . $request->file('cover')->hashName()));
+
+            //store image
+            if ($request->hasFile('logo')) {
+                $originName = $request->file('logo')->getClientOriginalName();
+                $fileName = pathinfo($originName, PATHINFO_FILENAME);
+                $extension = $request->file('logo')->getClientOriginalExtension();
+                $fileName = $fileName .'_'.time().'.'.$extension;
+                $arr['logo'] = optional($request->file('logo'))->storeAs('images/company', $fileName);
+            }
+            if ($request->hasFile('cover')) {
+                $originName = $request->file('cover')->getClientOriginalName();
+                $fileName = pathinfo($originName, PATHINFO_FILENAME);
+                $extension = $request->file('cover')->getClientOriginalExtension();
+                $fileName = $fileName .'_'.time().'.'.$extension;
+                $arr['cover'] = optional($request->file('cover'))->storeAs('images/company', $fileName);
+            }
+
             Company::create($arr);
             DB::commit();
             return $this->successResponse();
