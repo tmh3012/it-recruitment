@@ -4,11 +4,12 @@
             <div class="col-md-7 col-sm-12">
                 <h2 class="text-cl-main my-3">Tìm việc phù hợp với bạn</h2>
                 <div class="form-search">
-                    <form action="#" id="frm-search-jobs">
+                    <form action="{{route('jobs-page')}}" id="frm-search-jobs">
                         <div class="box-search">
                             <div class="search-input">
                                 <i class="fa-solid fa-magnifying-glass"></i>
-                                <input type="text" name="keyword" placeholder="Tên vị trị bạn muốn ứng tuyển" autocomplete="off">
+                                <input type="text" name="keyword" placeholder="Tên vị trị bạn muốn ứng tuyển"
+                                       autocomplete="off">
                                 <div class="box-search-advance">
                                     <div class="d-flex mt-2">
                                         <p class="title font-weight-bold">{{__('frontPage.searchAdv')}}</p>
@@ -16,40 +17,33 @@
                                     </div>
                                     <div class="d-flex">
                                         <div class="form-items">
-                                            <select class="form-control" name="location" id="">
+                                            <select class="form-control" name="city" id="">
                                                 <option value="">Chọn thành phố</option>
-                                                <option value="1">Hà Nội</option>
-                                                <option value="2">Đà Nẵng</option>
-                                                <option value="3">Nha Trang</option>
-                                                <option value="4">TP. HCM</option>
+                                                @foreach($cities as $city)
+                                                    <option value="{{$city}}">{{$city}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="form-items">
                                             <select class="form-control" name="remote" id="">
-                                                <option value="">Chọn thành phố</option>
-                                                <option value="1">Hà Nội</option>
-                                                <option value="2">Đà Nẵng</option>
-                                                <option value="3">Nha Trang</option>
-                                                <option value="4">TP. HCM</option>
+                                                @foreach($workFrom as $key=>$value)
+                                                    <option value="{{$value}}">  {{__('frontPage.'.$key)}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="form-items">
-                                            <select class="form-control" name="can_parttime" id="">
-                                                <option value="">Chọn thành phố</option>
-                                                <option value="1">Hà Nội</option>
-                                                <option value="2">Đà Nẵng</option>
-                                                <option value="3">Nha Trang</option>
-                                                <option value="4">TP. HCM</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-items">
-                                            <select class="form-control" name="can_parttime" id="">
-                                                <option value="">Chọn thành phố</option>
-                                                <option value="1">Hà Nội</option>
-                                                <option value="2">Đà Nẵng</option>
-                                                <option value="3">Nha Trang</option>
-                                                <option value="4">TP. HCM</option>
-                                            </select>
+                                            <label for="range_salary"
+                                                   class="text-cl-main d-block">{{__('frontPage.salaryRange')}}</label>
+                                            <input type="text" id="range_salary" data-plugin="range-slider"
+                                                   data-type="double"
+                                                   data-grid="true"
+                                                   data-from="{{$configs['filter_min_salary']}}"
+                                                   data-to="{{$configs['filter_max_salary']}}"
+                                                   data-min="{{$configs['filter_min_salary']}}"
+                                                   data-max="{{$configs['filter_max_salary']}}"
+                                                   data-prefix="$"/>
+                                            <input type="hidden" name="min_salary" id="min_salary">
+                                            <input type="hidden" name="max_salary" id="max_salary">
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +66,8 @@
             </div>
             <div class="col-md-5 col-sm-12">
                 <div class="home-slide-image text-center">
-                    <img src="https://wp.alithemes.com/html/jobbox/demos/assets/imgs/page/job-single/right-job-head.svg" alt="">
+                    <img src="https://wp.alithemes.com/html/jobbox/demos/assets/imgs/page/job-single/right-job-head.svg"
+                         alt="">
                 </div>
             </div>
         </div>

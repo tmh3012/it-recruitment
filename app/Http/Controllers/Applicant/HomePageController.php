@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Config;
 use App\Models\ObjectLanguage;
 use App\Models\Post;
+use Doctrine\DBAL\Exception\DatabaseDoesNotExist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -23,8 +24,14 @@ class HomePageController extends Controller
             ->take(8)
             ->get();
 
+        $arrCities = getAndCachePostCities();
+        $workFrom = PostRemoteEnum::getArrayWithLowerKey();
+        $configs = Config::getAndCache(0);
         return view('themeMain/pages.home', [
             'posts' => $posts,
+            'cities' => $arrCities,
+            'workFrom' => $workFrom,
+            'configs' => $configs,
         ]);
     }
 
@@ -65,6 +72,7 @@ class HomePageController extends Controller
         return view('themeMain/pages.jobs', [
             'posts' => $posts,
             'arrCities' => $arrCities,
+            'ft_key_word' => $ft_key_word,
             'ft_city' => $ft_city,
             'fr_min_salary' => $fr_min_salary,
             'fr_max_salary' => $fr_max_salary,
