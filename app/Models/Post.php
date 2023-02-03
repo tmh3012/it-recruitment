@@ -76,7 +76,8 @@ class Post extends Model
 
     public function getStatusAttribute($value): string
     {
-        return PostStatusEnum::getKey($value);
+        $key = strtolower(PostStatusEnum::getKey($value));
+        return __('frontPage.' .$key);
     }
 
     public function getEnumCurrencySalaryAttribute(): string
