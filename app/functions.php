@@ -26,25 +26,32 @@ if (!function_exists('isAdmin')) {
     }
 }
 
+if (!function_exists('isHr')) {
+    function isHr(): bool
+    {
+        return user() && user()->role === UserRoleEnum::HR;
+    }
+}
+
 if (!function_exists('getAndCachePostCities')) {
     function getAndCachePostCities(): array
     {
         return cache()->remember(
-            SystemCacheKeyEnum::POST_CITIES,60*60*24*30,
-            function() {
+            SystemCacheKeyEnum::POST_CITIES, 60 * 60 * 24 * 30,
+            function () {
                 $cities = Post::query()
                     ->pluck('city');
                 $arrCity = array();
                 foreach ($cities as $city) {
-                    if (empty($city)){
+                    if (empty($city)) {
                         continue;
                     }
                     $arr = explode(',', $city);
-                    foreach($arr as $item) {
-                        if (empty($item)){
+                    foreach ($arr as $item) {
+                        if (empty($item)) {
                             continue;
                         }
-                        if (in_array($item, $arrCity)){
+                        if (in_array($item, $arrCity)) {
                             continue;
                         }
                         $arrCity[] = $item;
