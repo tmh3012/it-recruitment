@@ -112,10 +112,14 @@
                 const modalElement = document.querySelector(id);
                 const formElement = modalElement.querySelector('form#frm-create-config');
                 const btnSubmit = formElement.querySelector('button');
+                const errorElement = formElement.querySelectorAll('.form-message');
+
                 formElement.getAttribute('form-handler') ? formElement.removeAttribute('form-handler') : undefined;
                 btnSubmit.innerText = 'Create';
                 btnSubmit.removeAttribute('disabled');
-
+                Array.from(errorElement).forEach((el) => {
+                    el.innerText = '';
+                })
                 const elInvalids = modalElement.querySelectorAll('.invalid');
                 if (elInvalids.length > 0) {
                     Array.from(elInvalids).forEach(function (invalid) {
@@ -232,14 +236,14 @@
                         },
                         body: JSON.stringify(data)
                     };
-                    fetch("{{route('api.config.text.update')}}",options)
+                    fetch("{{route('api.config.text.update')}}", options)
                         .then((response) => response.json())
-                        .then((response) =>{
+                        .then((response) => {
                             notifySuccess("Update completed");
                             formElement.reset();
                             getConfigs(renderList)
                         })
-                        .catch((response) =>{
+                        .catch((response) => {
                             console.log(response);
                             notifyError("Error updating config");
                         })
