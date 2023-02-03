@@ -1,6 +1,8 @@
 <?php
 
 return array(
+    'hr'=>'Nhà tuyển dụng',
+    'applicant'=>'Ứng viên',
     'advHeading' => 'Tìm kiếm nâng cao',
     'salaryRange' => 'Mức lương',
     'filterReset' => 'Tạo lại',

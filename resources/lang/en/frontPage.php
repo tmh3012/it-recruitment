@@ -1,6 +1,8 @@
 <?php
 
 return array(
+    'hr'=>'Human Resources',
+    'applicant'=>'Applicant',
     'advHeading' => 'Advance Filter',
     'salaryRange' => 'Salary Range',
     'filterReset' => 'Reset',
