@@ -13127,7 +13127,11 @@ h6 {
     line-height: 42px;
 }
 body.authentication-bg {
-    background-image: url(../images/bg-pattern-light.svg);
+    background: -webkit-gradient(linear,left bottom,right top,from(#08aeea),to(#b721ff));
+    background: -webkit-linear-gradient(bottom left,#08aeea 0%,#b721ff 100%);
+    background: -moz-linear-gradient(bottom left,#08aeea 0%,#b721ff 100%);
+    background: -o-linear-gradient(bottom left,#08aeea 0%,#b721ff 100%);
+    background: linear-gradient(to top right,#08aeea 0%,#b721ff 100%);
     background-size: cover;
     background-position: center;
 }
@@ -13135,6 +13139,23 @@ body.authentication-bg {
 .authentication-bg.enlarged,
 body.auth-fluid-pages[data-leftbar-compact-mode="condensed"] {
     min-height: 100px;
+}
+.authentication-bg .auth-form {
+    width: 100%;
+    min-height: 100vh;
+}
+.form-group.invalid .form-control {
+    border-color: #f33a58;
+}
+
+.form-group.invalid .form-message {
+    color: #f33a58;
+}
+
+.form-message {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 4px 0 0;
 }
 .logout-icon {
     width: 140px;
