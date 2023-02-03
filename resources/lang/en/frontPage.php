@@ -1,8 +1,11 @@
 <?php
 
 return array(
-    'hr'=>'Human Resources',
-    'applicant'=>'Applicant',
+    'pending' => 'Pending',
+    'admin_pending' => 'Pending for Admin',
+    'admin_approved' => 'Approved',
+    'hr' => 'Human Resources',
+    'applicant' => 'Applicant',
     'advHeading' => 'Advance Filter',
     'salaryRange' => 'Salary Range',
     'filterReset' => 'Reset',
@@ -13,7 +16,7 @@ return array(
     'location' => 'Location',
     'keyword' => 'Keyword',
     'search' => 'Search',
-    'searchJob'=>'Find Job',
+    'searchJob' => 'Find Job',
     'searchAdv' => 'Search advanced',
     'btnLess' => 'Collapse',
     'popular' => 'Popular Searches',

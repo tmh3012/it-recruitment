@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    'pending' => 'Chờ',
+    'admin_pending' => 'Chờ xử lý của Admin',
+    'admin_approved' => 'Duyệt',
     'hr'=>'Nhà tuyển dụng',
     'applicant'=>'Ứng viên',
     'advHeading' => 'Tìm kiếm nâng cao',
