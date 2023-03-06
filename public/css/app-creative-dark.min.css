@@ -68,17 +68,23 @@ body {
 }
 
 .form-group.invalid .form-control {
-    border-color: #f33a58;
+    border-color: #f33a58 !important;
 }
 .form-group.invalid .ck-editor{
     border-radius: 3px;
-    border: 2px solid red;
+    border: 2px solid red !important;
 }
 
 .form-group.invalid .form-message {
-    color: #f33a58;
+    color: #f33a58 !important;
 }
-
+img.img-preview {
+    width: 38%;
+    max-width: inherit;
+    height: inherit;
+    object-fit: contain;
+    margin-top: 10px;
+}
 hr {
     -webkit-box-sizing: content-box;
     box-sizing: content-box;

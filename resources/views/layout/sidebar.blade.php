@@ -66,8 +66,8 @@
                                         </a>
                                         <div class="collapse" id="config">
                                             <ul class="side-nav-second-level">
-                                                <li><a href="{{route('admin.config.indexText')}}">Config text</a></li>
-                                                <li><a href="#">Config Image</a></li>
+                                                <li><a href="{{route('admin.config.indexText')}}">Config System</a></li>
+                                                <li><a href="{{route('admin.config.report.index')}}">Config Web</a></li>
                                             </ul>
                                         </div>
                                     </li>

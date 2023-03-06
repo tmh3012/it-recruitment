@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AppConfigTypeEnum;
 use App\Enums\FileTypeEnum;
 use App\Enums\PostCurrencySalaryEnum;
 use App\Enums\PostStatusEnum;
@@ -14,10 +15,11 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
 {
-
+    use ResponseTrait;
     public function test2()
     {
         $companyName = 'ABCDaNang Tech';
@@ -56,7 +58,7 @@ class TestController extends Controller
     public function getColumnTables(): array
     {
         $columns = array();
-        foreach (\DB::select("SHOW COLUMNS FROM blogs") as $column) {
+        foreach (\DB::select("SHOW COLUMNS FROM config_web") as $column) {
             $columns[] = $column->Field;
         }
 
@@ -79,7 +81,7 @@ class TestController extends Controller
 
     }
 
-    public function test()
+    public function testLeetCode()
     {
         /**
          * @param Integer[] $nums
@@ -104,6 +106,26 @@ class TestController extends Controller
 
         }
 
-        return twoSum([2,5,5,11], 10);
+        return twoSum([2, 5, 5, 11], 10);
+    }
+
+    public function test(Request $request)
+    {
+//        $config = Config::query()
+//        ->with('configsWeb')
+//            ->where([
+//                ['key', 'REPORT'],
+//                ['type', 1],
+//            ])
+//            ->firstOrFail();
+//        dd($config->configsWeb->toArray());
+//        $post = Post::query()
+//            ->with('company')
+//            ->where('id', 53)
+//            ->firstOrFail();
+//        dd($post);
+
+
+      dd(Storage::exists('images/company/logo_McFfQoVnjE7pcaw7jUbpLH3cyP1wQP5TQOIYte8M.jpg'));
     }
 }

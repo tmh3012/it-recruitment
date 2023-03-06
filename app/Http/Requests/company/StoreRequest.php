@@ -13,7 +13,11 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        if (isAdmin() or isHr()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

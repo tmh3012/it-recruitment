@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{asset('css/slick.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('css/c-slick.css')}}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -34,6 +35,7 @@
 <script src="{{ asset('js/helper.js') }}"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 <script src="{{asset('js/slick.min.js')}}"></script>
+<script src="{{asset('js/validator.js')}}"></script>
 <script>
     window.editors = {};
     document.querySelectorAll('.ckeditor').forEach((el, index) => {

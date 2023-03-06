@@ -6,8 +6,10 @@ use App\Enums\PostRemoteEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Config;
+use App\Models\Language;
 use App\Models\ObjectLanguage;
 use App\Models\Post;
+use App\Models\User;
 use Doctrine\DBAL\Exception\DatabaseDoesNotExist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -20,10 +22,9 @@ class HomePageController extends Controller
     {
         $posts = Post::query()
             ->postApproved()
-            ->latest()
+//            ->postReceived()
             ->take(8)
             ->get();
-
         $arrCities = getAndCachePostCities();
         $workFrom = PostRemoteEnum::getArrayWithLowerKey();
         $configs = Config::getAndCache(0);
@@ -101,13 +102,18 @@ class HomePageController extends Controller
                 $q->whereIn('language_id', $languageIds);
             })
             ->distinct('id')
+            ->latest()
             ->get();
 
+        $postSaved = User::checkPostSaved($post->id);
+        $postReceived = $post::canApply($slug);
         return view('themeMain/pages.post_detail', [
             'data' => $data,
             'post' => $post,
             'title' => $title,
+            'postSaved' => $postSaved,
             'company' => $company,
+            'postReceived' => $postReceived,
             'relatedPosts' => $relatedPosts,
             'textWorkPlace' => $textWorkPlace,
         ]);

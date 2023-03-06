@@ -13,7 +13,7 @@ class HandlerSubmitCvRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -52,7 +52,7 @@ class HandlerSubmitCvRequest extends FormRequest
                 'required',
                 'file',
                 'mimes:jpg,pdf',
-                'max:8000',
+                'max:5000',
             ],
         ];
     }

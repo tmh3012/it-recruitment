@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\PostCurrencySalaryEnum;
 use App\Enums\PostRemoteEnum;
+use App\Enums\PostStatusEnum;
 use App\Http\Requests\CheckSlugRequest;
 use App\Http\Requests\GenerateSlugRequest;
 use App\Http\Requests\StoreRequest;
+use App\Http\Requests\UpdateStatusPostRequest;
 use App\Models\Company;
 use App\Models\Config;
 use App\Models\Language;
@@ -16,7 +18,9 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Throwable;
 
 class PostController extends Controller
@@ -24,10 +28,15 @@ class PostController extends Controller
     use ResponseTrait;
 
     private object $model;
+    private string $table;
 
     public function __construct()
     {
         $this->model = Post::query();
+        $this->table = (new Post())->getTable();
+
+        View::share('title', strtoupper($this->table));
+        View::share('table', $this->table);
     }
 
     public function index()
@@ -44,12 +53,13 @@ class PostController extends Controller
             })
             ->latest()
             ->paginate();
-
+        $arr['postStatus'] = PostStatusEnum::getStatusWithLang();
         foreach ($data as $each) {
             $each->append('salary');
             $each->append('location');
-            $each->append('deadline_submit');
             $each->append('working_time');
+            $each->append('deadline_submit');
+            $each->append('status_type_string');
         };
 
         $arr['data'] = $data->getCollection();
@@ -62,9 +72,11 @@ class PostController extends Controller
     {
         $currencies = PostCurrencySalaryEnum::asArray();
         $workPlaces = PostRemoteEnum::getArrayWithoutKeys();
+        $postStatus = PostStatusEnum::asArray();
         return view('posts.create', [
             'currencies' => $currencies,
             'workPlaces' => $workPlaces,
+            'postStatus' => $postStatus,
         ]);
     }
 
@@ -84,11 +96,11 @@ class PostController extends Controller
             }
             $rate = Config::getByKey(PostCurrencySalaryEnum::getKey((int)$request->get('currency_salary')));
 
-            if ($request->has('min_salary')) {
-                $arr['min_salary'] = $request->get('min_salary')/$rate;
+            if (!is_null($request->get('min_salary'))) {
+                $arr['min_salary'] = $request->get('min_salary') / $rate;
             }
-            if ($request->has('max_salary')) {
-                $arr['max_salary'] = $request->get('max_salary')/$rate;
+            if (!is_null($request->get('max_salary'))) {
+                $arr['max_salary'] = $request->get('max_salary') / $rate;
             }
             $post = Post::create($arr);
 
@@ -110,9 +122,79 @@ class PostController extends Controller
         }
     }
 
-    public function edit()
+    public function edit($postId)
+    {
+        $post = Post::query()
+            ->where('id', $postId)
+            ->with([
+                'languages',
+                'company' => function ($q) {
+                    return $q->select([
+                        'id',
+                        'name'
+                    ]);
+                }
+            ])
+            ->first();
+        $arrLanguage = $post->languages->pluck('name')->toArray();
+        $currencies = PostCurrencySalaryEnum::asArray();
+        $workPlaces = PostRemoteEnum::getArrayWithoutKeys();
+        $postStatus = PostStatusEnum::asArray();
+        View::share('title', strtoupper($this->table));
+        return view('posts.edit', [
+            'post' => $post,
+            'currencies' => $currencies,
+            'workPlaces' => $workPlaces,
+            'arrLanguage' => $arrLanguage,
+            'postStatus' => $postStatus,
+        ]);
+    }
+
+    public function update(UpdatePostRequest $request, $postId): JsonResponse
     {
 
+        DB::beginTransaction();
+        try {
+            $arr = $request->validated();
+            $companyName = $request->get('company');
+            if (!empty($companyName)) {
+                $arr['company_id'] = Company::firstOrCreate(['name' => $companyName])->id;
+            }
+            if ($request->has('can_parttime')) {
+                $arr['can_parttime'] = 1;
+            }
+            $rate = Config::getByKey(PostCurrencySalaryEnum::getKey((int)$request->get('currency_salary')));
+
+            if (!is_null($request->get('min_salary'))) {
+                $arr['min_salary'] = $request->get('min_salary') / $rate;
+            }
+            if (!is_null($request->get('max_salary'))) {
+                $arr['max_salary'] = $request->get('max_salary') / $rate;
+            }
+            $post = Post::find($postId);
+            $post->update($arr);
+            $languages = $request->get('languages');
+            $langId = [];
+            foreach ($languages as $language) {
+                $language = Language::firstOrCreate(['name' => $language]);
+                $langId[] = $language->id;
+            }
+
+            $post->languages()->sync($langId);
+            DB::commit();
+            return $this->successResponse();
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function updateStatusPost(UpdateStatusPostRequest $request, $postId): JsonResponse
+    {
+        $data = $request->Validated();
+        Post::find($postId)->update($data);
+        return $this->successResponse();
     }
 
     public function generateSlug(GenerateSlugRequest $request): JsonResponse

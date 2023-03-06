@@ -75,6 +75,22 @@ html {
 }
 /*------End Header--------*/
 
+/*------login form--------*/
+.auth-error {
+    display: none;
+    margin-bottom: 3px;
+}
+
+.auth-error.invalid {
+    display: block;
+    background-color:  rgba(250, 103, 103, 0.25) !important;
+}
+
+.auth-error.invalid li {
+    padding: 0.75rem 0;
+}
+/*------End login form --------*/
+
 /*------slide--------*/
 .slide-block {
     width: 100%;

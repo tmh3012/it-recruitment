@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UserRoleEnum;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Dotenv\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,27 +15,33 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    use ResponseTrait;
 
     public function login()
     {
         return view('auth.login');
     }
 
-    public function handlerLogin(Request $request): RedirectResponse
+    public function handlerLogin(Request $request): \Illuminate\Http\JsonResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required','min:8'],
-        ]);
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            $getRole = (auth()->user()->role);
-            $role = strtolower(UserRoleEnum::getKey($getRole));
-            return redirect()->route("${role}.index");
-        } else {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['msg' => 'The Message']);
+        try {
+            $credentials = $request->validate([
+                'email' => ['required', 'email', ' exists:users'],
+                'password' => ['required', 'min:8'],
+            ]);
+
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                $getRole = (auth()->user()->role);
+                $role = strtolower(UserRoleEnum::getKey($getRole));
+                $urlReddit = $request->get('urlReddit') ?? checkRouteForRole("${role}.index");
+                return $this->successResponse( $urlReddit);
+            } else {
+                $errorMessage = __('frontPage.errorAuthLogin');
+                return $this->errorResponse($errorMessage);
+            }
+        } catch (\Throwable $e) {
+            return $this->errorResponse($e->getMessage());
         }
     }
 
@@ -58,7 +65,7 @@ class AuthController extends Controller
         auth()->login($user, true);
         if ($checkExist) {
             $role = strtolower(UserRoleEnum::getKey($user->role));
-            return redirect()->route($role.'.index');
+            return redirect(checkRouteForRole("${role}.index"));
         }
         return redirect()->route('register');
     }
@@ -94,7 +101,7 @@ class AuthController extends Controller
             User::query()
                 ->where('id', auth()->user()->id)
                 ->update([
-                    'password' => $infoUpdate['password'] ,
+                    'password' => $infoUpdate['password'],
                     'role' => $infoUpdate['role'],
                 ]);
             redirect()->route("${role}.index");

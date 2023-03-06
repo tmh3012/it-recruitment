@@ -27,18 +27,12 @@
                 <p class="text-muted mb-0">Enter your email address and password to access account.</p>
             </div>
             <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+
                 <!-- form -->
                     <form method="post" action="{{route('handlerLogin')}}" id="login-form">
                         @csrf
+                        <ul class="auth-error ">
+                        </ul>
                         <div class="form-group">
                             <label for="email">Email address</label>
                             <input class="form-control" type="email" name="email" id="email"
@@ -95,21 +89,44 @@
 <script src="{{ asset('js/app.min.js') }}"></script>
 <script src="{{asset('js/validator.js')}}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // config js
-        Validator({
-            form: '#login-form',
-            formGroupSelector: '.form-group',
-            errorSelector: '.form-message',
-            rules: [
-                Validator.isRequired('#email'),
-                Validator.isEmail('#email'),
-                Validator.isRequired('#password'),
-                Validator.minLength('#password', 8),
-                Validator.isPassWord('#password'),
-            ],
+      document.addEventListener('DOMContentLoaded', function () {
+            // config js
+            Validator({
+                form: '#login-form',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#email'),
+                    Validator.isEmail('#email'),
+                    Validator.isRequired('#password'),
+                    Validator.minLength('#password', 8),
+                ],
+                onSubmit: function (data) {
+                    let option = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    };
+                    fetch("{{route('handlerLogin')}}", option)
+                        .then((response) => response.json())
+                        .then((response) => {
+                            if (response.success) {
+                                window.location.href = response.data;
+                            } else {
+                                authError(response.message, `${this.form} .auth-error`);
+                            }
+                        })
+                }
+            })
+
+            function authError(message, rs) {
+                let errorElement = document.querySelector(rs);
+                errorElement.innerHTML = `<li>${message}</li>`;
+                errorElement.classList.add('invalid');
+            }
         });
-    });
 </script>
 </body>
 </html>

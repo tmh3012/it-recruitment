@@ -5,12 +5,13 @@
             <div class="card">
                 <div class="card-header">
                     <div class="header-action">
-                        <a href="{{ isAdmin() ? route('admin.posts.create') : route('hr.posts.create') }}" class="btn btn-primary">
+                        <a href="{{ isAdmin() ? route('admin.posts.create') : route('hr.posts.create') }}"
+                            class="btn btn-primary">
                             Create
                         </a>
                         <label class="btn btn-info btn-import mb-0" for="csv">Import CSV</label>
                         <input type="file" name="csv" id="csv" class="d-none"
-                               accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                     </div>
 
                     <nav class="float-right">
@@ -21,18 +22,17 @@
                 <div class="card-body">
                     <table class="table table-striped" id="table-posts">
                         <thead>
-                        <tr  class="text-center">
-                            <th>#</th>
-                            <th>Job Title</th>
-                            <th>Location</th>
-                            <th>Range Salary</th>
-                            <th>Deadline Apply</th>
-                            <th>Status</th>
-                            {{-- <th>Is Pinned</th> --}}
-                            <th>Edit</th>
-                            <th>Created At</th>
-                            <th>Update At</th>
-                        </tr>
+                            <tr class="text-center">
+                                <th>#</th>
+                                <th>Job Title</th>
+                                <th>Location</th>
+                                <th>Range Salary</th>
+                                <th>Deadline Apply</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Created At</th>
+                                <th>Update At</th>
+                            </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -40,56 +40,71 @@
             </div>
         </div>
     </div>
-    <div id="modalCSV" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+
+    <div class="modal fade" id="confirm-modal" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Import CSV</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modal-header align-items-center bg-primary">
+                    <div class="modal-header__left">
+                        <h5 class="modal-title text-dark text-uppercase" id="confirmModalLabel">
+                            Do you want to continue?</h5>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <label>Levels</label>
-                        <select class="form-control" multiple id="levels">
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-success" id="btn-import-csv">
-                            Import
-                        </button>
-                    </div>
+                <div class="modal-body">
+                    <p class="description"> Confirm update status of post</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-confirm-status">Confirm</button>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection
 @push('js')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $.ajax({
-                url: '{{route('api.posts.getPost')}}',
+                url: '{{ route('api.posts.getPost') }}',
                 dataType: 'json',
-                data: {page: {{ request()->get('page') ?? 1 }}},
-                success: function (response) {
-                    response.data.data.forEach(function (each) {
+                data: {
+                    page: {{ request()->get('page') ?? 1 }}
+                },
+                success: function(response) {
+                    const postStatus = response.data.postStatus;
+                    response.data.data.forEach(function(each) {
 
+                        function renderFormPostStatusForAdmin(postId, valCurrentStatus) {
+                            let optionHtmls = Object.keys(postStatus).map(function(key) {
+                                let selected = postStatus[key] === valCurrentStatus ? 'selected' : '';
+                                return `<option value="${postStatus[key]}" ${selected}>${key}</option>`
+                            }).join('');
 
-                        // const is_pinned = each.is_pinned ? 'x' : '';
+                            return `<form class="post-status-form" form-id = ${postId}>
+                                <select name='status' class="form-control">${optionHtmls}</select>
+                            </form>`;
+                        }
+
                         const editBtn = `<button class="btn btn-primary btn-edit-post" data-post="${each.id}">Edit</button>`;
                         const created_at = convertDateToDateTime(each.created_at);
-                        const updated_at = each.created_at === each.updated_at ? '' : convertDateToDateTime(each.updated_at);
+                        const updated_at = each.created_at === each.updated_at ? '' :  convertDateToDateTime(each.updated_at);
+
                         $('#table-posts').append($('<tr>')
-                            .append($('<td>').append(each.id)).attr('class','text-center')
+                            .append($('<td>').append(each.id)).attr('class', 'text-center')
                             .append($('<td>').append(each.job_title))
                             .append($('<td>').append(each.location))
                             .append($('<td>').append(each.salary))
-                            .append($('<td>').append(each.deadline_submit))
-                            .append($('<td>').append(each.status))
-                            // .append($('<td>').append('update later'))
+                            .append($('<td>').append(each
+                                .deadline_submit)) @if (isAdmin())
+                                .append($('<td>').append(renderFormPostStatusForAdmin(each
+                                    .id, each.status)))
+                            @else
+                                .append($('<td>').append(each.status_type_string))
+                            @endif
                             .append($('<td>').append(editBtn))
                             .append($('<td>').append(created_at))
                             .append($('<td>').append(updated_at))
@@ -97,7 +112,7 @@
                     });
                     renderPagination(response.data.pagination)
                 },
-                error: function (response) {
+                error: function(response) {
 
                     $.toast({
                         heading: 'Response Error',
@@ -108,12 +123,35 @@
                     })
                 }
             })
-            $('#table-posts').on('click','.btn-edit-post', function(){
+            $('#table-posts').on('click', '.btn-edit-post', function() {
                 let postId = $(this).attr('data-post');
-                let url = location.href + '/edit/'+postId;
+                let url = location.href + '/edit/' + postId;
                 location.assign(url);
             })
-            $(document).on('click', '#pagination>li>a', function (e){
+            $('#table-posts').on('change', '.post-status-form', function() {
+                const formElement = $(this);
+                const formId = formElement.attr('form-id');
+                let formData = new FormData(formElement[0]);
+                let url = location.href + '/update/status/' + formId;
+                formData.append('_method', 'PUT');
+                if (confirm("Confirm update status") == true) {
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            notifySuccess();
+                        }
+                    })
+                } else {
+                    formElement.trigger("reset");
+                }
+
+            })
+            $(document).on('click', '#pagination>li>a', function(e) {
                 e.preventDefault();
                 let pageNumber = $(this).text();
                 let urlParams = new URLSearchParams(window.location.search);
@@ -121,13 +159,15 @@
                 window.location.search = urlParams;
             })
 
-            $('.header-action').on('change', 'input[name="csv"]', function () {
+            $('.header-action').on('change', 'input[name="csv"]', function() {
                 let formData = new FormData();
                 formData.append('file', $('.header-action #csv')[0].files[0]);
                 $.ajax({
-                    url: '{{route('admin.posts.import_csv')}}',
+                    url: '{{ route('admin.posts.import_csv') }}',
                     type: 'post',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     dataType: 'json',
                     enctype: 'multipart/form-data',
                     data: formData,
@@ -135,7 +175,7 @@
                     cache: false,
                     contentType: false,
                     processData: false,
-                    success: function () {
+                    success: function() {
                         $.toast({
                             heading: 'Import Success',
                             text: 'Your data have been imported',
@@ -144,7 +184,7 @@
                             icon: 'success'
                         })
                     },
-                    error: function (response) {
+                    error: function(response) {
 
                     }
                 })

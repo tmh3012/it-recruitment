@@ -34,14 +34,14 @@
             <div class="dropdown notification-list topbar-dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button"
                    aria-haspopup="false" aria-expanded="false">
-                    @if(App::currentLocale() === 'vi')
-                        <img style="with:20px; height: 20px " src="{{asset('img/vi.png')}}" alt="vi" class="mr-1"
-                             height="12">
-                        <span class="align-middle">{{__('frontPage.viLang')}}</span>
-                    @else
+                    @if(App::currentLocale() === 'en')
                         <img style="with:20px; height: 20px " src="{{asset('img/en.png')}}" alt="en" class="mr-1"
                              height="12">
                         <span class="align-middle">{{__('frontPage.enLang')}}</span>
+                    @else
+                        <img style="with:20px; height: 20px " src="{{asset('img/vi.png')}}" alt="vi" class="mr-1"
+                             height="12">
+                        <span class="align-middle">{{__('frontPage.viLang')}}</span>
                     @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" style="">

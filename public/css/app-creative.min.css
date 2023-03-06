@@ -13145,11 +13145,12 @@ body.auth-fluid-pages[data-leftbar-compact-mode="condensed"] {
     min-height: 100vh;
 }
 .form-group.invalid .form-control {
-    border-color: #f33a58;
+    border-color: #f33a58 !important;
 }
 
+.auth-error.invalid,
 .form-group.invalid .form-message {
-    color: #f33a58;
+    color: #f33a58 !important;
 }
 
 .form-message {

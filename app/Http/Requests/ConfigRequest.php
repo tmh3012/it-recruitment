@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\AppConfigTypeEnum;
 use App\Models\Config;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -38,9 +39,10 @@ class ConfigRequest extends FormRequest
                 'filled',
                 'string'
             ],
-            'value2' => [
-                'nullable',
-                'string'
+            'type' => [
+                'required',
+                'numeric',
+                Rule::in(AppConfigTypeEnum::getvalues()),
             ],
             'description' => [
                 'nullable',

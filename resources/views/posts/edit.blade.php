@@ -8,8 +8,8 @@
             <!-- Form Post -->
             <div class="card">
                 <div class="card-body">
-                    <form method="post" action="{{route('admin.posts.update', $post->id)}}" class="form-horizontal"
-                          id="fmCreate-Post" enctype="multipart/form-data">
+                    <form method="post" action="{{route('api.posts.update', $post->id)}}" class="form-horizontal"
+                          id="fmCreate-Post" redirect="true" enctype="multipart/form-data">
                         <input type="hidden" name="redirect" value="{{route('admin.posts.index')}}">
                         @csrf
                         @method('put')
@@ -17,14 +17,14 @@
                             <label class="form-label">Company</label>
                             <select class="form-control select2" id="select-company" name="company"
                                     data-toggle="select2"></select>
-                            <span class="form-message text-danger"></span>
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Language</label>
                             <select class="select2 form-control select2-multiple" id="select-language"
                                     name="languages[]"
                                     data-toggle="select2" multiple="multiple" data-placeholder="Choose ..."></select>
-                            <span class="form-message text-danger"></span>
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -51,13 +51,13 @@
                                     <label class="form-label">Min salary </label>
                                     <input class="form-control mr-1" min="0" placeholder="min-salary" autocomplete="off"
                                            name="min_salary" value="{{$post->min_salary}}" type="number">
-                                    <span class="form-message text-danger"></span>
+                                    <span class="form-message"></span>
                                 </div>
                                 <div class="form-group col-4">
                                     <label class="form-label">Max salary </label>
                                     <input class="form-control" min="0" placeholder="max-salary" autocomplete="off"
                                            value="{{$post->max_salary}}" name="max_salary" type="number">
-                                    <span class="form-message text-danger"></span>
+                                    <span class="form-message"></span>
                                 </div>
                                 <div class="form-group col-4">
                                     <div class="form-row">
@@ -73,7 +73,7 @@
                                                         value="{{$value}}">{{$currency}}</option>
                                                 @endforeach
                                             </select>
-                                            <span class="form-message text-danger"></span>
+                                            <span class="form-message"></span>
                                         </div>
                                         <div class="col-4">
                                             <label class="form-label">Work place</label>
@@ -112,13 +112,13 @@
                                         <label class="form-label">Start date</label>
                                         <input type="date" class="form-control" value="{{$post->start_date}}"
                                                name="start_date">
-                                        <span class="form-message text-danger"></span>
+                                        <span class="form-message"></span>
                                     </div>
                                     <div class="form-group col-6">
                                         <label class="form-label">End Date</label>
                                         <input type="date" class="form-control" value="{{$post->end_date}}"
                                                name="end_date">
-                                        <span class="form-message text-danger"></span>
+                                        <span class="form-message"></span>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +128,7 @@
                                        value="{{$post->number_applicants}}"
                                        autocomplete="off"
                                        placeholder="Number of applicants">
-                                <span class="form-message text-danger"></span>
+                                <span class="form-message"></span>
                             </div>
 
                         </div>
@@ -136,19 +136,19 @@
                             <label for="floatingTextarea">Description</label>
                             <textarea class="form-control ckeditor" name="job_description" placeholder="Leave a comment here"
                                    >{{$post->job_description}}</textarea>
-                            <span class="form-message text-danger"></span>
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="floatingTextarea">Requirements</label>
                             <textarea class="form-control ckeditor" name="job_requirement" placeholder="Leave a comment here"
                                       id="ckeditor1">{{$post->job_requirement}}</textarea>
-                            <span class="form-message text-danger"></span>
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="floatingTextarea">Benefits</label>
                             <textarea class="form-control ckeditor" name="job_benefit" placeholder="Leave a comment here"
                                       id="ckeditor1" >{{$post->job_benefit}}</textarea>
-                            <span class="form-message text-danger"></span>
+                            <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -161,13 +161,37 @@
                                     <label class="form-label">Slug</label>
                                     <input class="form-control" name="slug" value="{{$post->slug}}" type="text"
                                            autocomplete="off">
-                                    <span class="form-message text-danger"></span>
+                                    <span class="form-message"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <button type="submit" id="btn-sb-form" disabled class="btn btn-primary">Submit</button>
-                        </div>
+                        @if(isAdmin())
+                            <div class="form-row">
+                                <div class="col-sm-12 col-md-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <div class="d-flex">
+                                        <div class="form-group w-75 mr-3 mb-0">
+                                            <select class="form-control" name="status" id="post-status">
+                                                @foreach($postStatus as $key => $value)
+                                                    <option value="{{$value}}"
+                                                         @if($post->status === $value) selected  @endif >
+                                                        {{__('frontPage.'.strtolower($key))}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="form-message"></span>
+                                        </div>
+                                        <button type="submit" id="btn-sb-form" disabled class="btn btn-primary">Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="form-group">
+                                <button type="submit" id="btn-sb-form" disabled class="btn btn-primary">Submit</button>
+                            </div>
+                        @endif
+
                     </form>
                 </div>
             </div>
@@ -189,64 +213,100 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form class="creat-company" action="{{route('admin.companies.store')}}"
-                                  method="post" id="fmCreate-Company" enctype="multipart/form-data">
+                            <form class="creat-company" action="{{ route('api.company.store') }}" method="post"
+                                  id="fmCreate-Company" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <label class="form-label">Company</label>
                                     <input type="text" name="name" id="company" readonly
                                            class="form-control border-primary">
+                                    <span class="form-message"></span>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-6">
                                         <label class="form-label">Provinces/City (*)</label>
                                         <select type="text" id="city" name="city"
-                                                class="form-control select2"
-                                                data-toggle="select2"></select>
+                                                class="form-control select2" data-toggle="select2"></select>
                                     </div>
                                     <div class="form-group col-6">
                                         <label class="form-label">District</label>
                                         <select type="text" name="district" id="district"
-                                                class="form-control select2"
-                                                data-toggle="select2"></select>
-                                        <span class="form-message text-danger"></span>
+                                                class="form-control select2" data-toggle="select2"></select>
+                                        <span class="form-message"></span>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Address</label>
-                                    <input type="text" name="address" class="form-control"
-                                           autocomplete="off">
-                                    <span class="form-message text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Address2</label>
-                                    <input type="text" name="address2" class="form-control"
-                                           autocomplete="off">
-                                    <span class="form-message text-danger"></span>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-6">
-                                        <label>Phone</label>
-                                        <input type="text" name="phone" class="form-control" autocomplete="off">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" name="address" class="form-control" id="address"
+                                               autocomplete="off">
+                                        <span class="form-message"></span>
                                     </div>
                                     <div class="form-group col-6">
-                                        <label>Email</label>
-                                        <input type="email" name="email" class="form-control" autocomplete="off">
-                                        <span class="form-message text-danger"></span>
+                                        <label class="form-label">Address2</label>
+                                        <input type="text" name="address2" class="form-control" autocomplete="off">
+                                        <span class="form-message"></span>
                                     </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-4">
+                                        <label>Phone</label>
+                                        <input type="text" name="phone" class="form-control" id="phone"
+                                               autocomplete="off">
+                                        <span class="form-message"></span>
+
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Email</label>
+                                        <input type="email" name="email" class="form-control" id="email"
+                                               autocomplete="off">
+                                        <span class="form-message"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Website</label>
+                                        <input type="text" name="link" class="form-control"
+                                               placeholder="Link website of your company" autocomplete="off">
+                                        <span class="form-message"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Overview</lable>
+                                    <textarea name="over_view" id="over_view" class="form-control"></textarea>
+                                    <span class="form-message"></span>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Mission</lable>
+                                    <textarea name="mission" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <lable>Introduction</lable>
+                                    <textarea name="introduction" class="form-control ckeditor"></textarea>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-6">
                                         <label>Logo</label>
-                                        <input type="file" name="logo" id="" class="form-control"
-                                               oninput="pic.src=window.URL.createObjectURL(this.files[0])">
-                                        <span class="form-message text-danger"></span>
+                                        <div class="d-flex">
+                                            <input type="file" name="logo" id=""
+                                                   class="form-control w-50 mr-1"
+                                                   oninput="pic_logo.src=window.URL.createObjectURL(this.files[0])">
+                                            <img height="100px" id="pic_logo"/>
+                                        </div>
+                                        <span class="form-message"></span>
                                     </div>
                                     <div class="form-group col-6">
-                                        <img height="100px" id="pic"/>
+                                        <label>Cover</label>
+                                        <div class="d-flex">
+                                            <input type="file" name="cover" id=""
+                                                   class="form-control w-50 mr-1"
+                                                   oninput="pic.src=window.URL.createObjectURL(this.files[0])">
+                                            <img height="100px" id="pic"/>
+                                        </div>
+                                        <span class="form-message"></span>
                                     </div>
                                 </div>
+                                <button type="submit" class="btn btn-primary"> Create</button>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -267,72 +327,48 @@
     <script src="{{ asset('js/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('js/quillEditor.min.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            const locationApi = '{{asset('location/index.json')}}';
-            const handleLocation = {
-                getProvinces: function () {
-                    const _this = this;
-                    fetch(locationApi)
-                        .then(function (response) {
-                            return response.json();
-                        })
-                        .then(function (provinces) {
-                            _this.renderLocations(provinces)
-                        });
-                },
-                renderLocations: function (provinces) {
-                    let selectProvince = document.getElementById('select-provinces');
-                    let selectCityForModal = document.getElementById('city');
-                    let postCity = '';
-                    @if($post->city)
-                        postCity = '{{$post->city}}';
-                    @endif
-                    let htmls = Object.keys(provinces).map(function (key) {
-                        let checkSelected = (postCity == key) ? 'selected' : '';
-                        return `<option ${checkSelected} data-path="${provinces[key].file_path}" >${key}</option> `;
-                    }).join('');
-                    selectProvince.innerHTML = htmls;
-                    this.loadDistrict('#select-provinces', '#select-district');
-                    selectCityForModal.innerHTML = htmls;
-                },
-                loadDistrict: function (el, rs) {
-                    let x = $(el).find(':selected');
-                    let path = x.attr('data-path');
-                    let districtApi = '{{asset('location')}}' + path;
-                    fetch(districtApi)
-                        .then(function (response) {
-                            return response.json();
-                        })
-                        .then(function (data) {
-                            const selectedValue = $(rs).val();
-                            let postDistrict = '';
-                            @if($post->district)
-                                postDistrict = '{{$post->district}}';
-                            @endif
-                            console.log(postDistrict)
-                            let htmls = data.district.map(function (k) {
-                                let selected = (selectedValue === k.name || k.name === postDistrict) ? 'selected' : '';
-                                return `<option ${selected}>${k.name}</option>`;
-                            }).join('');
-                            document.querySelector(rs).innerHTML = htmls;
-                        });
-                },
-                handleEvent: function () {
-                    const _this = this;
-                    $('#select-provinces').change(function () {
-                        _this.loadDistrict('#select-provinces', '#select-district');
-                    });
-                    $('#city').change(function () {
-                        _this.loadDistrict('#city', '#district');
-                    });
-                },
-                start: function () {
-                    this.getProvinces()
-                    this.handleEvent()
-                }
-            }
-            handleLocation.start();
 
+        // load api location form helper.js
+        handleLocation.start();
+
+        // form validator
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // form creat new company
+            Validator({
+                form: '#fmCreate-Post',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#select-company', 'Vui lòng nhập tên công ty của bạn'),
+                ],
+                onSubmit: function () {
+                    checkCompany();
+                }
+            });
+
+            // form creat new company
+            Validator({
+                form: '#fmCreate-Company',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#company', 'Vui lòng nhập tên công ty của bạn'),
+                    Validator.isRequired('#phone'),
+                    Validator.isPhoneNumber('#phone'),
+                    Validator.isRequired('#email', 'Vui lòng nhập địa chỉ email'),
+                    Validator.isEmail('#email'),
+                    Validator.isRequired('#address',),
+                    Validator.isRequired('#over_view'),
+                ],
+                onSubmit: function () {
+                    submitForm(this.form)
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
             function generateTitle() {
                 let languages = [];
                 $("#select-language :selected").map(function (i, v) {
@@ -362,7 +398,7 @@
 
             function generateSlug(title) {
                 $.ajax({
-                    url: '{{route('api.post.slug.generate')}}',
+                    url: '{{route('api.posts.slug.generate')}}',
                     type: 'POST',
                     dataType: 'json',
                     data: {title},
@@ -376,7 +412,7 @@
             $("input[name='slug']").change(function () {
                 $("#btn-sb-form").attr('disabled', true);
                 $.ajax({
-                    url: '{{route('api.post.slug.check')}}',
+                    url: '{{route('api.posts.slug.check')}}',
                     type: 'get',
                     dataType: 'json',
                     data: {slug: $(this).val()},
@@ -388,6 +424,7 @@
                 })
             })
 
+            // select 2 setup
             $('#select-company').select2({
                 tags: true,
                 ajax: {
@@ -447,44 +484,34 @@
             @foreach($arrLanguage as $languages)
             $('#select-language').append(new Option(`{{$languages}}`, `{{$languages}}`, true, true));
             @endforeach
-            $("#fmCreate-Post").validate({
-                rules: {
-                    company: {
-                        required: true,
-                    }
-                },
-                submitHandler: function () {
-                    checkCompany();
-                }
-            })
 
-            function checkCompany() {
-                $.ajax({
-                    url: '{{route('api.companies.check')}}/' + $('#select-company').val(),
-                    type: 'GET',
-                    dataType: 'JSON',
-                    success: function (response) {
-                        if (response.data) {
-                            submitForm('#fmCreate-Post');
-                        } else {
-                            $('#company').val($('#select-company').val());
-                            $("#city").val($("#select-provinces").val()).trigger('change');
-                            $("#company-modal").modal();
-                        }
-                    }
-                })
-            }
-
+            // allow update if form data change
             $("#fmCreate-Post").change(function () {
                 $('#btn-sb-form').attr('disabled', false)
             });
         });
+        function checkCompany() {
+            $.ajax({
+                url: '{{route('api.companies.check')}}/' + $('#select-company').val(),
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (response) {
+                    if (response.data) {
+                        submitForm('#fmCreate-Post');
+                    } else {
+                        $('#company').val($('#select-company').val());
+                        $("#city").val($("#select-provinces").val()).trigger('change');
+                        $("#company-modal").modal();
+                    }
+                }
+            })
+        }
 
         function submitForm(type) {
             const form = $(type);
             let formData = new FormData(form[0]);
             formData.append('_method', 'PUT');
-            let redirect = $(type +'input[name="redirect"]');
+            let redirect = form.attr('redirect');
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
@@ -499,10 +526,13 @@
                     if (response.success) {
                         $("#company-modal").modal('hide');
                         notifySuccess();
-                        if (redirect){
-                            window.location.href = '{{route('admin.posts.index')}}';
+                        if (redirect) {
+                            @if (isAdmin())
+                                window.location.href = '{{ route('admin.posts.index') }}'
+                            @elseif (isHr())
+                                window.location.href = '{{ route('hr.posts.index') }}'
+                            @endif ()
                         }
-
                     } else {
                         console.log(response)
                         notifyError();

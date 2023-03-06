@@ -37,6 +37,13 @@ class Company extends Model
         return $this->hasMany(post::class);
     }
 
+    protected static function booted()
+    {
+        static::creating(function ($object) {
+            $object->user_id = user()->id;
+        });
+    }
+
     public function getAddressWrapAttribute(): string
     {
         $address = '';
@@ -68,6 +75,7 @@ class Company extends Model
     {
         return $logo ?? 'images/company/default_logo_tmh.jpg';
     }
+
     public function getCoverAttribute($cover): string
     {
         return $cover ?? 'images/company/default_cover.png';

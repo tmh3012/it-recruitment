@@ -1,6 +1,16 @@
 <?php
 
 return array(
+    'desForAccessAcc' => 'Nhập Email và mật khẩu để đăng nhập vào tài khoản của bạn',
+    'register' => 'Đăng ký',
+    'login' => 'Đăng nhập',
+    'emailAddress' => 'Địa chỉ Email',
+    'password' => 'Mật khẩu',
+    'postSavedDuplicate' => 'Bài viết đã tồn tại trong danh sách được lưu.',
+    'errorAuthLogin'=>'Không tìm thấy thông tin người dùng trong hệ thống của chúng tôi.',
+    'errorDestroyPostUser'=>'Bài đăng được cung cấp không khớp với hồ sơ của chúng tôi.',
+    'follow' => 'Theo dõi',
+    'following' => 'Đang theo dõi',
     'pending' => 'Chờ',
     'admin_pending' => 'Chờ xử lý của Admin',
     'admin_approved' => 'Duyệt',
@@ -11,8 +21,6 @@ return array(
     'filterReset' => 'Tạo lại',
     'viLang' => 'Tiếng Việt',
     'enLang' => 'Tiếng Anh',
-    'register' => 'Đăng ký',
-    'login' => 'Đăng nhập',
     'homePage' => 'Trang chủ',
     'jobsPage' => 'Việc làm',
     'companyPage' => 'Công ty',
@@ -41,6 +49,7 @@ return array(
     'dl_submit' => 'Hạn nộp hồ sơ',
     'btnSubmitForm' => 'Ứng tuyển ngay',
     'btnSavePost' => 'Lưu tin',
+    'btnSavedPost' => 'Đã lưu tin',
     'headingPostInfo' => 'Tin tuyển dụng',
     'headingPostInfoDetail' => 'Chi tiết tin tuyển dụng',
     'headingCompanyInfo' => 'Thông tin công ty',
@@ -77,5 +86,4 @@ return array(
     'footerNewsletterButton' => 'Đăng ký',
     'placeholderNewsletter' => 'Email của bạn',
     'quickLinks' => 'Liên kết nhanh',
-
 );

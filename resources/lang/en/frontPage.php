@@ -1,6 +1,16 @@
 <?php
 
 return array(
+    'desForAccessAcc' => 'Enter your email address and password to access account.',
+    'register' => 'register',
+    'login' => 'Login',
+    'emailAddress' => 'Email address',
+    'password' => 'Password',
+    'postSavedDuplicate' => 'The post already exists in the saved list.',
+    'errorAuthLogin' => 'The provided credentials do not match our records.',
+    'errorDestroyPostUser' => 'The provided post do not match our records.',
+    'follow' => 'Follow',
+    'following' => 'Following',
     'pending' => 'Pending',
     'admin_pending' => 'Pending for Admin',
     'admin_approved' => 'Approved',
@@ -11,8 +21,6 @@ return array(
     'filterReset' => 'Reset',
     'viLang' => 'Vietnamese',
     'enLang' => 'English',
-    'register' => 'register',
-    'login' => 'Login',
     'location' => 'Location',
     'keyword' => 'Keyword',
     'search' => 'Search',
@@ -41,6 +49,7 @@ return array(
     'dl_submit' => 'The deadline for submission',
     'btnSubmitForm' => 'Apply now',
     'btnSavePost' => 'Save post',
+    'btnSavedPost' => 'Saved post',
     'headingPostInfo' => 'Recruitment info',
     'headingPostInfoDetail' => 'Job details',
     'headingCompanyInfo' => 'Company info',

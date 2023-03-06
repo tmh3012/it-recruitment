@@ -3,6 +3,7 @@
 use App\Enums\SystemCacheKeyEnum;
 use App\Enums\UserRoleEnum;
 use App\Models\Post;
+use Illuminate\Support\Facades\Route;
 
 
 if (!function_exists('getRoleByKey')) {
@@ -61,5 +62,15 @@ if (!function_exists('getAndCachePostCities')) {
             }
         );
     }
+}
 
+if(!function_exists('checkRouteForRole')) {
+    function checkRouteForRole($routeName): string
+    {
+        if(Route::has($routeName)){
+            return route($routeName);
+        } else {
+            return route('home');
+        }
+    }
 }

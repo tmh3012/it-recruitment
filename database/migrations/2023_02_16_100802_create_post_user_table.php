@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterKeyColumnFromConfigsTable extends Migration
+class CreatePostUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class AlterKeyColumnFromConfigsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('configs', 'key')) {
-            Schema::table('configs', function (Blueprint $table) {
-                $table->string('key')->unique()->change();
-            });
-        }
+        Schema::create('post_user', function (Blueprint $table) {
+            $table->foreignId('post_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->primary(['post_id', 'user_id']);
+        });
     }
 
     /**
@@ -27,6 +27,6 @@ class AlterKeyColumnFromConfigsTable extends Migration
      */
     public function down()
     {
-
+        Schema::dropIfExists('post_user');
     }
 }

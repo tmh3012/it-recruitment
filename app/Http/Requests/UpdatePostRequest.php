@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\PostCurrencySalaryEnum;
+use App\Enums\PostStatusEnum;
 use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,11 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        if (isAdmin() or isHr()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -82,6 +87,11 @@ class UpdatePostRequest extends FormRequest
             'job_benefit' => [
                 'nullable',
                 'string',
+            ],
+            'status' => [
+                'nullable',
+                'numeric',
+                Rule::in(PostStatusEnum::getValues()),
             ],
             'job_title' => [
                 'required',

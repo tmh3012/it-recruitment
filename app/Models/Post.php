@@ -74,10 +74,23 @@ class Post extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function getStatusAttribute($value): string
+
+    public function languages()
     {
-        $key = strtolower(PostStatusEnum::getKey($value));
-        return __('frontPage.' .$key);
+        return $this->morphToMany(
+            Language::class,
+            'object',
+            ObjectLanguage::class,
+            'object_id',
+            'language_id',
+        );
+    }
+
+
+    public function getStatusTypeStringAttribute(): string
+    {
+        $key = strtolower(PostStatusEnum::getKey($this->status));
+        return __('frontPage.' . $key);
     }
 
     public function getEnumCurrencySalaryAttribute(): string
@@ -118,21 +131,22 @@ class Post extends Model
 
     public function getWorkingTimeAttribute(): string
     {
-       return $this->can_parttime === 1 ? __('frontPage.part_time') : __('frontPage.full_time');
+        return $this->can_parttime === 1 ? __('frontPage.part_time') : __('frontPage.full_time');
     }
 
     public function getMinSalaryAttribute($value)
     {
         $key_currency_salary = PostCurrencySalaryEnum::getKey($this->currency_salary);
         $rate = Config::getByKey($key_currency_salary);
-        return $value * $rate;
+
+        return $value * $rate === 0 || null ? null : $value * $rate;
     }
 
     public function getMaxSalaryAttribute($value)
     {
         $key_currency_salary = PostCurrencySalaryEnum::getKey($this->currency_salary);
         $rate = Config::getByKey($key_currency_salary);
-        return $value * $rate;
+        return $value * $rate === 0 || null ? null : $value * $rate;
     }
 
     public function getSalaryAttribute()
@@ -179,16 +193,21 @@ class Post extends Model
         return $location;
     }
 
-    public function languages()
+
+    public function scopePostReceived($query)
     {
-        return $this->morphToMany(
-            Language::class,
-            'object',
-            ObjectLanguage::class,
-            'object_id',
-            'language_id',
-        );
+        return $query->where('end_date', '>=', now());
     }
+
+    public function canApply($slug): bool
+    {
+        $post = Post::query()
+            ->where('slug', '=', $slug)
+            ->postReceived()
+            ->first();
+        return !empty($post) ?? false;
+    }
+
 
     public function scopePostApproved($query)
     {
@@ -203,7 +222,8 @@ class Post extends Model
                     ]);
                 },
             ])
-            ->where('status', PostStatusEnum::ADMIN_APPROVED);
+            ->where('status', PostStatusEnum::ADMIN_APPROVED)
+            ->latest();
     }
 
     public function scopeJobsPage($query, $filters)
@@ -234,6 +254,7 @@ class Post extends Model
                 $q->where('can_parttime', $filters['fr_can_part_time']);
             })
             ->postApproved()
+//            ->postReceived()
             ->orderByDesc('is_pinned')
             ->orderByDesc('id');
     }
@@ -247,6 +268,8 @@ class Post extends Model
                     $q->where('id', '!=', $postId);
                 });
             })
+            ->latest()
+//            ->postReceived()
             ->get();
 
     }

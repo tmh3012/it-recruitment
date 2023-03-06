@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Enums\ObjectLanguageTypeEnum;
 use App\Enums\PostCurrencySalaryEnum;
 use App\Enums\PostRemoteEnum;
+use App\Enums\PostStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\StoreRequest;
@@ -49,9 +50,11 @@ class PostController extends Controller
     {
         $currencies = PostCurrencySalaryEnum::asArray();
         $workPlaces = PostRemoteEnum::getArrayWithoutKeys();
+        $postStatus = PostStatusEnum::asArray();
         return view('posts.create', [
             'currencies' => $currencies,
             'workPlaces' => $workPlaces,
+            'postStatus' => $postStatus,
         ]);
     }
 
@@ -97,31 +100,30 @@ class PostController extends Controller
         }
     }
 
-    public function edit($postId)
-    {
-        $post = Post::query()
-            ->where('id', $postId)
-            ->with([
-                'languages',
-                'company' => function ($q) {
-                    return $q->select([
-                        'id',
-                        'name'
-                    ]);
-                }
-            ])
-            ->first();
-        $arrLanguage = $post->languages->pluck('name')->toArray();
-        $currencies = PostCurrencySalaryEnum::asArray();
-        $workPlaces = PostRemoteEnum::getArrayWithoutKeys();
-        return view('posts.edit', [
-            'post' => $post,
-            'currencies' => $currencies,
-            'workPlaces' => $workPlaces,
-            'arrLanguage' => $arrLanguage,
-        ]);
-    }
-
+//    public function edit($postId)
+//    {
+//        $post = Post::query()
+//            ->where('id', $postId)
+//            ->with([
+//                'languages',
+//                'company' => function ($q) {
+//                    return $q->select([
+//                        'id',
+//                        'name'
+//                    ]);
+//                }
+//            ])
+//            ->first();
+//        $arrLanguage = $post->languages->pluck('name')->toArray();
+//        $currencies = PostCurrencySalaryEnum::asArray();
+//        $workPlaces = PostRemoteEnum::getArrayWithoutKeys();
+//        return view('posts.edit', [
+//            'post' => $post,
+//            'currencies' => $currencies,
+//            'workPlaces' => $workPlaces,
+//            'arrLanguage' => $arrLanguage,
+//        ]);
+//    }
 
     public function update(UpdatePostRequest $request, $postId): JsonResponse
     {

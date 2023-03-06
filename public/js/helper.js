@@ -88,4 +88,8 @@ const handleLocation = {
     }
 }
 
+function handlerEditNameButton(element, text, icon = null) {
+    element.innerHTML = `${text} ${icon ? icon : ''}`;
+}
+
 

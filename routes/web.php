@@ -25,7 +25,7 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/test', [TestController::class, 'test']);
 Route::get('/column', [TestController::class, 'getColumnTables']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/check-login', [AuthController::class, 'handlerLogin'])->name('handlerLogin');
+Route::post('/login-process', [AuthController::class, 'handlerLogin'])->name('handlerLogin');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'registering'])->name('registering');
 Route::get('/',[HomePageController::class, 'index'])->name('home');
@@ -45,6 +45,10 @@ Route::group([
     Route::get('/',[BlogPageController::class,'index'])->name('index');
     Route::get('/{slug}',[BlogPageController::class,'show'])->name('show');
 });
+
+
+
+
 Route::get('/auth/redirect/{provider}', function ($provider) {
     return Socialite::driver($provider)->redirect();
 })->name('auth.redirect');

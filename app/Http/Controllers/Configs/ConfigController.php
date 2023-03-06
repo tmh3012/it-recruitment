@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Configs;
 
+use App\Enums\AppConfigTypeEnum;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ResponseTrait;
 use App\Http\Requests\ConfigRequest;
-use App\Http\Requests\StoreConfigRequest;
 use App\Http\Requests\UpdateConfigRequest;
 use App\Models\Config;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +17,8 @@ class ConfigController extends Controller
 {
     public object $model;
     public string $table;
+    private $append;
+    private $configs;
 
     use ResponseTrait;
 
@@ -27,25 +31,30 @@ class ConfigController extends Controller
         View::share('title', $this->table);
     }
 
-    public function apiIndex(): JsonResponse
+    public function apiIndex(Request $request): JsonResponse
     {
+        $type = $request->get('type');
         $data = $this->model
-            ->where('is_public', '=', 1)
-//            ->orderByDesc('key')
+            ->where('is_public', 1)
+            ->when(isset($type), function ($q) use ($type){
+                $q->where('type',$type);
+            })
             ->get();
         return $this->successResponse($data);
     }
 
     public function index()
     {
-        return view("admin.$this->table.index");
+        $appKeyConfigs = AppConfigTypeEnum::asArray();
+        return view("admin.$this->table.index",[
+            'appKeyConfigs' => $appKeyConfigs,
+        ]);
     }
 
     public function store(ConfigRequest $request): JsonResponse
     {
         $data = $request->validated();
         $data['is_public'] = 1;
-
         DB::beginTransaction();
         try {
             Config::create($data);
@@ -75,46 +84,14 @@ class ConfigController extends Controller
         DB::beginTransaction();
         try {
             $config = $this->model
-                ->where('key', '=',$key);
+                ->where('key', '=', $key);
             $config->update($data);
             DB::commit();
             return $this->successResponse($data);
         } catch (\Throwable $e) {
+            DB::rollback();
             return $this->errorResponse($e->getMessage());
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Config $config
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Config $config)
-    {
-        //
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Config $config
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Config $config)
-    {
-        //
-    }
 }

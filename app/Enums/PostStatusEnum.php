@@ -18,4 +18,15 @@ final class PostStatusEnum extends Enum
         }
         return self::PENDING;
     }
+
+    static function getStatusWithLang(): array
+    {
+        $arr = [];
+        $data = self::asArray();
+        foreach ($data as $key => $value) {
+            $descriptionKey = __('frontPage.' .strtolower($key));
+            $arr[$descriptionKey] = $value;
+        }
+        return $arr;
+    }
 }

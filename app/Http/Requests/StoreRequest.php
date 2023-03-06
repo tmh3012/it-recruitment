@@ -16,7 +16,11 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if (isAdmin() or isHr()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -106,14 +110,14 @@ class StoreRequest extends FormRequest
             'numeric',
         ];
         if (!empty($this->max_salary)) {
-            $rules['min_salary'][]='lt:max_salary';
+            $rules['min_salary'][] = 'lt:max_salary';
         }
         $rules['max_salary'] = [
             'nullable',
             'numeric',
         ];
         if (!empty($this->min_salary)) {
-            $rules['max_salary'][]='gt:min_salary';
+            $rules['max_salary'][] = 'gt:min_salary';
         }
 
         return $rules;

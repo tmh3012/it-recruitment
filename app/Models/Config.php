@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\AppConfigTypeEnum;
 use App\Enums\SystemCacheKeyEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Config extends Model
 {
@@ -12,14 +14,19 @@ class Config extends Model
 
     public $timestamps = false;
 
+    protected $appends = ['configType'];
     protected $fillable = [
         'key',
         'value',
-        'value2',
-        'description',
+        'type',
         'is_public',
+        'description',
     ];
 
+    public function configsWeb(): HasMany
+    {
+        return $this->hasMany(ConfigWeb::class, 'key', 'key')->orderBy('sort', 'asc');
+    }
 
     public static function getAndCache($isPublic): array
     {
@@ -51,5 +58,10 @@ class Config extends Model
                     ->value('value');
             }
         );
+    }
+
+    public function getConfigTypeAttribute(): string
+    {
+        return AppConfigTypeEnum::getKey($this->type);
     }
 }
