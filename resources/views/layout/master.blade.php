@@ -8,12 +8,16 @@
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
     <meta content="Coderthemes" name="author">
     <!-- App favicon -->
-{{--    <link rel="shortcut icon" href="assets/images/favicon.ico">--}}
+    <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
 
     <!-- App css -->
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    @if(isApplicant())
+        <link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css">
+    @else
+        <link href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css">
+    @endif
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
           integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     @stack('css')
