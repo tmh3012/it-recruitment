@@ -1,20 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Applicant;
+namespace App\Http\Controllers;
 
 use App\Enums\PostRemoteEnum;
-use App\Http\Controllers\Controller;
-use App\Models\Company;
 use App\Models\Config;
-use App\Models\Language;
-use App\Models\ObjectLanguage;
 use App\Models\Post;
 use App\Models\User;
-use Doctrine\DBAL\Exception\DatabaseDoesNotExist;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
 
 class HomePageController extends Controller
 {
