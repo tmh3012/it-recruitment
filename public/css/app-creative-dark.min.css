@@ -11088,7 +11088,8 @@ body {
 
 .side-nav .side-nav-link {
     color: #cedce4;
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 10px 30px;
     font-size: .9375rem;
     position: relative;
