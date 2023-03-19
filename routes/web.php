@@ -1,13 +1,11 @@
 <?php
 
-use App\Http\Controllers\Applicant\HomePageController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogPageController;
 use App\Http\Controllers\CKEditorController;
 use App\Http\Controllers\CompanyPageController;
+use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\TestController;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -23,6 +21,7 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 Route::get('/test', [TestController::class, 'test']);
+Route::get('/leetcode', [TestController::class, 'leetCode']);
 Route::get('/column', [TestController::class, 'getColumnTables']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-process', [AuthController::class, 'handlerLogin'])->name('handlerLogin');
