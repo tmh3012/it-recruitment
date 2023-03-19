@@ -5,24 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class Timeline extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'post_id',
-        'user_id',
-        'name',
-        'link',
-        'type',
-        'cover_letter',
-    ];
+    public $table = 'user_timeline';
     public $timestamps = false;
+    protected $fillable = [
+        "user_id",
+        "title",
+        "description",
+        "start_date",
+        "end_date",
+        "type"
+    ];
 
     protected static function booted()
     {
         static::creating(function ($object) {
-            $object->user_id = auth()->user()->id;
+            $object->user_id = user()->id;
         });
     }
 }
