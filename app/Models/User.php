@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -43,6 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function fileCv(): HasOne
+    {
+        return $this->hasOne(File::class,);
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
@@ -50,7 +56,7 @@ class User extends Authenticatable
 
     public function followCompany(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class,'company_user','user_id','company_id')
+        return $this->belongsToMany(Company::class, 'company_user', 'user_id', 'company_id')
             ->withTimestamps();
     }
 
