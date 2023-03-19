@@ -34,6 +34,13 @@ if (!function_exists('isHr')) {
     }
 }
 
+if (!function_exists('isApplicant')) {
+    function isApplicant(): bool
+    {
+        return user() && user()->role === UserRoleEnum::APPLICANT;
+    }
+}
+
 if (!function_exists('getAndCachePostCities')) {
     function getAndCachePostCities(): array
     {
@@ -68,9 +75,9 @@ if(!function_exists('checkRouteForRole')) {
     function checkRouteForRole($routeName): string
     {
         if(Route::has($routeName)){
-            return route($routeName);
+            return ($routeName);
         } else {
-            return route('home');
+            return ('home');
         }
     }
 }

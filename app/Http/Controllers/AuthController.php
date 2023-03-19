@@ -6,6 +6,7 @@ use App\Enums\UserRoleEnum;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Dotenv\Validator;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +20,14 @@ class AuthController extends Controller
 
     public function login()
     {
+        if (auth()->check()) {
+            $role = strtolower(UserRoleEnum::getKey(user()->role));
+            return  redirect()->route(checkRouteForRole("${role}.index"));
+        }
         return view('auth.login');
     }
 
-    public function handlerLogin(Request $request): \Illuminate\Http\JsonResponse
+    public function handlerLogin(Request $request): JsonResponse
     {
         try {
             $credentials = $request->validate([
@@ -34,8 +39,8 @@ class AuthController extends Controller
                 $request->session()->regenerate();
                 $getRole = (auth()->user()->role);
                 $role = strtolower(UserRoleEnum::getKey($getRole));
-                $urlReddit = $request->get('urlReddit') ?? checkRouteForRole("${role}.index");
-                return $this->successResponse( $urlReddit);
+                $urlReddit = $request->get('urlReddit') ?? route(checkRouteForRole("${role}.index"));
+                return $this->successResponse($urlReddit);
             } else {
                 $errorMessage = __('frontPage.errorAuthLogin');
                 return $this->errorResponse($errorMessage);
@@ -65,13 +70,18 @@ class AuthController extends Controller
         auth()->login($user, true);
         if ($checkExist) {
             $role = strtolower(UserRoleEnum::getKey($user->role));
-            return redirect(checkRouteForRole("${role}.index"));
+            return redirect()->route(checkRouteForRole("${role}.index"));
         }
         return redirect()->route('register');
     }
 
     public function register()
     {
+        if (auth()->check()) {
+            $role = strtolower(UserRoleEnum::getKey(user()->role));
+            return redirect()->route(checkRouteForRole("${role}.index"));
+        }
+
         $roles = UserRoleEnum::getRolesForRegister();
         return view('auth.register', [
             'roles' => $roles,
