@@ -48,7 +48,7 @@ function Validator(options) {
 
             let isFormValid = true;
             options.rules.forEach((rule) => {
-                let inputElements = document.querySelectorAll(rule.selector);
+                let inputElements = formElement.querySelectorAll(rule.selector);
                 let isValid;
                 Array.from(inputElements).forEach((inputElement)=>{
                     isValid = validate(inputElement, rule);
