@@ -37,6 +37,7 @@ return array(
     'filter' => 'Filter',
     'homePage' => 'Home',
     'jobsPage' => 'Find jobs',
+    'profilePage' => 'Profile & CV',
     'companyPage' => 'Company',
     'logout' => 'logout',
     'minOffer' => 'Min offer',

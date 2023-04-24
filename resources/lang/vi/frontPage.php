@@ -28,6 +28,7 @@ return array(
     'enLang' => 'Tiếng Anh',
     'homePage' => 'Trang chủ',
     'jobsPage' => 'Việc làm',
+    'profilePage' => 'Hồ sơ & CV',
     'companyPage' => 'Công ty',
     'logout' => 'Đăng xuất',
     'location' => 'Địa điểm',
