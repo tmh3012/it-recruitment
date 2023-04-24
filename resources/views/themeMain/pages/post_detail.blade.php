@@ -272,7 +272,7 @@
 
 
         function handlerSavedPost(data) {
-            let url = '{{ route('api.postUser.store') }}' + '/' + data.post_id;
+            let url = '{{ route('api.user.postUser.store') }}' + '/' + data.post_id;
             let options = {
                 method: 'POST',
                 headers: {
@@ -304,7 +304,7 @@
         function handlerUnSavedPost(data) {
             console.log('delete item ' + data.post_id);
 
-            let url = '{{ route('api.postUser.destroy') }}' + '/' + data.post_id;
+            let url = '{{ route('api.user.postUser.destroy') }}' + '/' + data.post_id;
             let options = {
                 method: 'DELETE',
                 headers: {
