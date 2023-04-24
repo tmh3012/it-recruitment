@@ -143,7 +143,7 @@
 
 
         function handlerFollowCompany(data) {
-            let url = '{{ route('api.companyFollow.follow') }}' + '/' + data.company_id;
+            let url = '{{ route('api.user.companyFollow.follow') }}' + '/' + data.company_id;
             let options = {
                 method: 'POST',
                 headers: {
@@ -172,7 +172,7 @@
                 });
         }
         function handlerDestroyCompany(data) {
-            let url = '{{ route('api.companyFollow.unFollow') }}' + '/' + data.company_id;
+            let url = '{{ route('api.user.companyFollow.unFollow') }}' + '/' + data.company_id;
             let options = {
                 method: 'DELETE',
                 headers: {
@@ -181,13 +181,10 @@
                 body: JSON.stringify(data)
             };
             fetch(url, options)
-                .then((response) => {
-                    return response.json()
-                })
+                .then((response) => response.json())
                 .then((response) => {
                     notifySuccess('Successfully');
                 })
-
         }
 
         $(document).ready(function () {

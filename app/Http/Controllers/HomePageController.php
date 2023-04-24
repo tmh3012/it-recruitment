@@ -110,5 +110,35 @@ class HomePageController extends Controller
             'textWorkPlace' => $textWorkPlace,
         ]);
     }
+
+
+    public function profile()
+    {
+        $title = 'E Profile';
+        return view('themeMain.pages.profile', [
+            'title' => $title,
+        ]);
+    }
+
+    public function showProfile($userId)
+    {
+        $data = User::query()
+            ->where('id', $userId)
+            ->firstOrFail();
+        $socials = $data->socials;
+        $skills = $data->skills->pluck('name');
+        $education = $data->education;
+        $experience = $data->experience;
+        $title = "$data->name | E Profile";
+        return view('themeMain.pages.e-profile', [
+            'data' => $data,
+            'title' => $title,
+            'skills' => $skills,
+            'socials' => $socials,
+            'education' => $education,
+            'experience' => $experience,
+        ]);
+    }
+
 }
 

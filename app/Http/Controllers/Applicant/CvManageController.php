@@ -6,11 +6,11 @@ use App\Enums\FileTypeEnum;
 use App\Enums\TimelineTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseTrait;
-use App\Http\Requests\StoreTimeLineRequest;
-use App\Http\Requests\UpdateCvRequest;
+use App\Http\Requests\applicant\StoreExperienceRequest;
+use App\Http\Requests\applicant\UpdateCvRequest;
+use App\Models\Company;
+use App\Models\Experience;
 use App\Models\File;
-use App\Models\Timeline;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,13 +23,16 @@ class CvManageController extends Controller
 
     public function index()
     {
+        $title = 'My CV';
         $userInfo = user();
         $file = $userInfo->fileCv;
-        $title = 'My CV';
+        $timelineEdu = $userInfo->education;
         $timeLineType = TimelineTypeEnum::asArray();
         return view('applicant.cvManage', [
-            'title' => $title,
             'file' => $file,
+            'title' => $title,
+            'userInfo' => $userInfo,
+            'timelineEdu' => $timelineEdu,
             'timeLineType' => $timeLineType,
         ]);
     }
@@ -79,12 +82,10 @@ class CvManageController extends Controller
                 DB::commit();
                 return $this->successResponse($data);
             }
-
         } catch (Throwable $e) {
             DB::rollback();
             return $this->errorResponse($e->getMessage());
         }
-
     }
 
     public function destroyFileCv($fileId): JsonResponse
@@ -99,22 +100,30 @@ class CvManageController extends Controller
             $file->destroy();
             DB::commit();
             return $this->successResponse();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             DB::rollback();
             return $this->errorResponse($e->getMessage());
         }
+    }
+
+    public function getExperience(Request $request)
+    {
 
     }
 
-    public function storeEducationTimeline(StoreTimeLineRequest $request): JsonResponse
+    public function storeExperience(StoreExperienceRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $validate = $request->Validated();
-            $data = Timeline::create($validate)->first();
+            $rsData = $request->validated();
+            $companyName = $rsData['title'];
+            if (!empty($companyName)) {
+                $rsData['company_id'] = Company::firstOrCreate(['name'=>$companyName])->id;
+            }
+            $data = Experience::create($rsData)->first();
             DB::commit();
             return $this->successResponse($data);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             DB::rollback();
             return $this->errorResponse($e->getMessage());
         }

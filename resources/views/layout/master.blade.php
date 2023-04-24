@@ -12,12 +12,13 @@
 
     <!-- App css -->
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
     @if(isApplicant())
         <link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css">
     @else
         <link href="{{ asset('css/app-creative-dark.min.css') }}" rel="stylesheet" type="text/css">
     @endif
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
           integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     @stack('css')
@@ -55,7 +56,7 @@
                 @yield('content')
             </div>
             <!-- container -->
-
+            @yield('modal')
         </div>
         <!-- content -->
 
@@ -81,15 +82,21 @@
 <script src="{{asset('js/validator.js')}}"></script>
 <script>
     window.editors = {};
+    let formShortInfo = document.querySelector('form#short-info');
     document.querySelectorAll('.ckeditor').forEach((el, index) => {
+        let editor;
         ClassicEditor
             .create(el, {
-                ckfinder:{
+                ckfinder: {
                     uploadUrl: "{{route('ckeditor.upload').'?_token='.csrf_token()}}"
                 },
             })
             .then(newEditor => {
-                window.editors[index] = newEditor
+                editor = window.editors[index];
+                editor = newEditor;
+                editor.model.document.on('change:data', () => {
+                    if (formShortInfo) formShortInfo.querySelector('.btn.btn-update').disabled = false;
+                })
             })
             .catch(error => {
                 console.error(error);

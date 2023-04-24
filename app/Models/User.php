@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\TimelineTypeEnum;
 use App\Enums\UserRoleEnum;
+use App\Enums\UserTypeEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role',
+        'name', 'email', 'password', 'role', 'type',
     ];
 
     /**
@@ -43,6 +46,41 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function education(): HasMany
+    {
+        return $this->hasMany(Timeline::class)
+            ->where('type', TimelineTypeEnum::EDUCATION)
+            ->orderByDesc('start_date');
+    }
+
+    public function experience(): HasMany
+    {
+        return $this->hasMany(Timeline::class)
+            ->where('type', TimelineTypeEnum::EXPERIENCE)
+            ->orderByDesc('start_date');
+    }
+
+    public function socials(): HasMany
+    {
+        return $this->hasMany(Social::class)
+            ->select([
+                'user_id',
+                'key',
+                'value',
+            ]);
+    }
+
+    public function skills()
+    {
+        return $this->morphToMany(
+            Language::class,
+            'object',
+            ObjectLanguage::class,
+            'object_id',
+            'language_id',
+        );
+    }
 
     public function fileCv(): HasOne
     {
@@ -68,6 +106,26 @@ class User extends Authenticatable
     public function getRoleNameAttribute()
     {
         return UserRoleEnum::getKeys($this->role)[0];
+    }
+
+    public function getAvatarAttribute($value): string
+    {
+        return $this->type === UserTypeEnum::OAUTH_USER ? $value : asset('storage/' . $value);
+    }
+
+    public function getCoverAttribute($value)
+    {
+        return $this->type === UserTypeEnum::OAUTH_USER ? $value : asset('storage/' . $value);
+    }
+
+    public function getEmailContactAttribute()
+    {
+        $emailFromSocial = $this->socials()
+            ->where('key', 'google')
+            ->firstOrFail()
+            ->toArray();
+        $emailFromSocial = $emailFromSocial['value'];
+        return $emailFromSocial ?? $this->email;
     }
 
     public static function checkPostSaved($postId): bool

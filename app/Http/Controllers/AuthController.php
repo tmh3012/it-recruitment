@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRoleEnum;
+use App\Enums\UserTypeEnum;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Dotenv\Validator;
@@ -67,6 +68,7 @@ class AuthController extends Controller
 
         $user->name = $data->getName();
         $user->avatar = $data->getAvatar();
+        $user->type = UserTypeEnum::OAUTH_USER;
         auth()->login($user, true);
         if ($checkExist) {
             $role = strtolower(UserRoleEnum::getKey($user->role));
@@ -95,6 +97,10 @@ class AuthController extends Controller
                 'role' => [
                     'required',
                     Rule::in(UserRoleEnum::getRolesForRegister())
+                ],
+                'type' => [
+                    'required',
+                    Rule::in(UserTypeEnum::getKeys()),
                 ],
                 'password' => [
                     'required',

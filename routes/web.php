@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogPageController;
 use App\Http\Controllers\CKEditorController;
@@ -30,6 +31,8 @@ Route::post('/register', [AuthController::class, 'registering'])->name('register
 Route::get('/',[HomePageController::class, 'index'])->name('home');
 Route::get('/jobs',[HomePageController::class, 'jobs'])->name('jobs-page');
 Route::get('/jobs/{slug}',[HomePageController::class, 'show'])->name('jobs-show');
+Route::get('/profile',[HomePageController::class, 'profile'])->name('profile-page');
+Route::get('/profile/{userId}',[HomePageController::class, 'showProfile'])->name('profile-show');
 Route::group([
     'as'=> 'company.',
     'prefix'=> 'company',

@@ -2,14 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\ResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateCvRequest extends FormRequest
+class UserUpdateFileImageRequset extends FormRequest
 {
-    use ResponseTrait;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,15 +26,16 @@ class UpdateCvRequest extends FormRequest
     public function rules()
     {
         return [
-            'cv'=>[
-                'required',
-                'file',
-                'mimes:jpeg,jpg,pdf,doc,docx',
-                'max:5024',
+            'cover' => [
+                'image',
+                'max:3072'
+            ],
+            'avatar' => [
+                'image',
+                'max:3072'
             ],
         ];
     }
-
     public function failedValidation(Validator $validator)
     {
         $errors = $validator->errors();

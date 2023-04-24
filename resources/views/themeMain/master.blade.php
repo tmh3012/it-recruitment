@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
+    <title>{{ isset($title) ? $title .' - '. config('app.name', 'Laravel') : config('app.name', 'Laravel')}}</title>
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css">
@@ -17,6 +17,7 @@
           integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="{{ asset('themeMain/style.css') }}" rel="stylesheet" type="text/css">
+    @stack('css')
 </head>
 <body>
 <div id="page">

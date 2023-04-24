@@ -16,6 +16,9 @@ Route::group([
     'prefix' => 'profile',
 ], function () {
     Route::get('/', [ProfileController::class, 'index'])->name('index');
+//    Route::put('/update', [ProfileController::class, 'updateFileImage'])->name('update');
+    Route::get('/{userId}/get/skills', [ProfileController::class, 'getSkills'])->name('get-skills');
+    Route::post('/update/skills', [ProfileController::class, 'updateSkills'])->name('update-skills');
 });
 
 Route::group([
@@ -25,5 +28,12 @@ Route::group([
     Route::get('/', [CvManageController::class, 'index'])->name('index');
     Route::post('/update-cv', [CvManageController::class, 'updateFileCv'])->name('updateFileCv');
     Route::delete('/delete-cv/{fileId?}', [CvManageController::class, 'destroyFileCv'])->name('destroyFileCv');
-    Route::post('/timeline/education/store', [CvManageController::class, 'storeEducationTimeline'])->name('timeline-store');
+});
+
+Route::group([
+    'as'=> 'experience.',
+    'prefix'=> 'experience',
+], function() {
+    Route::get('/{key?}', [CvManageController::class, 'getExperience'])->name('index');
+    Route::post('/store', [CvManageController::class, 'storeExperience'])->name('store');
 });
