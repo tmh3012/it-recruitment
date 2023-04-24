@@ -5,7 +5,9 @@
 .navbar-custom{
     max-height: 70px;
 } */
-
+:root {
+    --dropzone-color: #5256ad;
+}
 .auth-error.invalid {
     color: red !important;
 }
@@ -26,3 +28,104 @@ img.img-preview {
     object-fit: contain;
     margin-top: 10px;
 }
+
+/*------drag and drop file input --------*/
+
+
+.dropzone .dd-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--dropzone-color);
+    padding: 20px;
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    transition: all 0.1s linear;
+}
+
+.dropzone .dd-area.dd-active {
+    background-color: #F2F8FF;
+    border-color: var(--dropzone-color);
+}
+
+.dropzone .dd-area .dz-mesage {
+    transition: all 0.1s linear;
+}
+
+.dropzone .btn.btn-browser-file{
+    border-color: var(--dropzone-color) !important;
+    background: var(--dropzone-color) !important;
+}
+
+.dropzone .dd-area .icon {
+    font-size: 50px;
+}
+
+.form-group.invalid .dd-area {
+    border-color: #f33a58 !important;
+}
+
+.dd-preview .file .item {
+    display: flex;
+    align-items: flex-start;
+}
+
+.dd-preview .file.image .item {
+    flex-direction: column;
+    align-items: center;
+    /*width: 300px;*/
+    margin: 0 auto;
+}
+
+.image-preview.avatar {
+    padding: 20px;
+    height: 300px;
+    width: 300px;
+    /* display: flex; */
+}
+.image-preview.cover {
+    width: 100%;
+    height: 100%;
+}
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.image-preview.avatar img {
+    border-radius: 100%;
+}
+/*------End drag and drop file input --------*/
+
+/*------ Social Network --------*/
+.social-list-item.item-facebook {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.social-list-item.item-instagram {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+.social-list-item.item-google {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+.social-list-item.item-github {
+    border-color: var(--secondary);
+    color: var(--secondary);
+}
+.social-list-item.item-gitlab {
+    border-color: var(--warning);
+    color: var(--warning);
+}
+.social-list-item.item-linkedin {
+    border-color: var(--info);
+    color: var(--info);
+}
+.social-list-item.item-twitter {
+    border-color: var(--info);
+    color: var(--info);
+}
+/*------ End Social Network --------*/
