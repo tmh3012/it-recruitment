@@ -15,7 +15,7 @@ function Validator(options) {
         // get rule of input element with selector
 
             let rules = selectorRules[rule.selector];
-            let parentElement = getParentElement(inputElement, options.formGroupSelector);
+        let parentElement = getParentElement(inputElement, options.formGroupSelector);
             let errorElement = parentElement.querySelector(options.errorSelector);
             let errorMessage;
 

@@ -34,7 +34,11 @@ function notifyError(message = '') {
     });
 }
 
-const locationApi = location.protocol + "//" + location.host+'/location/index.json';
+async function submitForm(url, options = null) {
+    return (await fetch(url, options)).json();
+}
+
+const locationApi = location.protocol + "//" + location.host + '/location/index.json';
 const handleLocation = {
     getProvinces: function () {
         const _this = this;
@@ -59,7 +63,7 @@ const handleLocation = {
     loadDistrict: function (el, rs) {
         let x = $(el).find(':selected');
         let path = x.attr('data-path');
-        let districtApi = location.protocol + "//" + location.host+'/location/' + path;
+        let districtApi = location.protocol + "//" + location.host + '/location/' + path;
         fetch(districtApi)
             .then(function (response) {
                 return response.json();
@@ -92,4 +96,56 @@ function handlerEditNameButton(element, text, icon = null) {
     element.innerHTML = `${text} ${icon ? icon : ''}`;
 }
 
+function renderError(errors, formSelector, formGroupSelector = '.form-group', errorSelector = '.form-message') {
+    if (errors !== null && typeof errors === 'object') {
+        notifyError();
+        Object.keys(errors).forEach(key => {
+            const formElement = document.querySelector(formSelector);
+            let errorMessage = errors[key];
+            let errorElement = formElement.querySelector(`[name="${key}"] ~ ${errorSelector}`);
+            getParentElement(errorElement, formGroupSelector).classList.add('invalid');
+            errorElement.innerHTML = errorMessage;
+        });
+    } else {
+        console.error(errors)
+        notifyError(`System error <br/> Please contact the administrator!`);
+    }
+}
 
+function getParentElement(element, selector) {
+    while (element.parentElement) {
+        if (element.parentElement.matches(selector)) {
+            return element.parentElement;
+        }
+        element = element.parentElement;
+    }
+}
+
+
+function loadListCompanyForSelect2(companyListUri, selectorId) {
+    $(selectorId).select2({
+        tags: true,
+        ajax: {
+            url:companyListUri,
+            data: function (params) {
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data.data, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.name
+                        }
+                    })
+                };
+            }
+        }
+    });
+}
+
+ async function checkCompanyExist(uriCheck) {
+   return await submitForm(uriCheck);
+}
