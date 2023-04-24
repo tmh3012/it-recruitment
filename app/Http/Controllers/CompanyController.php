@@ -75,7 +75,7 @@ class CompanyController extends Controller
         $check = $this->model
             ->where('name', $companyName)
             ->exists();
-        return $this->successResponse($check);
+        return response()->json($check);
     }
 
 

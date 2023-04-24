@@ -496,7 +496,7 @@
                 type: 'GET',
                 dataType: 'JSON',
                 success: function (response) {
-                    if (response.data) {
+                    if (response) {
                         submitForm('#fmCreate-Post');
                     } else {
                         $('#company').val($('#select-company').val());

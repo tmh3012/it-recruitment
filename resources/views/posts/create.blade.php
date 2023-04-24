@@ -1,7 +1,7 @@
 @extends('layout.master')
-@push('css')
-    <link href="{{ asset('css/summernote-bs4.css') }}" rel="stylesheet" type="text/css"/>
-@endpush
+{{--@push('css')--}}
+{{--    <link href="{{ asset('css/summernote-bs4.css') }}" rel="stylesheet" type="text/css"/>--}}
+{{--@endpush--}}
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -378,7 +378,6 @@
                     }
                 })
             })
-
             $('#select-company').select2({
                 tags: true,
                 ajax: {
@@ -400,6 +399,7 @@
                     }
                 }
             });
+
             $('#select-language').select2({
                 tags: true,
                 ajax: {
@@ -431,7 +431,7 @@
                 type: 'GET',
                 dataType: 'JSON',
                 success: function (response) {
-                    if (response.data) {
+                    if (response) {
                         submitForm('#fmCreate-Post');
                     } else {
                         $('#company').val($('#select-company').val());
