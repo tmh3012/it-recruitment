@@ -378,51 +378,8 @@
                     }
                 })
             })
-            $('#select-company').select2({
-                tags: true,
-                ajax: {
-                    url: '{{ route('api.companies') }}',
-                    data: function (params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: $.map(data.data, function (item) {
-                                return {
-                                    text: item.name,
-                                    id: item.name
-                                }
-                            })
-                        };
-                    }
-                }
-            });
-
-            $('#select-language').select2({
-                tags: true,
-                ajax: {
-                    url: '{{ route('api.languages') }}',
-                    data: function (params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: $.map(data.data, function (item) {
-                                return {
-                                    text: item.name,
-                                    id: item.name
-                                }
-                            })
-                        };
-                    }
-                }
-            });
-
-
+            loadDataForSelect2('{{ route('api.companies') }}','#select-company');
+            loadDataForSelect2('{{ route('api.languages') }}','#select-language');
         });
 
         function checkCompany() {
