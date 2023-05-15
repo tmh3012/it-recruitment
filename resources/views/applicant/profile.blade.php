@@ -578,27 +578,7 @@
 
         $(document).ready(function () {
             //load skill
-            $('#select-skills').select2({
-                tags: true,
-                ajax: {
-                    url: '{{ route('api.languages') }}',
-                    data: function (params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: $.map(data.data, function (item) {
-                                return {
-                                    text: item.name,
-                                    id: item.name
-                                }
-                            })
-                        };
-                    }
-                }
-            });
+            loadDataForSelect2('{{ route('api.languages') }}', '#select-skills');
             $("#select-skills").on('change', function () {
                 const form = getParentElement($(this)[0], '#applicant-skill')
                 form.querySelector('button.btn').disabled = false;
