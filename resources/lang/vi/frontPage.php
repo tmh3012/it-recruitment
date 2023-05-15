@@ -105,4 +105,7 @@ return array(
     'placeholderNewsletter' => 'Email của bạn',
     'quickLinks' => 'Liên kết nhanh',
     'bioEmpty'=> 'Mô tả bản thân ...',
+    'h_school'=> 'High School',
+    'education'=> 'Education',
+    'course'=> 'Course',
 );

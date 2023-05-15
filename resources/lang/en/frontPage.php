@@ -106,4 +106,7 @@ return array(
     'placeholderNewsletter' => 'Enter your email here',
     'quickLinks' => 'Quick links',
     'bioEmpty'=> 'Describe yourself ...',
+    'h_school'=> 'High School',
+    'education'=> 'Education',
+    'course'=> 'Course',
 );
