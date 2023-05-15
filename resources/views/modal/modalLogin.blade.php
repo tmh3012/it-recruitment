@@ -50,8 +50,8 @@
     </div>
 </div>
 @push('js')
-    <script>
-
+    <script type="module">
+        import Validator from "{{asset('js/validation.js')}}";
         document.addEventListener('DOMContentLoaded', function () {
             // config js
             Validator({

@@ -78,7 +78,8 @@
     </div>
 </div>
 @push('js')
-    <script>
+    <script type="module">
+        import Validator from "{{asset('js/validation.js')}}";
 
         document.addEventListener('DOMContentLoaded', function () {
             // config js
@@ -127,24 +128,6 @@
                     notifyError(`${data.message} <br/> Try again !`);
                 }
             });
-        }
-
-        function renderError(errors, formSelector, formGroupSelector = '.form-group', errorSelector = '.form-message') {
-            Object.keys(errors).forEach(key => {
-                const formElement = document.querySelector(formSelector);
-                let errorMessage = errors[key];
-                let errorElement = formElement.querySelector(`[name="${key}"] ~ ${errorSelector}`);
-                getParentElement(errorElement, formGroupSelector).classList.add('invalid');
-                errorElement.innerHTML = errorMessage;
-            })
-        }
-        function getParentElement(element, selector) {
-            while (element.parentElement) {
-                if (element.parentElement.matches(selector)) {
-                    return element.parentElement;
-                }
-                element = element.parentElement;
-            }
         }
     </script>
 @endpush

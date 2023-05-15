@@ -65,7 +65,12 @@
         <!-- end Footer -->
 
     </div>
-
+    <!-- loading spinner -->
+    <div class="spinner" id="spinner">
+        {{--        <div class="spinner__overlay"></div>--}}
+        <div class="spinner-border text-success" role="status"></div>
+    </div>
+    <!-- end loading spinner -->
     <!-- ============================================================== -->
     <!-- End Page content -->
     <!-- ============================================================== -->
@@ -79,7 +84,7 @@
 <script src="{{ asset('js/helper.js') }}"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script>
-<script src="{{asset('js/validator.js')}}"></script>
+{{--<script src="{{asset('js/validator.js')}}"></script>--}}
 <script>
     window.editors = {};
     let formShortInfo = document.querySelector('form#short-info');

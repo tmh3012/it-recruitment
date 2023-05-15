@@ -161,7 +161,8 @@
 <script src="{{ asset('js/vendor.min.js') }}"></script>
 <script src="{{ asset('js/app.min.js') }}"></script>
 <script src="{{asset('js/validator.js')}}"></script>
-<script>
+<script type="module">
+    import Validator from "{{asset('js/validator.js')}}";
     document.addEventListener('DOMContentLoaded', function () {
         // config js
         Validator({
