@@ -8,8 +8,50 @@
 :root {
     --dropzone-color: #5256ad;
 }
+.spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99999;
+    display: none;
+}
+.spinner.loading {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+.spinner__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.spinner .spinner-border {
+    display: none;
+}
+
+.spinner.loading  .spinner-border {
+    display: inline-block;
+}
+
 .auth-error.invalid {
     color: red !important;
+}
+
+.form-handler .btn.btn-cancel,
+.form-handler .btn.btn-update {
+    display: inline-block
+}
+
+.form-handler:not(.is-store) .btn.btn-store,
+.form-handler.is-store .btn.btn-del,
+.form-handler.is-store .btn.btn-cancel,
+.form-handler.is-store .btn.btn-update {
+    display: none
 }
 
     /* add new css  */
@@ -129,3 +171,88 @@ img.img-preview {
     color: var(--info);
 }
 /*------ End Social Network --------*/
+
+/*box-timeline*/
+.box-timeline .timeline-items {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    position: relative;
+}
+
+.box-timeline .timeline-items .timeline-year {
+    padding-right: 10px;
+}
+
+.timeline-items .timeline-year > span {
+    min-width: 160px;
+    color: var(--dark);
+    text-align: center;
+    display: inline-block;
+}
+.timeline-items .timeline-separation .timeline-icon {
+    float: left;
+    position: relative;
+    left: -9px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.timeline-separation::before {
+    content: "";
+    position: absolute;
+    top: 31px;
+    bottom: 0;
+    width: 2px;
+    background-color: #E0E6F7;
+}
+
+.timeline-items:nth-of-type(3n+3) .timeline-icon {
+    color: var(--primary);
+    background-color: rgba(54, 136, 252, 0.25) !important
+}
+
+.timeline-items:nth-of-type(3n+2) .timeline-icon {
+    color: var(--info);
+    background-color: rgba(68, 186, 220, 0.25) !important
+}
+
+.timeline-items:nth-of-type(3n+1) .timeline-icon {
+    color: var(--success);
+    background-color:rgba(66, 210, 157, 0.25) !important
+
+}
+.img-box {
+    padding: 3px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: var(--white);
+}
+.img-box > img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.timeline-items .timeline-content {
+    padding-left: 10px;
+}
+
+.timeline-items .timeline-action {
+    display: flex;
+}
+
+.timeline-items .timeline-action > .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+/*    end box timeline*/
