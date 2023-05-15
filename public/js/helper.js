@@ -97,13 +97,15 @@ function handlerEditNameButton(element, text, icon = null) {
 }
 
 function renderError(errors, formSelector, formGroupSelector = '.form-group', errorSelector = '.form-message') {
-    if (errors !== null && typeof errors === 'object') {
+    if (errors !== Rnull && typeof errors === 'object') {
         notifyError();
         Object.keys(errors).forEach(key => {
             const formElement = document.querySelector(formSelector);
+            const item = formElement.querySelector(`[name="${key}"]`);
+            const parentElement = getParentElement(item, formGroupSelector);
             let errorMessage = errors[key];
-            let errorElement = formElement.querySelector(`[name="${key}"] ~ ${errorSelector}`);
-            getParentElement(errorElement, formGroupSelector).classList.add('invalid');
+            let errorElement = parentElement.querySelector(`${errorSelector}`);
+            parentElement.classList.add('invalid');
             errorElement.innerHTML = errorMessage;
         });
     } else {
@@ -121,8 +123,7 @@ function getParentElement(element, selector) {
     }
 }
 
-
-function loadListCompanyForSelect2(companyListUri, selectorId) {
+function loadDataForSelect2(companyListUri, selectorId) {
     $(selectorId).select2({
         tags: true,
         ajax: {

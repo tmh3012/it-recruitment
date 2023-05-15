@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\Applicant\CvManageController;
+use App\Http\Controllers\Applicant\EducationController;
 use App\Http\Controllers\Applicant\ProfileController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CompanyController;
@@ -43,6 +44,7 @@ Route::group([
     Route::get('/slug/check', [PostController::class, 'checkSlug'])->name('slug.check');
 });
 
+Route::get('/companies/create', [CompanyController::class, 'create'])->name('companies.create');
 Route::get('/companies', [CompanyController::class, 'index'])->name('companies');
 Route::get('/company/id={company_id}', [CompanyController::class, 'show'])->name('company_id');
 Route::get('/companies/check/{companyName?}', [CompanyController::class, 'check'])->name('companies.check');
@@ -57,6 +59,13 @@ Route::get('/config/text/{key?}', [ConfigController::class, 'edit'])->name('conf
 Route::put('/config/text', [ConfigController::class, 'update'])->name('config.text.update');
 //Route::post('/config/text/updateorcreate', [ConfigController::class, 'updateOrCreate'])->name('config.text.updateOrCreate');
 
+// education api
+Route::group([
+    'as'=>'education.',
+    'prefix'=>'education',
+], function (){
+    Route::get('/key-type', [EducationController::class, 'getKey'])->name('get-key');
+});
 
 Route::group([
     'as' => 'user.',
@@ -72,6 +81,13 @@ Route::group([
             Route::get('/{key?}', [UserSocialController::class, 'getSocialNetwork'])->name('get');
             Route::match(['post', 'put'], '/update', [UserSocialController::class, 'handlerSocialNetwork'])->name('update-or-create');
             Route::delete('/delete/{key?}', [UserSocialController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group([
+            'as' => 'education.',
+            'prefix' => 'education',
+        ], function () {
+            Route::get('/', [EducationController::class, 'index'])->name('index');
         });
     });
 

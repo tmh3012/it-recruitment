@@ -17,6 +17,7 @@ class CreateExperienceTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('company_id')->nullable()->constrained();
+            $table->string('title', 255);
             $table->string('position', 255);
             $table->text('description');
             $table->date('start_date');

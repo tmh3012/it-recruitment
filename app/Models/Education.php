@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\EducationTypeEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Experience extends Model
+class Education extends Model
 {
     use HasFactory;
-
     public $timestamps = false;
     protected $dates = [
         "start_date",
@@ -20,12 +18,12 @@ class Experience extends Model
     protected $dateFormat = "Y-m-d(1)";
     protected $fillable = [
         "user_id",
-        "company_id",
         "title",
-        "position",
+        "major",
         "description",
         "start_date",
-        "end_date"
+        "end_date",
+        "type"
     ];
 
     protected static function booted()
@@ -34,23 +32,6 @@ class Experience extends Model
             $object->user_id = user()->id;
         });
     }
-
-    // Relationship
-
-    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Company::class)
-            ->select([
-                'id',
-                'name',
-                'logo',
-                'city',
-                'address',
-            ]);
-    }
-
-    // Accessor
-    // get{Attribute}Attribute
 
     public function getStartDateAttribute($value): string
     {
@@ -61,5 +42,8 @@ class Experience extends Model
     {
         return Carbon::parse($value)->format('M Y');
     }
-
+//    public function getTypeAttribute($value): string
+//    {
+//        return strtolower(EducationTypeEnum::getKey($value));
+//    }
 }

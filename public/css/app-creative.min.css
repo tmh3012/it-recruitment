@@ -13151,6 +13151,10 @@ body.auth-fluid-pages[data-leftbar-compact-mode="condensed"] {
 .form-group.invalid .form-control {
     border-color: #f33a58 !important;
 }
+.form-group.invalid .select2-container{
+    border-radius: 3px;
+    border: 0.5px solid red !important;
+}
 
 .auth-error.invalid,
 .form-group.invalid .form-message {

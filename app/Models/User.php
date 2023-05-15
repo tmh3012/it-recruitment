@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,16 +50,19 @@ class User extends Authenticatable
 
     public function education(): HasMany
     {
-        return $this->hasMany(Timeline::class)
-            ->where('type', TimelineTypeEnum::EDUCATION)
-            ->orderByDesc('start_date');
+        return $this->hasMany(Education::class)
+            ->orderByDesc('end_date');
     }
 
-    public function experience(): HasMany
+    public function experiences(): HasMany
     {
-        return $this->hasMany(Timeline::class)
-            ->where('type', TimelineTypeEnum::EXPERIENCE)
+        $data = $this->hasMany(Experience::class)
+            ->with('company')
             ->orderByDesc('start_date');
+        foreach ($data as $each) {
+            $each->company->append('location');
+        }
+        return $data;
     }
 
     public function socials(): HasMany
@@ -71,7 +75,7 @@ class User extends Authenticatable
             ]);
     }
 
-    public function skills()
+    public function skills(): MorphToMany
     {
         return $this->morphToMany(
             Language::class,

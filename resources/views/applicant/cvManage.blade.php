@@ -45,105 +45,13 @@
                         </div>
                     </form>
                 </div>
-                <div class="bg-white rounded p-3 mb-3" id="education-block">
-                    <h3 class="mb-3"><i class="mdi mdi-school-outline mdi-24px text-primary mr-2"></i> Education</h3>
-                    <div class="box-wrap w-75">
-                        <div class="box-handler mb-5">
-                            <form id="form-create-edu">
-                                <div class="form-group">
-                                    <label for="edu--type">Type (*)</label>
-                                    <select name="type" id="edu--type" class="form-control">
-                                        <option value="">Select Value</option>
-                                        <option value="0">Course</option>
-                                        <option value="1">Cấp 3</option>
-                                        <option value="2">Đại học</option>
-                                    </select>
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-row mb-2">
-                                    <div class="form-group col-12 col-md-6">
-                                        <label for="epx--start_date">From (*)</label>
-                                        <input type="date" name="start_date" id="epx--start_date" class="form-control">
-                                        <span class="form-message"></span>
-                                    </div>
-                                    <div class="form-group col-12 col-md-6">
-                                        <label for="epx--end_date">To (*)</label>
-                                        <input type="date" name="end_date" id="epx--end_date" class="form-control">
-                                        <span class="form-message"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="edu--title">Organization (*)</label>
-                                    <input type="text" name="title" id="edu--title" class="form-control"
-                                           placeholder="Short information about your School or University/ Academy">
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="edu--major">Major (*)</label>
-                                    <input type="text" name="major" id="edu--major" class="form-control"
-                                           placeholder='Working position'>
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="edu--description">Description (*)</label>
-                                    <textarea type="text" name="description" rows="4" id="edu--description"
-                                              class="form-control"
-                                              placeholder='More information about the above time period'></textarea>
-                                    <span class="form-message"></span>
-                                </div>
-                                <button class="btn btn-primary mt-1">Submit</button>
-                            </form>
-                        </div>
-                        <div class="box-timeline education">
+                <div id="education-block">
 
-                        </div>
-                    </div>
                 </div>
-                <div class="bg-white rounded p-3 mb-3" id="experience-block">
-                    <h3 class="mb-3"><i class="mdi mdi-briefcase-check-outline mdi-24px text-primary mr-2"></i> Work and
-                        Experience</h3>
-                    <div class="box-wrap w-75">
-                        <div class="box-handler mb-5">
-                            <form id="form-create-exp">
-                                <div class="form-row mb-2">
-                                    <div class="form-group col-12 col-md-6">
-                                        <label for="epx--start_date">From (*)</label>
-                                        <input type="date" name="start_date" id="epx--start_date" class="form-control">
-                                        <span class="form-message"></span>
-                                    </div>
-                                    <div class="form-group col-12 col-md-6">
-                                        <label for="epx--end_date">To (*)</label>
-                                        <input type="date" name="end_date" id="epx--end_date" class="form-control">
-                                        <span class="form-message"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="epx--title">Organization (*)</label>
-                                    <select type="text" name="title" id="epx--title" class="form-control select2"
-                                            data-toggle="select2"
-                                            data-placeholder='Short information about your School or Organization/Company'></select>
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="epx--position">Position (*)</label>
-                                    <input type="text" name="position" id="epx--position" class="form-control"
-                                           placeholder='Working position'>
-                                    <span class="form-message"></span>
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="epx--description">Description (*)</label>
-                                    <textarea type="text" name="description" rows="4" id="epx--description"
-                                              class="form-control"
-                                              placeholder='More information about the above time period'></textarea>
-                                    <span class="form-message"></span>
-                                </div>
-                                <button class="btn btn-primary mt-1">Submit</button>
-                            </form>
-                        </div>
-                        <div class="box-timeline experience">
-                        </div>
-                    </div>
+                <div id="experience-block">
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -155,8 +63,8 @@
             <div class="modal-content">
                 <div class="modal-header align-items-center bg-primary">
                     <div class="modal-header__left">
-                        <h4 class="modal-title text-dark text-uppercase" id="configModalLabel">
-                            Form edit data</h4>
+                        <h4 class="modal-title text-white text-uppercase" id="configModalLabel">
+                            Form </h4>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -196,98 +104,48 @@
             cursor: pointer;
         }
 
-        /*box-timeline*/
-        .box-timeline .timeline-items {
-            display: flex;
-            width: 100%;
-            margin-bottom: 30px;
-        }
-
-        .box-timeline .timeline-items .timeline-year {
-            position: relative;
-            padding-right: 24px;
-            margin-right: 25px;
-        }
-
-        .box-timeline .timeline-items .timeline-year::before {
-            content: "";
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            height: 100%;
-            width: 1px;
-            border-right: 1px solid #E0E6F7;
-        }
-
-        .timeline-items .timeline-year > span {
-            border-radius: 30px;
-            background-color: #EFF2FB;
-            padding: 10px 15px 10px 15px;
-            min-width: 160px;
-            color: var(--primary);
-            text-align: center;
-            display: inline-block;
-        }
-
-        .timeline-items .timeline-content {
-            padding-left: 10px;
-        }
-
-        .timeline-items .timeline-action {
-            display: flex;
-        }
-
-        .timeline-items .timeline-action > .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            font-size: 18px;
-        }
     </style>
 @endpush
 @push('js')
-    <script>
+    <script type="module">
+        const educationEl = document.querySelector('#education-block');
+        const experienceEl = document.querySelector('#experience-block');
+        import education from "{{asset('js/education.js')}}";
+        education.configs(
+            educationEl,
+            '{{route("api.user.education.index", user()->id)}}',
+            '{{route("applicant.education.store")}}',
+            '{{route("applicant.education.update")}}',
+            '{{route("applicant.education.destroy")}}',
+        );
+
+        import experience from "{{asset('js/experience.js')}}";
+        // experience
+        experience.configs(
+            experienceEl,
+            '{{route("applicant.experience.index")}}',
+            '{{route("applicant.experience.store")}}',
+            '{{route("applicant.experience.update")}}',
+            '{{route("applicant.experience.destroy")}}',
+        );
+    </script>
+
+    <script type="module">
+        import Validator from "{{asset('js/validator.js')}}";
+        import {
+            scrollIntroElement,
+            showLoading,
+            hideLoading,
+        } from "{{asset('js/extendFunction.js')}}";
+
         const elUploadCv = document.querySelector('#block-upload-cv');
         const formUploadCv = elUploadCv.querySelector('#profile-upload-cv');
         const inputFileUpLoadCv = formUploadCv.querySelector('input[type="file"]');
         const filePreview = elUploadCv.querySelector('.file-preview');
         const fileName = filePreview.querySelector('.file-name');
         const elIconTypeFile = formUploadCv.querySelector('label[for="input-upload-cv"]');
-        const educationBlock = document.querySelector('#education-block');
-        const experienceBlock = document.querySelector('#experience-block');
-
-        function handlerEventModal(formModalSelect, formElement) {
-            const btnCloseModal = document.querySelector(formModalSelect + ' .modal-header button.close');
-
-            document.onkeydown = function (evt) {
-                evt = evt || event;
-                let isEscape = false;
-                if ("key" in evt) {
-                    isEscape = (evt.key === "Escape" || evt.key === "Esc");
-                } else {
-                    isEscape = (evt.keyCode === 27);
-                }
-                if (isEscape) {
-                    handlerCloseModal(formModalSelect);
-                }
-            }
-            btnCloseModal.onclick = () => {
-                handlerCloseModal(formModalSelect)
-            };
-        }
-
-        function handlerCloseModal(formModalSelect) {
-            console.log(true)
-            const modalContent = document.querySelector(formModalSelect + ' .modal-content .modal-body');
-            $(formModalSelect).modal('hide');
-
-            while (modalContent.hasChildNodes()) {
-                modalContent.removeChild(modalContent.firstChild);
-            }
-
-        }
+        const formExpe = document.querySelector('#form-create-exp');
+        // const btnSubmitFormExpe = formExpe.querySelector('.btn.btn-primary');
 
         inputFileUpLoadCv.onchange = () => {
             if (inputFileUpLoadCv.files.length > 0) {
@@ -364,14 +222,14 @@
                 notifySuccess('Update Cv successfully');
                 const rs = formElement.querySelector('.handler-del-file');
                 const html = ` <div class="handler-item d-flex align-items-center">
-                                        <span class="file-name d-block mr-2">${data.name}</span>
-                                         <a href="${data.link}" target="_bank" class="text-primary p-1 mr-2">
-                                                <ins>View</ins>
-                                         </a>
-                                        <a href="javascript:void(0)"  class="text-danger del-item p-1" onclick="deleteFileCv(${data.id})">
-                                            <ins>Delete</ins>
-                                        </a>
-                                    </div>`;
+                    <span class="file-name d-block mr-2">${data.name}</span>
+                     <a href="${data.link}" target="_bank" class="text-primary p-1 mr-2">
+                            <ins>View</ins>
+                     </a>
+                    <a href="javascript:void(0)"  class="text-danger del-item p-1" onclick="deleteFileCv(${data.id})">
+                        <ins>Delete</ins>
+                    </a>
+                </div>`;
                 rs.innerHTML = html;
             } else {
                 renderError(response.message, '#profile-upload-cv');
@@ -385,165 +243,17 @@
             }
         }
 
-        async function renderTimeline(url, element) {
-            const response = await submitForm(url);
-            const contentWrap = document.querySelector(element);
-            const rs = contentWrap.querySelector('.box-timeline')
-            const data = response.data;
-            const htmls = data.map((each) =>
-                `
-                 <div class="timeline-items" data-id="${each.id}">
-                    <div class="timeline-year">
-                        <span> ${each.timelineStart} - ${each.timelineEnd}</span></div>
-                    <div class="timeline-content">
-                        <h5 class="title mb-3">${each.title}</h5>
-                        <p class="description">${each.description}</p>
-                    </div>
-                    <div class="timeline-action ml-auto">
-                        <a href="javascript:void(0)"
-                           class="btn btn-sm btn-edit btn-outline-primary mr-1"
-                          onclick="handlerEditTimeline('${each.type}', ${each.id})">
-                            <i class="mdi mdi-square-edit-outline"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-del btn-outline-danger"
-                            onclick="handlerDestroyTimeline('${each.type}', ${each.id})">
-                            <i class="mdi mdi-delete-outline"></i>
-                        </a>
-                    </div>
-                 </div>`
-            );
-            rs.innerHTML = htmls.join('');
-        }
-
-
-        async function loadTimeline() {
-            await loadListCompanyForSelect2('{{route('api.companies')}}', '#epx--title');
-            await renderTimeline('{{ route('api.user.getTimeline', 'education') }}', '#education-block');
-            {{--await renderTimeline('{{ route('api.user.getTimeline', 'experience') }}', '#experience-block');--}}
-        }
-
-        function cloneForm(formSelect, resultSelect, formCloneId = null) {
-            const form = document.querySelector(formSelect);
-            const rsElement = document.querySelector(resultSelect);
-            const clone = form.cloneNode(true);
-            if (formCloneId) {
-                clone.id = formCloneId;
-            }
-            rsElement.appendChild(clone);
-        }
-
-        async function handlerEditTimeline(timelineCate, timelineId) {
-            $('#modal-main').modal('show');
-            const dataTimeline = timelineCate === 'education' ? dataTimeline1 : dataTimeline2;
-            const formElement = 'fm-update-' + timelineCate;
-            url = "{{ route('api.user.getTimeline') }}" + `/${timelineCate}` + `?id=${timelineId}`;
-            cloneForm('', '#modal-main .modal-content .modal-body');
-
-            const response = await submitForm(url);
-            const form = document.getElementById(formElement);
-            if (response.success) {
-                const data = response.data;
-                if (typeof data === 'object' && data !== null) {
-                    for (const [key, value] of Object.entries(data)) {
-                        const item = form.querySelector(`[name="${key}"]:not(input[type="hidden"])`);
-                        if (item) item.value = value;
-                    }
-                }
-            }
-
-            function handlerRenderItemUpdated(category, id, data) {
-                const boxTimeline = document.querySelector('.box-timeline.' + category);
-                const children = boxTimeline.children;
-                const element = Array.from(children).find((el) => el.getAttribute('data-id') == id);
-                const htmls = `
-                    <div class="timeline-year"><span> ${data.timelineStart} - ${data.timelineEnd}</span></div>
-                    <div class="timeline-content">
-                        <h5 class="title mb-3">${data.title}</h5>
-                        <p class="description">${data.description}</p>
-                    </div>
-                    <div class="timeline-action ml-auto">
-                        <a href="javascript:void(0)"
-                           class="btn btn-sm btn-edit btn-outline-primary mr-1"
-                          onclick="handlerEditTimeline('${data.type}', ${data.id})">
-                            <i class="mdi mdi-square-edit-outline"></i>
-                        </a>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-del btn-outline-danger">
-                            <i class="mdi mdi-delete-outline"></i>
-                        </a>
-                    </div>
-               `;
-                element.innerHTML = htmls;
-            }
-
-            handlerEventModal('#modal-main', formElement);
-            Validator({
-                form: '#' + formElement,
-                formGroupSelector: '.form-group',
-                errorSelector: '.form-message',
-                rules: [
-                    Validator.isRequired('#start_date'),
-                    Validator.isRequired('#end_date'),
-                    Validator.isRequired('#title'),
-                    Validator.isRequired('#description'),
-                ],
-                onSubmit: async function (data) {
-                    const url = "{{route('api.user.updateTimeline')}}" + `/${timelineCate}/${timelineId}`;
-                    let options = {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data),
-                    }
-                    const response = await submitForm(url, options);
-
-                    if (response.success) {
-                        handlerRenderItemUpdated(timelineCate, timelineId, response.data);
-                        notifySuccess();
-                        form.reset();
-                    } else {
-                        renderError(response.message, this.form)
-                    }
-                }
-            })
-        }
-
-        async function handlerDestroyTimeline(category, timelineId) {
-            const url = '{{route('api.user.destroyTimeline')}}' + `/${category}/${timelineId}`;
-            let options = {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(timelineId)
-            }
-            const confirmMess = 'This will remove this timeline from the system. Are you sure delete it?';
-            const children = document.querySelector('.box-timeline.' + category).children;
-            const element = Array.from(children).find((el) => el.getAttribute('data-id') == timelineId);
-            if (confirm(confirmMess) === true) {
-                const response = await submitForm(url, options);
-                if (response.success) {
-                    element.remove();
-                    notifySuccess();
-                } else {
-                    notifyError('Try again later !!!')
-                }
-            }
-
-        }
-
         // validator form
-        document.addEventListener('DOMContentLoaded', async function () {
-            await loadTimeline();
+        document.addEventListener('DOMContentLoaded', function () {
             // form update CV
-            await Validator({
+            Validator({
                 form: '#profile-upload-cv',
                 formGroupSelector: '.form-group',
                 errorSelector: '.form-message',
                 rules: [
                     Validator.isRequired('#input-upload-cv'),
                 ],
-                onSubmit: function () {
+                onSubmit: async function () {
                     const formElement = document.querySelector(this.form);
                     const formData = new FormData(formElement);
                     let options = {
@@ -551,91 +261,11 @@
                         body: formData,
                     }
                     url = "{{ route('applicant.cv.updateFileCv') }}";
-                    fetch(url, options)
-                        .then(response => response.json())
-                        .then((response) => {
-                            renderFileCv(response, formElement);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                }
-            });
-
-            await Validator({
-                form: "#form-create-edu",
-                formGroupSelector: '.form-group',
-                errorSelector: '.form-message',
-                rules: [
-                    Validator.isRequired('#edu--type'),
-                    Validator.isRequired('#edu--start_date'),
-                    Validator.isRequired('#edu--end_date'),
-                    Validator.isRequired('#edu--title'),
-                    Validator.isRequired('#edu--major'),
-                    Validator.isRequired('#edu--description'),
-                ],
-                onSubmit: async function (data) {
-                    let options = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data),
-                    }
-                    url = "{{ route('api.user.storeTimeline') }}";
                     const response = await submitForm(url, options);
-
-                    if (response.success) {
-                        document.querySelector(this.form).reset();
-                        await renderTimeline('{{ route('api.user.getTimeline', 'education') }}',
-                            '#education-block');
-                        notifySuccess();
-                    } else {
-                        renderError(response.message, this.form);
-                    }
+                    renderFileCv(response, formElement);
                 }
             });
 
-            await Validator({
-                form: "#form-create-exp",
-                formGroupSelector: '.form-group',
-                errorSelector: '.form-message',
-                rules: [
-                    Validator.isRequired('#epx--start_date'),
-                    Validator.isRequired('#epx--end_date'),
-                    Validator.isRequired('#epx--title'),
-                    Validator.isRequired('#epx--position'),
-                    Validator.isRequired('#epx--description'),
-                ],
-                onSubmit: async function (data) {
-                    let options = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data),
-                    }
-                    const uriCheck = '{{route("api.companies.check")}}' + `/${data.title}`;
-                    const isExit = checkCompanyExist(uriCheck);
-                    if (!isExit) {
-
-                    } else {
-                        url = "{{ route('applicant.experience.store')}}";
-                        const response = await submitForm(url, options);
-                        if (response.success) {
-                            const data = response.data;
-                            renderException(data);
-                            notifySuccess();
-                        } else {
-                            renderError(response.message, this.form);
-                        }
-                    }
-                }
-            });
         });
-
-        function renderException(data) {
-            console.log(data);
-        }
     </script>
 @endpush

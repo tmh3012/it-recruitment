@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Applicant;
 
+use App\Enums\EducationTypeEnum;
 use App\Enums\FileTypeEnum;
 use App\Enums\TimelineTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseTrait;
-use App\Http\Requests\applicant\StoreExperienceRequest;
+use App\Http\Requests\applicant\UpdateEducationRequest;
 use App\Http\Requests\applicant\UpdateCvRequest;
 use App\Models\Company;
 use App\Models\Experience;
@@ -26,14 +27,16 @@ class CvManageController extends Controller
         $title = 'My CV';
         $userInfo = user();
         $file = $userInfo->fileCv;
-        $timelineEdu = $userInfo->education;
-        $timeLineType = TimelineTypeEnum::asArray();
+//        $timelineEdu = $userInfo->education;
+        $experiences = $userInfo->experiences;
+        $educationType = EducationTypeEnum::asArray();
         return view('applicant.cvManage', [
             'file' => $file,
             'title' => $title,
             'userInfo' => $userInfo,
-            'timelineEdu' => $timelineEdu,
-            'timeLineType' => $timeLineType,
+//            'timelineEdu' => $timelineEdu,
+            'experiences' => $experiences,
+            'educationType' => $educationType,
         ]);
     }
 
@@ -106,26 +109,4 @@ class CvManageController extends Controller
         }
     }
 
-    public function getExperience(Request $request)
-    {
-
-    }
-
-    public function storeExperience(StoreExperienceRequest $request): JsonResponse
-    {
-        DB::beginTransaction();
-        try {
-            $rsData = $request->validated();
-            $companyName = $rsData['title'];
-            if (!empty($companyName)) {
-                $rsData['company_id'] = Company::firstOrCreate(['name'=>$companyName])->id;
-            }
-            $data = Experience::create($rsData)->first();
-            DB::commit();
-            return $this->successResponse($data);
-        } catch (Throwable $e) {
-            DB::rollback();
-            return $this->errorResponse($e->getMessage());
-        }
-    }
 }

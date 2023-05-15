@@ -13,32 +13,31 @@ function Validator(options) {
 
     function validate(inputElement, rule) {
         // get rule of input element with selector
-
-            let rules = selectorRules[rule.selector];
+        let rules = selectorRules[rule.selector];
         let parentElement = getParentElement(inputElement, options.formGroupSelector);
-            let errorElement = parentElement.querySelector(options.errorSelector);
-            let errorMessage;
+        let errorElement = parentElement.querySelector(options.errorSelector);
+        let errorMessage;
 
-            for (let i = 0; i < rules.length; ++i) {
-                switch (inputElement.type) {
-                    case 'checkbox':
-                    case 'radio':
-                        errorMessage = rules[i](formElement.querySelector(rule.selector + ':checked'))
-                        break;
-                    default:
-                        errorMessage = rules[i](inputElement.value);
-                }
-                if (errorMessage) break;
+        for (let i = 0; i < rules.length; ++i) {
+            switch (inputElement.type) {
+                case 'checkbox':
+                case 'radio':
+                    errorMessage = rules[i](formElement.querySelector(rule.selector + ':checked'))
+                    break;
+                default:
+                    errorMessage = rules[i](inputElement.value);
             }
+            if (errorMessage) break;
+        }
 
-            if (errorMessage) {
-                errorElement.innerText = errorMessage;
-                parentElement.classList.add('invalid');
-            } else {
-                errorElement.innerText = '';
-                parentElement.classList.remove('invalid');
-            }
-            return !errorMessage;
+        if (errorMessage) {
+            errorElement.innerText = errorMessage;
+            parentElement.classList.add('invalid');
+        } else {
+            errorElement.innerText = '';
+            parentElement.classList.remove('invalid');
+        }
+        return !errorMessage;
     }
 
     let formElement = document.querySelector(options.form);
@@ -50,15 +49,13 @@ function Validator(options) {
             options.rules.forEach((rule) => {
                 let inputElements = formElement.querySelectorAll(rule.selector);
                 let isValid;
-                Array.from(inputElements).forEach((inputElement)=>{
+                Array.from(inputElements).forEach((inputElement) => {
                     isValid = validate(inputElement, rule);
                 })
-
                 if (!isValid) {
                     isFormValid = false;
                 }
             });
-
             // validated form data
             if (isFormValid) {
                 if (typeof options.onSubmit == 'function') {
@@ -182,3 +179,5 @@ Validator.isConfirmed = (selector, getConfirmValue, message) => {
         test: (value) => value === getConfirmValue() ? undefined : message || 'Giá trị nhập vào không chính xác'
     }
 }
+
+export default Validator;
