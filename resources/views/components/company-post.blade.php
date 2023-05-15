@@ -3,12 +3,12 @@
         <div class="card-top">
             <a href="{{route('company.show',$company)}}">
                 <div class="company-cover">
-                    <img src="{{asset('storage/'.$company->cover)}}" alt="{{$company->name}}">
+                    <img src="{{$company->cover}}" alt="{{$company->name}}">
                 </div>
             </a>
             <div class="company-ava">
                 <a href="{{route('company.show',$company)}}">
-                    <img src="{{asset('storage/'.$company->logo)}}" alt="{{$company->name}}">
+                    <img src="{{$company->logo}}" alt="{{$company->name}}">
                 </a>
             </div>
         </div>

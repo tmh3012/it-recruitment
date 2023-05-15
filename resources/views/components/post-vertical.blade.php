@@ -4,7 +4,7 @@
             <div class="card-logo">
                 <div class="card-image-logo">
                     <a class="text-dark" href="{{route('company.show',$post->company->id)}}">
-                        <img width="50px" src="{{asset('storage/'.$post->company->logo)}}" alt="{{$post->company->name}}">
+                        <img width="50px" src="{{$post->company->logo}}" alt="{{$post->company->name}}">
                     </a>
                 </div>
             </div>

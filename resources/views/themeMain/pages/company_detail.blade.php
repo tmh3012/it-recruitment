@@ -5,13 +5,13 @@
         <div class="container">
             <div class="box-head bg-white rounded p-1">
                 <div class="cover-wrapper">
-                    <img class="rounded" height="350px" width="100%" src="{{asset('storage/'.$company->cover)}}"
+                    <img class="rounded" height="350px" width="100%" src="{{$company->cover}}"
                          alt="{{$title}}">
                 </div>
                 <div class="company-short-detail d-flex mx-5">
                     <div class="company-logo">
                         <div class="company-image-logo bg-white p-1 rounded border overflow-hidden">
-                            <img class="rounded" src="{{asset('storage/'.$company->logo)}}" alt="{{$title}}">
+                            <img class="rounded" src="{{$company->logo}}" alt="{{$title}}">
                         </div>
                     </div>
                     <div class="company-info">

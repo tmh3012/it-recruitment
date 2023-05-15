@@ -8,7 +8,7 @@
                     <div class="box-right mr-2">
                         <a class="box-right__link d-flex justify-content-center align-items-center"
                            href="{{ route('company.show', $company->id) }}">
-                            <img class="link__img" src="{{ asset('storage/' . $company->logo) }}"
+                            <img class="link__img" src="{{$company->logo}}"
                                  alt="logo-company-name">
                         </a>
                     </div>
@@ -31,7 +31,11 @@
                         <button
                             class="btn btn-outline-success btn-save-post @if($postSaved) active @endif mt-2 font-weight-semibold px-4"
                             post-id="{{$post->id}}">
-                            @if($postSaved) {{ __('frontPage.btnSavedPost') }} @else {{ __('frontPage.btnSavePost') }} @endif
+                            @if($postSaved)
+                                {{ __('frontPage.btnSavedPost') }}
+                            @else
+                                {{ __('frontPage.btnSavePost') }}
+                            @endif
                         </button>
                     </div>
                 </div>
@@ -136,7 +140,11 @@
                                                 <button
                                                     class="btn btn-outline-success btn-save-post @if($postSaved) active @endif ml-3 font-18 font-weight-bold"
                                                     post-id="{{$post->id}}">
-                                                    @if($postSaved) {{ __('frontPage.btnSavedPost') }} @else {{ __('frontPage.btnSavePost') }} @endif
+                                                    @if($postSaved)
+                                                        {{ __('frontPage.btnSavedPost') }}
+                                                    @else
+                                                        {{ __('frontPage.btnSavePost') }}
+                                                    @endif
                                                 </button>
                                             </div>
                                             <span>{{ __('frontPage.dl_submit') }}: {{ $post->deadlineSubmit }}</span>

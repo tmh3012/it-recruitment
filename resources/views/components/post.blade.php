@@ -4,7 +4,7 @@
             <div class="block-left mr-2">
                 <a class="text-dark" href="{{route('company.show',$company->id)}}">
                     <div class="job-company__logo img-box">
-                        <img src="{{asset('storage/'.$post->company->logo)}}" alt="{{$post->job_title}}">
+                        <img src="{{$post->company->logo}}" alt="{{$post->job_title}}">
                     </div>
                 </a>
             </div>
