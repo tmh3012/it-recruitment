@@ -34,7 +34,7 @@
                                                class="text-primary p-1 mr-2">
                                                 <ins>View</ins>
                                             </a>
-                                            <a href="javascript:void(0)" onclick="deleteFileCv({{ $file->id }})"
+                                            <a href="javascript:void(0)" data-id="{{$file->id}}"
                                                class="text-danger p-1 del-item">
                                                 <ins>Delete</ins>
                                             </a>
@@ -111,6 +111,7 @@
         const educationEl = document.querySelector('#education-block');
         const experienceEl = document.querySelector('#experience-block');
         import education from "{{asset('js/education.js')}}";
+
         education.configs(
             educationEl,
             '{{route("api.user.education.index", user()->id)}}',
@@ -132,11 +133,11 @@
 
     <script type="module">
         import Validator from "{{asset('js/validator.js')}}";
-        import {
-            scrollIntroElement,
-            showLoading,
-            hideLoading,
-        } from "{{asset('js/extendFunction.js')}}";
+        {{--import {--}}
+        {{--    scrollIntroElement,--}}
+        {{--    showLoading,--}}
+        {{--    hideLoading,--}}
+        {{--} from "{{asset('js/extendFunction.js')}}";--}}
 
         const elUploadCv = document.querySelector('#block-upload-cv');
         const formUploadCv = elUploadCv.querySelector('#profile-upload-cv');
@@ -144,8 +145,7 @@
         const filePreview = elUploadCv.querySelector('.file-preview');
         const fileName = filePreview.querySelector('.file-name');
         const elIconTypeFile = formUploadCv.querySelector('label[for="input-upload-cv"]');
-        const formExpe = document.querySelector('#form-create-exp');
-        // const btnSubmitFormExpe = formExpe.querySelector('.btn.btn-primary');
+        const btnDelCv = formUploadCv.querySelector('a.del-item');
 
         inputFileUpLoadCv.onchange = () => {
             if (inputFileUpLoadCv.files.length > 0) {
@@ -163,6 +163,11 @@
             } else {
                 resetInputFilePreview();
             }
+        }
+
+        btnDelCv.onclick = function () {
+            const fileId = this.getAttribute('data-id');
+            deleteFileCv(fileId);
         }
 
         function deleteFileCv(fileId) {
