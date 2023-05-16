@@ -28,27 +28,32 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login-process', [AuthController::class, 'handlerLogin'])->name('handlerLogin');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'registering'])->name('registering');
-Route::get('/',[HomePageController::class, 'index'])->name('home');
-Route::get('/jobs',[HomePageController::class, 'jobs'])->name('jobs-page');
-Route::get('/jobs/{slug}',[HomePageController::class, 'show'])->name('jobs-show');
-Route::get('/profile',[HomePageController::class, 'profile'])->name('profile-page');
-Route::get('/profile/{userId}',[HomePageController::class, 'showProfile'])->name('profile-show');
+Route::get('/', [HomePageController::class, 'index'])->name('home');
+Route::get('/jobs', [HomePageController::class, 'jobs'])->name('jobs-page');
+Route::get('/jobs/{slug}', [HomePageController::class, 'show'])->name('jobs-show');
 Route::group([
-    'as'=> 'company.',
-    'prefix'=> 'company',
-], function(){
-    Route::get('/',[CompanyPageController::class,'index'])->name('index');
-    Route::get('/{companyId}',[CompanyPageController::class,'show'])->name('show');
-});
-Route::group([
-    'as'=> 'blog.',
-    'prefix'=> 'blog',
-], function(){
-    Route::get('/',[BlogPageController::class,'index'])->name('index');
-    Route::get('/{slug}',[BlogPageController::class,'show'])->name('show');
+    'as' => 'profile.',
+    'prefix' => 'profile',
+], function () {
+    Route::get('/', [HomePageController::class, 'profile'])->name('welcome');
+    Route::get('/{userId}', [HomePageController::class, 'showProfile'])->name('index');
+    Route::get('/{userId}/about', [HomePageController::class, 'showProfile'])->name('about');
 });
 
-
+Route::group([
+    'as' => 'company.',
+    'prefix' => 'company',
+], function () {
+    Route::get('/', [CompanyPageController::class, 'index'])->name('index');
+    Route::get('/{companyId}', [CompanyPageController::class, 'show'])->name('show');
+});
+Route::group([
+    'as' => 'blog.',
+    'prefix' => 'blog',
+], function () {
+    Route::get('/', [BlogPageController::class, 'index'])->name('index');
+    Route::get('/{slug}', [BlogPageController::class, 'show'])->name('show');
+});
 
 
 Route::get('/auth/redirect/{provider}', function ($provider) {
@@ -63,8 +68,8 @@ Route::get('/auth/callback/{provider}', [AuthController::class, 'callback'])->na
 
 
 Route::get('/language/{locale}', function ($locale) {
-    if (! in_array($locale, config('app.locales'))) {
-       $locale = config('app.fallback.locales');
+    if (!in_array($locale, config('app.locales'))) {
+        $locale = config('app.fallback.locales');
     }
     session()->put('locale', $locale);
     return redirect()->back();

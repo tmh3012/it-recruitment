@@ -21,7 +21,7 @@
                     </a>
                 </li>
                 <li class="mr-3 {{request()->routeIs('profile*') ? 'active' : ''}}">
-                    <a href="@if(auth()->check()) {{route('profile-show',user()->id)}} @else {{route('profile-page')}} @endif">
+                    <a href="@if(auth()->check()) {{route('profile.index',user()->id)}} @else {{route('profile.welcome')}} @endif">
                         <span
                             class="text-capitalize text-dark font-16 font-weight-semibold">{{__('frontPage.profilePage')}}
                         </span>
