@@ -120,23 +120,17 @@ class HomePageController extends Controller
         ]);
     }
 
-    public function showProfile($userId)
+    public function showProfile(Request $request, $userId)
     {
         $data = User::query()
             ->where('id', $userId)
             ->firstOrFail();
-        $socials = $data->socials;
-        $skills = $data->skills->pluck('name');
-        $education = $data->education;
-        $experience = $data->experience;
+        $experiences = $data->experiences;
         $title = "$data->name | E Profile";
         return view('themeMain.pages.e-profile', [
             'data' => $data,
             'title' => $title,
-            'skills' => $skills,
-            'socials' => $socials,
-            'education' => $education,
-            'experience' => $experience,
+            'experiences' => $experiences,
         ]);
     }
 

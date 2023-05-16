@@ -49,13 +49,13 @@
                             </div>
                         </div>
                         <div class="user-navigation px-4">
-                            <ul class="default-ul d-flex  navigation-wrap">
+                            <ul class="default-ul d-none navigation-wrap ">
                                 <li class="nav-item active mr-2">
-                                    <a class="item-link font-weight-bold text-black-50 font-16" href="./">Over view</a>
+                                    <a class="item-link font-weight-bold text-black-50 font-16" href="#">Over view</a>
                                 </li>
                                 <li class="nav-item mr-2">
                                     <a class="item-link font-weight-bold text-black-50 font-16"
-                                       href="../about">About</a>
+                                       href="?tab=about">About</a>
                                 </li>
                                 <li class="nav-item mr-2">
                                     <a class="item-link font-weight-bold text-black-50 font-16" href="#">Project</a>
@@ -72,172 +72,90 @@
                 <div class="profile__over-view  px-4">
                     <div class="row">
                         <div class="col-4">
-                            <div class="short-intro bg-white rounded p-3 box-shadow">
-                                <div class="text-start">
-                                    <h3 class="text-uppercase font-18"><i class="mdi mdi-briefcase me-1"></i>
-                                        About me:</h3>
-                                    <p class="text-muted font-13 mb-3">
-                                        {!! $data->bio !!}
-                                    </p>
-                                    <h4 class="text-muted mb-2 font-13"><strong>Full Name :</strong>
-                                        <span class="ms-2">{{$data->name}}</span>
-                                    </h4>
-                                    <p class="text-muted mb-2 font-13"><strong>Mobile :</strong>
-                                        <span class="ms-2">{{$data->phone}}</span>
-                                    </p>
-                                    <p class="text-muted mb-2 font-13"><strong>Email :</strong>
-                                        <span class="ms-2 ">{{$data->emailContact}}</span>
-                                    </p>
-                                    <p class="text-muted mb-1 font-13"><strong>Location :</strong>
-                                        <span class="ms-2">{{$data->city}}</span>
-                                    </p>
-                                    <p class="text-muted mb-1 font-13"><strong>Website :</strong>
-                                        <a target="_blank" href="{{$data->link}}"><span
-                                                class="ms-2">{{$data->link}}</span></a>
-                                    </p>
-                                </div>
-                                <ul class="social-list list-inline mt-3 mb-0">
-                                    @foreach($socials as $social)
-                                        <li class="list-inline-item">
-                                            <a target="_blank" href="@if($social->key == 'google')mailto:@endif{{$social->value}}" class="social-list-item item-{{$social->key}}">
-                                                <i class="fa-brands fa-{{$social->key}}"></i>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <h3 class="text-uppercase font-18 mt-3"><i class="mdi mdi-briefcase me-1"></i>
-                                    Skill
-                                </h3>
-
-                                <ul class="default-ul user-skill-list">
-                                    @foreach($skills as $skill)
-                                        <li class="skill-items skill-{{$skill}}">{{$skill}}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                            <!-- start about me -->
+                            <x-profile.aboutme :data="$data"/>
+                            <!-- end about me -->
                         </div>
                         <div class="col-8">
                             <div class="main-content bg-white rounded p-3 box-shadow">
                                 <div class="content-wrapper">
-                                    <h3 class="text-uppercase font-18"><i class="mdi mdi-briefcase me-1"></i>
-                                        Experience</h3>
-                                    <div class="timeline-alt pb-0">
-                                        <div class="timeline-item">
-                                            <i class="mdi mdi-circle bg-info-lighten text-info timeline-icon"></i>
-                                            <div class="timeline-item-info">
-                                                <h5 class="mt-0 mb-1">Lead designer / Developer</h5>
-                                                <p class="font-14">websitename.com <span class="ms-2 font-12">Year: 2015 - 18</span>
-                                                </p>
-                                                <p class="text-muted mt-2 mb-0 pb-3">Everyone realizes why a new common
-                                                    language
-                                                    would be desirable: one could refuse to pay expensive translators.
-                                                    To achieve this, it would be necessary to have uniform grammar,
-                                                    pronunciation and more common words.</p>
-                                            </div>
-                                        </div>
+                                    <!-- start Experience component -->
+                                    <x-profile.experience :data="$experiences"/>
+                                    <!-- end Experience component -->
 
-                                        <div class="timeline-item">
-                                            <i class="mdi mdi-circle bg-primary-lighten text-primary timeline-icon"></i>
-                                            <div class="timeline-item-info">
-                                                <h5 class="mt-0 mb-1">Senior Graphic Designer</h5>
-                                                <p class="font-14">Software Inc. <span class="ms-2 font-12">Year: 2012 - 15</span>
-                                                </p>
-                                                <p class="text-muted mt-2 mb-0 pb-3">If several languages coalesce, the
-                                                    grammar
-                                                    of the resulting language is more simple and regular than that of
-                                                    the individual languages. The new common language will be more
-                                                    simple and regular than the existing European languages.</p>
+                                    <!-- start Experience component -->
+                                    <x-profile.education :data="$data"/>
+                                    <!-- end Experience component -->
 
-                                            </div>
-                                        </div>
+                                    {{--                                    <h5 class="mb-3 mt-4 text-uppercase"><i class="mdi mdi-cards-variant me-1"></i>--}}
+                                    {{--                                        Projects</h5>--}}
+                                    {{--                                    <div class="table-responsive">--}}
+                                    {{--                                        <table class="table table-borderless table-nowrap mb-0">--}}
+                                    {{--                                            <thead class="table-light">--}}
+                                    {{--                                            <tr>--}}
+                                    {{--                                                <th>#</th>--}}
+                                    {{--                                                <th>Clients</th>--}}
+                                    {{--                                                <th>Project Name</th>--}}
+                                    {{--                                                <th>Start Date</th>--}}
+                                    {{--                                                <th>Due Date</th>--}}
+                                    {{--                                                <th>Status</th>--}}
+                                    {{--                                            </tr>--}}
+                                    {{--                                            </thead>--}}
+                                    {{--                                            <tbody>--}}
+                                    {{--                                            <tr>--}}
+                                    {{--                                                <td>1</td>--}}
+                                    {{--                                                <td><img src="assets/images/users/avatar-2.jpg" alt="table-user"--}}
+                                    {{--                                                         class="me-2 rounded-circle" height="24"> Halette Boivin--}}
+                                    {{--                                                </td>--}}
+                                    {{--                                                <td>App design and development</td>--}}
+                                    {{--                                                <td>01/01/2015</td>--}}
+                                    {{--                                                <td>10/15/2018</td>--}}
+                                    {{--                                                <td><span class="badge badge-info-lighten">Work in Progress</span></td>--}}
+                                    {{--                                            </tr>--}}
+                                    {{--                                            <tr>--}}
+                                    {{--                                                <td>2</td>--}}
+                                    {{--                                                <td><img src="assets/images/users/avatar-3.jpg" alt="table-user"--}}
+                                    {{--                                                         class="me-2 rounded-circle" height="24"> Durandana Jolicoeur--}}
+                                    {{--                                                </td>--}}
+                                    {{--                                                <td>Coffee detail page - Main Page</td>--}}
+                                    {{--                                                <td>21/07/2016</td>--}}
+                                    {{--                                                <td>12/05/2018</td>--}}
+                                    {{--                                                <td><span class="badge badge-danger-lighten">Pending</span></td>--}}
+                                    {{--                                            </tr>--}}
+                                    {{--                                            <tr>--}}
+                                    {{--                                                <td>3</td>--}}
+                                    {{--                                                <td><img src="assets/images/users/avatar-4.jpg" alt="table-user"--}}
+                                    {{--                                                         class="me-2 rounded-circle" height="24"> Lucas Sabourin--}}
+                                    {{--                                                </td>--}}
+                                    {{--                                                <td>Poster illustation design</td>--}}
+                                    {{--                                                <td>18/03/2018</td>--}}
+                                    {{--                                                <td>28/09/2018</td>--}}
+                                    {{--                                                <td><span class="badge badge-success-lighten">Done</span></td>--}}
+                                    {{--                                            </tr>--}}
+                                    {{--                                            <tr>--}}
+                                    {{--                                                <td>4</td>--}}
+                                    {{--                                                <td><img src="assets/images/users/avatar-6.jpg" alt="table-user"--}}
+                                    {{--                                                         class="me-2 rounded-circle" height="24"> Donatien Brunelle--}}
+                                    {{--                                                </td>--}}
+                                    {{--                                                <td>Drinking bottle graphics</td>--}}
+                                    {{--                                                <td>02/10/2017</td>--}}
+                                    {{--                                                <td>07/05/2018</td>--}}
+                                    {{--                                                <td><span class="badge badge-info-lighten">Work in Progress</span></td>--}}
+                                    {{--                                            </tr>--}}
+                                    {{--                                            <tr>--}}
+                                    {{--                                                <td>5</td>--}}
+                                    {{--                                                <td><img src="assets/images/users/avatar-5.jpg" alt="table-user"--}}
+                                    {{--                                                         class="me-2 rounded-circle" height="24"> Karel Auberjo--}}
+                                    {{--                                                </td>--}}
+                                    {{--                                                <td>Landing page design - Home</td>--}}
+                                    {{--                                                <td>17/01/2017</td>--}}
+                                    {{--                                                <td>25/05/2021</td>--}}
+                                    {{--                                                <td><span class="badge badge-warning-lighten">Coming soon</span></td>--}}
+                                    {{--                                            </tr>--}}
 
-                                        <div class="timeline-item">
-                                            <i class="mdi mdi-circle bg-info-lighten text-info timeline-icon"></i>
-                                            <div class="timeline-item-info">
-                                                <h5 class="mt-0 mb-1">Graphic Designer</h5>
-                                                <p class="font-14">Coderthemes Design LLP <span class="ms-2 font-12">Year: 2010 - 12</span>
-                                                </p>
-                                                <p class="text-muted mt-2 mb-0 pb-2">The European languages are members
-                                                    of
-                                                    the same family. Their separate existence is a myth. For science
-                                                    music sport etc, Europe uses the same vocabulary. The languages
-                                                    only differ in their grammar their pronunciation.</p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <!-- end timeline -->
-
-                                    <h5 class="mb-3 mt-4 text-uppercase"><i class="mdi mdi-cards-variant me-1"></i>
-                                        Projects</h5>
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless table-nowrap mb-0">
-                                            <thead class="table-light">
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Clients</th>
-                                                <th>Project Name</th>
-                                                <th>Start Date</th>
-                                                <th>Due Date</th>
-                                                <th>Status</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td><img src="assets/images/users/avatar-2.jpg" alt="table-user"
-                                                         class="me-2 rounded-circle" height="24"> Halette Boivin
-                                                </td>
-                                                <td>App design and development</td>
-                                                <td>01/01/2015</td>
-                                                <td>10/15/2018</td>
-                                                <td><span class="badge badge-info-lighten">Work in Progress</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td><img src="assets/images/users/avatar-3.jpg" alt="table-user"
-                                                         class="me-2 rounded-circle" height="24"> Durandana Jolicoeur
-                                                </td>
-                                                <td>Coffee detail page - Main Page</td>
-                                                <td>21/07/2016</td>
-                                                <td>12/05/2018</td>
-                                                <td><span class="badge badge-danger-lighten">Pending</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td><img src="assets/images/users/avatar-4.jpg" alt="table-user"
-                                                         class="me-2 rounded-circle" height="24"> Lucas Sabourin
-                                                </td>
-                                                <td>Poster illustation design</td>
-                                                <td>18/03/2018</td>
-                                                <td>28/09/2018</td>
-                                                <td><span class="badge badge-success-lighten">Done</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td><img src="assets/images/users/avatar-6.jpg" alt="table-user"
-                                                         class="me-2 rounded-circle" height="24"> Donatien Brunelle
-                                                </td>
-                                                <td>Drinking bottle graphics</td>
-                                                <td>02/10/2017</td>
-                                                <td>07/05/2018</td>
-                                                <td><span class="badge badge-info-lighten">Work in Progress</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td><img src="assets/images/users/avatar-5.jpg" alt="table-user"
-                                                         class="me-2 rounded-circle" height="24"> Karel Auberjo
-                                                </td>
-                                                <td>Landing page design - Home</td>
-                                                <td>17/01/2017</td>
-                                                <td>25/05/2021</td>
-                                                <td><span class="badge badge-warning-lighten">Coming soon</span></td>
-                                            </tr>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
+                                    {{--                                            </tbody>--}}
+                                    {{--                                        </table>--}}
+                                    {{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>
