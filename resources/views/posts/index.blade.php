@@ -20,22 +20,9 @@
                     </nav>
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="table-posts">
-                        <thead>
-                            <tr class="text-center">
-                                <th>#</th>
-                                <th>Job Title</th>
-                                <th>Location</th>
-                                <th>Range Salary</th>
-                                <th>Deadline Apply</th>
-                                <th>Status</th>
-                                <th>Edit</th>
-                                <th>Created At</th>
-                                <th>Update At</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="table-posts"></table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -75,42 +62,67 @@
                     page: {{ request()->get('page') ?? 1 }}
                 },
                 success: function(response) {
-                    const postStatus = response.data.postStatus;
-                    response.data.data.forEach(function(each) {
+                    if (response.success && response.data.data.length > 0) {
+                        $('#table-posts').append(
+                                `<thead>
+                                <tr class="text-center">
+                                    <th>#</th>
+                                    <th>Job Title</th>
+                                    <th>Location</th>
+                                    <th>Range Salary</th>
+                                    <th>Deadline Apply</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Created At</th>
+                                    <th>Update At</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>`
+                            );
+                        const postStatus = response.data.postStatus;
+                        response.data.data.forEach(function(each) {
 
-                        function renderFormPostStatusForAdmin(postId, valCurrentStatus) {
-                            let optionHtmls = Object.keys(postStatus).map(function(key) {
-                                let selected = postStatus[key] === valCurrentStatus ? 'selected' : '';
-                                return `<option value="${postStatus[key]}" ${selected}>${key}</option>`
-                            }).join('');
+                            function renderFormPostStatusForAdmin(postId, valCurrentStatus) {
+                                let optionHtmls = Object.keys(postStatus).map(function(key) {
+                                    let selected = postStatus[key] === valCurrentStatus ? 'selected' : '';
+                                    return `<option value="${postStatus[key]}" ${selected}>${key}</option>`
+                                }).join('');
 
-                            return `<form class="post-status-form" form-id = ${postId}>
+                                return `<form class="post-status-form" form-id = ${postId}>
                                 <select name='status' class="form-control">${optionHtmls}</select>
                             </form>`;
-                        }
+                            }
 
-                        const editBtn = `<button class="btn btn-primary btn-edit-post" data-post="${each.id}">Edit</button>`;
-                        const created_at = convertDateToDateTime(each.created_at);
-                        const updated_at = each.created_at === each.updated_at ? '' :  convertDateToDateTime(each.updated_at);
+                            const editBtn = `<button class="btn btn-primary btn-edit-post" data-post="${each.id}">Edit</button>`;
+                            const created_at = convertDateToDateTime(each.created_at);
+                            const updated_at = each.created_at === each.updated_at ? '' :  convertDateToDateTime(each.updated_at);
 
-                        $('#table-posts').append($('<tr>')
-                            .append($('<td>').append(each.id)).attr('class', 'text-center')
-                            .append($('<td>').append(each.job_title))
-                            .append($('<td>').append(each.location))
-                            .append($('<td>').append(each.salary))
-                            .append($('<td>').append(each
-                                .deadline_submit)) @if (isAdmin())
-                                .append($('<td>').append(renderFormPostStatusForAdmin(each
-                                    .id, each.status)))
-                            @else
-                                .append($('<td>').append(each.status_type_string))
-                            @endif
-                            .append($('<td>').append(editBtn))
-                            .append($('<td>').append(created_at))
-                            .append($('<td>').append(updated_at))
+                            $('#table-posts')
+                                .append($('<tr>')
+                                    .append($('<td>').append(each.id)).attr('class', 'text-center')
+                                    .append($('<td>').append(each.job_title))
+                                    .append($('<td>').append(each.location))
+                                    .append($('<td>').append(each.salary))
+                                    .append($('<td>').append(each
+                                        .deadline_submit)) @if (isAdmin())
+                                    .append($('<td>').append(renderFormPostStatusForAdmin(each
+                                        .id, each.status)))
+                                    @else
+                                    .append($('<td>').append(each.status_type_string))
+                                    @endif
+                                    .append($('<td>').append(editBtn))
+                                    .append($('<td>').append(created_at))
+                                    .append($('<td>').append(updated_at))
+                                );
+                        });
+                        renderPagination(response.data.pagination)
+                    } else{
+                        $('#table-posts').append($('<div class="no-post text-center">')
+                            .append($('<p>').text('You have no posts yet. Start creating your first post to find potential candidates.'))
+                            .append($('<a class="btn btn-primary" href="{{ isAdmin() ? route('admin.posts.create') : route('hr.posts.create') }}">')
+                                .text('Create'))
                         );
-                    });
-                    renderPagination(response.data.pagination)
+                    }
                 },
                 error: function(response) {
 

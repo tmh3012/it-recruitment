@@ -3,12 +3,16 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Log In | {{config('app.name')}}</title>
+    <title>Register Online CV Account | {{config('app.name')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="Coderthemes" name="author"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
           integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- App css -->
     <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/app-creative.min.css') }}" rel="stylesheet" type="text/css">
 
@@ -105,8 +109,8 @@
         margin-right: 5px;
     }
 </style>
-
 <body class="authentication-bg pb-0">
+
 
 <div class="wrapper">
     <div class="auth-form d-flex justify-content-center align-items-center">
@@ -123,39 +127,99 @@
                     </div>
                     <h1 class="logo-text d-none">IT<br>Recruitment</h1>
                 </div>
-                <h4 class="text-intro">Welcome back</h4>
-                <p class="text-muted mb-0">Enter your email address and password to access account.</p>
-            </div>
-            <div class="card-body pt-0">
+                <h4 class="text-intro mb-2">{{__('auth.authWelcome')}}</h4>
+                <p class="text-muted mx-1 mb-0 font-18">{{__('auth.freeSignUp')}}</p>
+                <p class="text-muted mb-0">{{__('auth.dontHaveAccountText')}}</p>
 
+            </div>
+            <div class="card-body w-75 m-auto">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <!-- form -->
-                <form method="post" class="w-75 m-auto" action="{{route('handlerLogin')}}" id="login-form">
+                <form action="{{ route('handlerSignUp') }}" method="post" id="register-form">
                     @csrf
-                    <ul class="auth-error ">
-                    </ul>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input class="form-control" type="email" name="email" id="email"
-                               placeholder="Enter your email">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group">
-                        <a href="pages-recoverpw-2.html" class="text-muted float-right d-none"><small>Forgot your
-                                password?</small></a>
-                        <label for="password">Password</label>
-                        <input class="form-control" type="password" name="password" id="password"
-                               placeholder="Enter your password">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group mb-3 d-none">
-                        <div class="custom-control custom-checkbox">
-                            <input disabled type="checkbox" class="custom-control-input" id="checkbox-signin">
-                            <label class="custom-control-label" for="checkbox-signin">Remember me</label>
+                    @auth
+                        <div class="form-group">
+                            <label for="fullname">{{__('frontPage.formFullName')}}</label>
+                            <input id="fullname" name="name" class="form-control" type="text"
+                                   value="{{ auth()->user()->name}}">
+                            <span class="form-message"></span>
                         </div>
+                        <div class="form-group">
+                            <label for="email">{{__('frontPage.emailAddress')}}</label>
+                            <input id="email" class="form-control" name="email" type="email"
+                                   value="{{ auth()->user()->email }}">
+                            <span class="form-message"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>{{__('frontPage.avatar')}}</label>
+                            <img src="{{ auth()->user()->avatar }}" class="rounded-circle" width="32">
+                        </div>
+                    @endauth
+                    @guest
+                        <div class="form-group">
+                            <label for="fullname">{{__('frontPage.formFullName')}}</label>
+                            <input class="form-control" type="text" id="fullname" placeholder="{{__('auth.enterName')}}"
+                                   name="name">
+                            <span class="form-message"></span>
+                        </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="gender-male"
+                                   name="gender"
+                                   class="custom-control-input"
+                                   value="0"
+                            >
+                            <label class="custom-control-label" for="gender-male">
+                                {{ __('frontPage.male') }}
+                            </label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="gender-female"
+                                   name="gender"
+                                   class="custom-control-input"
+                                   value="0"
+                            >
+                            <label class="custom-control-label" for="gender-female">
+                                {{ __('frontPage.female') }}
+                            </label>
+                        </div>
+                        <span class="form-message d-block"></span>
+
                     </div>
-                    <div class="form-group mb-0 mt-3 text-center ">
-                        <button class="btn btn-primary btn-submit btn-block" type="submit"><i class="mdi mdi-login"></i>
-                            Log In
+                        <div class="form-group">
+                            <label for="email">{{__('frontPage.emailAddress')}}</label>
+                            <input class="form-control" type="email" id="email" placeholder="{{__('auth.enterEmail')}}"
+                                   name="email">
+                            <span class="form-message"></span>
+                        </div>
+                    @endguest
+                    <div class="form-group">
+                        <label for="password">{{__('frontPage.password')}}</label>
+                        <input class="form-control" type="password" id="password" placeholder="{{__('auth.enterPassword')}}"
+                               name="password">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password_confirmation">{{__('frontPage.passwordConfirmation')}}</label>
+                        <input class="form-control" type="password" id="password_confirmation"
+                               name="password_confirmation" placeholder="{{__('auth.enterPassword')}}" >
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="role" value="{{$role}}">
+                    </div>
+
+                    <div class="form-group mb-0 text-center">
+                        <button class="btn btn-primary btn-block btn-submit mt-3" type="submit">
+                            {{__('auth.signUp')}}
                         </button>
                     </div>
                 </form>
@@ -164,7 +228,7 @@
             <div class="card-footer border-0 w-75 m-auto text-center">
                 <div class="separation-block">
                     <span class="separation-item"></span>
-                    <p class="text-separation separation-center"> Or Log in with</p>
+                    <p class="text-separation separation-center"> {{__('frontPage.or')}} {{__('auth.signUpWith')}}</p>
                     <span class="separation-item"></span>
                 </div>
                 <ul class="social-list list-inline mt-1">
@@ -183,56 +247,45 @@
                         </a>
                     </li>
                 </ul>
-                <p class="text-muted mb-0">Don't have an account?
-                    <a href="{{'sign-up'}}" class="ml-1" style="color: #121212">
-                        <b>Register</b>
-                    </a>
+                <p class="text-muted mb-0">{{__('auth.alreadyAccountText')}} <a href="{{'login'}}" class="text-muted ml-1">
+                        <b>{{__('auth.login')}}</b></a>
                 </p>
             </div>
         </div>
     </div>
 </div>
+
+
 <!-- end auth-fluid-->
 
 <!-- bundle -->
-<script src="{{ asset('js/helper.js') }}"></script>
+{{--<script src="{{ asset('js/vendor.min.js') }}"></script>--}}
+{{--<script src="{{ asset('js/app.min.js') }}"></script>--}}
 <script type="module">
     import Validator from "{{asset('js/validator.js')}}";
     document.addEventListener('DOMContentLoaded', function () {
         // config js
         Validator({
-            form: '#login-form',
+            form: '#register-form',
             formGroupSelector: '.form-group',
             errorSelector: '.form-message',
             rules: [
+                Validator.isRequired('#fullname', 'Vui lòng nhập tên đầy đủ của bạn'),
                 Validator.isRequired('#email'),
-                Validator.isEmail('#email'),
                 Validator.isRequired('#password'),
+                Validator.isRequired('#password_confirmation'),
+                Validator.isPassWord('#password'),
+                Validator.isRequired('input[name="gender"]'),
+                Validator.isEmail('#email'),
                 Validator.minLength('#password', 8),
+                Validator.isConfirmed('#password_confirmation', function () {
+                    return document.querySelector('#register-form #password').value;
+                }, 'Mật khẩu nhập lại không chính xác')
             ],
-            onSubmit: async function (data) {
-                let option = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                };
-                const response = await submitForm("{{route('handlerLogin')}}", option);
-                if (response.success) {
-                    window.location.href = response.data;
-                } else {
-                    authError(response.message, `${this.form} .auth-error`);
-                }
-            }
-        })
-
-        function authError(message, rs) {
-            let errorElement = document.querySelector(rs);
-            errorElement.innerHTML = `<li>${message}</li>`;
-            errorElement.classList.add('invalid');
-        }
+        });
     });
 </script>
+
 </body>
+
 </html>

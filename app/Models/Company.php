@@ -35,9 +35,9 @@ class Company extends Model
 
     protected static function booted()
     {
-        static::creating(function ($object) {
-            $object->user_id = user()->id;
-        });
+//        static::creating(function ($object) {
+//            $object->user_id = user()->id;
+//        });
     }
 
     //---------------

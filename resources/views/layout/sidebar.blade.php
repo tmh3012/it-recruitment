@@ -10,16 +10,6 @@
         </span>
     </a>
 
-    <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-dark">
-        <span class="logo-lg">
-            <img src="" alt="" height="16">
-        </span>
-        <span class="logo-sm">
-            <img src="" alt="" height="16">
-        </span>
-    </a>
-
     <div class="h-100 mm-active" id="left-side-menu-container" data-simplebar="init">
         <div class="simplebar-wrapper" style="margin: 0px;">
             <div class="simplebar-height-auto-observer-wrapper">

@@ -44,7 +44,7 @@ Route::group([
     Route::get('/slug/check', [PostController::class, 'checkSlug'])->name('slug.check');
 });
 
-Route::get('/companies/create', [CompanyController::class, 'create'])->name('companies.create');
+//Route::get('/companies/create', [CompanyController::class, 'create'])->name('companies.create');
 Route::get('/companies', [CompanyController::class, 'index'])->name('companies');
 Route::get('/company/id={company_id}', [CompanyController::class, 'show'])->name('company_id');
 Route::get('/companies/check/{companyName?}', [CompanyController::class, 'check'])->name('companies.check');

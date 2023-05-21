@@ -112,9 +112,14 @@ class User extends Authenticatable
         return UserRoleEnum::getKeys($this->role)[0];
     }
 
-    public function getAvatarAttribute($value): string
+    public function getAvatarAttribute($value)
     {
-        return $this->type === UserTypeEnum::OAUTH_USER ? $value : asset('storage/' . $value);
+        if ($this->type === UserTypeEnum::OAUTH_USER) {
+            $avatar = $value;
+        } else {
+            $avatar = !empty($value) ? asset('storage/' . $value) : $value;
+        }
+        return $avatar;
     }
 
     public function getCoverAttribute($value)
